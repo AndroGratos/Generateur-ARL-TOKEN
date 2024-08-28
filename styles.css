@@ -98,17 +98,8 @@ button {
     background-color: #FF3333;
 }
 
-#countdown {
-    font-size: 1.2rem;
-    color: #ff0000; /* Couleur rouge pour le compte à rebours */
+#adContainer {
     margin-top: 20px;
-}
-
-#ad {
-    display: none;
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
 }
