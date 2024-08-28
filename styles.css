@@ -1,0 +1,99 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    user-select: none; /* Désactiver la sélection de texte */
+}
+
+.container {
+    max-width: 1000px;
+    width: 90%;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#logo {
+    max-width: 300px;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+#generateButton {
+    background-color: #28a745; /* Vert */
+}
+
+#generateButton:hover {
+    background-color: #218838;
+}
+
+#copyButton {
+    background-color: #007bff; /* Bleu */
+}
+
+#copyButton:hover {
+    background-color: #0056b3;
+}
+
+#errorButton {
+    background-color: #dc3545; /* Rouge */
+}
+
+#errorButton:hover {
+    background-color: #c82333;
+}
+
+#code {
+    margin-top: 40px;
+    font-size: 1.5rem;
+    color: #333;
+    word-wrap: break-word;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#notification, #error {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#notification {
+    background-color: #333;
+}
+
+#error {
+    background-color: #FF3333;
+}
