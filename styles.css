@@ -77,12 +77,13 @@ button {
     box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#notification, #error {
+#notification {
     display: none;
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
+    background-color: #333;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -90,12 +91,26 @@ button {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#notification {
-    background-color: #333;
+#error {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FF3333;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-#error {
-    background-color: #FF3333;
+#error img {
+    width: 24px; /* Ajuste la taille du logo selon tes besoins */
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px; /* Espace entre le logo et le texte */
 }
 
 #adContainer {
