@@ -12,24 +12,6 @@ const codes = [
 
 let clickCount = 0;
 const maxClicksBeforeBlock = 5;
-const adDisplayCounts = [1, 3]; // Afficher des annonces au 1er et 3ème clic
-const adSlotId = "8318450749";
-
-// Fonction pour afficher une annonce
-function showAd() {
-    const adContainer = document.getElementById('adContainer');
-    adContainer.innerHTML = `
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3822521115846697"
-            data-ad-slot="${adSlotId}"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    `;
-}
 
 // Fonction pour générer un code
 function generateCode() {
@@ -39,10 +21,6 @@ function generateCode() {
     document.getElementById('code').textContent = code;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
-
-    if (adDisplayCounts.includes(clickCount)) {
-        showAd();
-    }
 
     if (clickCount >= maxClicksBeforeBlock) {
         const currentDate = new Date();
@@ -89,51 +67,35 @@ function copyCode() {
     });
 }
 
-// Fonction pour signaler une erreur
-function reportError() {
-    const code = document.getElementById('code').textContent;
-    if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
-        const telegramUrl = `https://t.me/androgratos?text=Code%20erroné:%20${encodeURIComponent(code)}`;
-        document.getElementById('error').style.display = 'block';
-        let countdown = 10;
-        const countdownElem = document.getElementById('errorCountdown');
-        const interval = setInterval(() => {
-            countdownElem.textContent = `${countdown}s`;
-            countdown--;
-
-            if (countdown < 0) {
-                clearInterval(interval);
-                window.open(telegramUrl, '_blank');
-                document.getElementById('error').style.display = 'none';
-                clickCount = 0; // Réinitialiser le compteur après l'erreur
-            }
-        }, 1000);
-
-        document.getElementById('openTelegram').onclick = () => {
+// Fonction pour gérer l'erreur de code
+function showError() {
+    document.getElementById('error').style.display = 'block';
+    let countdownValue = 10;
+    const errorCountdown = document.getElementById('errorCountdown');
+    const interval = setInterval(() => {
+        countdownValue--;
+        errorCountdown.textContent = `${countdownValue}s`;
+        if (countdownValue <= 0) {
             clearInterval(interval);
-            window.open(telegramUrl, '_blank');
             document.getElementById('error').style.display = 'none';
-            clickCount = 0; // Réinitialiser le compteur après l'erreur
-        };
-    }
+        }
+    }, 1000);
 }
 
-// Événements
+// Ajouter les écouteurs d'événements
 document.getElementById('generateButton').addEventListener('click', generateCode);
 document.getElementById('copyButton').addEventListener('click', copyCode);
-document.getElementById('errorButton').addEventListener('click', reportError);
+document.getElementById('errorButton').addEventListener('click', showError);
 
 // Vérifier si l'utilisateur est bloqué au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
-    const blockedUntil = localStorage.getItem('blockedUntil');
-    if (blockedUntil) {
-        const currentDate = new Date();
-        const blockedDate = new Date(blockedUntil);
-        if (currentDate < blockedDate) {
-            document.getElementById('countdown').style.display = 'block';
-            updateCountdown();
-        } else {
-            localStorage.removeItem('blockedUntil');
-        }
+    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
+    const now = new Date();
+    if (blockedUntil > now) {
+        document.getElementById('countdown').style.display = 'block';
+        updateCountdown();
+    } else {
+        localStorage.removeItem('blockedUntil');
+        clickCount = 0;
     }
 });
