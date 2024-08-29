@@ -60,4 +60,72 @@ function updateCountdown() {
     const interval = setInterval(() => {
         const now = new Date();
         const remainingTime = blockedUntil - now;
-        if (remainingTime <= 0) {
+        if (remainingTime <= 0) {clearInterval(interval);
+            document.getElementById('countdown').style.display = 'none';
+            localStorage.removeItem('blockedUntil');
+            clickCount = 0; // Réinitialiser le compteur après le blocage
+        } else {
+            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            countdownTimer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        }
+    }, 1000);
+}
+
+function copyCode() {
+    const codeElement = document.getElementById('code');
+    const code = codeElement.textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        document.getElementById('notification').style.display = 'block';
+        setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
+    }).catch(err => {
+        console.error('Erreur lors de la copie du code :', err);
+    });
+}
+
+function reportError() {
+    const code = document.getElementById('code').textContent;
+    if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
+        const telegramUrl = `https://t.me/androgratos?text=Code%20erroné:%20${encodeURIComponent(code)}`;
+        document.getElementById('error').style.display = 'block';
+        let countdown = 10;
+        const countdownElem = document.getElementById('errorCountdown');
+        const interval = setInterval(() => {
+            countdownElem.textContent = `${countdown}s`;
+            countdown--;
+
+            if (countdown < 0) {
+                clearInterval(interval);
+                window.open(telegramUrl, '_blank');
+                document.getElementById('error').style.display = 'none';
+                clickCount = 0; // Réinitialiser le compteur après l'erreur
+            }
+        }, 1000);
+
+        document.getElementById('openTelegram').onclick = () => {
+            clearInterval(interval);
+            window.open(telegramUrl, '_blank');
+            document.getElementById('error').style.display = 'none';
+            clickCount = 0; // Réinitialiser le compteur après l'erreur
+        };
+    }
+}
+
+document.getElementById('generateButton').addEventListener('click', generateCode);
+document.getElementById('copyButton').addEventListener('click', copyCode);
+document.getElementById('errorButton').addEventListener('click', reportError);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const blockedUntil = localStorage.getItem('blockedUntil');
+    if (blockedUntil) {
+        const currentDate = new Date();
+        const blockedDate = new Date(blockedUntil);
+        if (currentDate < blockedDate) {
+            document.getElementById('countdown').style.display = 'block';
+            updateCountdown();
+        } else {
+            localStorage.removeItem('blockedUntil');
+        }
+    }
+});
