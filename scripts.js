@@ -1,24 +1,3 @@
-// Import Firebase modules
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyAcH4WJ--S8uUTRYb-kusI98f-8LTEJztI",
-    authDomain: "arltokengenerate.firebaseapp.com",
-    projectId: "arltokengenerate",
-    storageBucket: "arltokengenerate.appspot.com",
-    messagingSenderId: "184743525102",
-    appId: "1:184743525102:web:dc37cf1fc414f0bb4f91ff",
-    measurementId: "G-NN2JL2QXCJ"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -33,7 +12,26 @@ const codes = [
 
 let clickCount = 0;
 const maxClicksBeforeBlock = 5;
+const adDisplayCounts = [1, 3]; // Afficher des annonces au 1er et 3ème clic
+const adSlotId = "8318450749";
 
+// Fonction pour afficher une annonce
+function showAd() {
+    const adContainer = document.getElementById('adContainer');
+    adContainer.innerHTML = `
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-3822521115846697"
+            data-ad-slot="${adSlotId}"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    `;
+}
+
+// Fonction pour générer un code
 function generateCode() {
     clickCount++;
     const randomIndex = Math.floor(Math.random() * codes.length);
@@ -41,6 +39,10 @@ function generateCode() {
     document.getElementById('code').textContent = code;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
+
+    if (adDisplayCounts.includes(clickCount)) {
+        showAd();
+    }
 
     if (clickCount >= maxClicksBeforeBlock) {
         const currentDate = new Date();
@@ -54,13 +56,15 @@ function generateCode() {
     }
 }
 
+// Fonction pour mettre à jour le compte à rebours
 function updateCountdown() {
     const countdownTimer = document.getElementById('countdownTimer');
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const interval = setInterval(() => {
         const now = new Date();
         const remainingTime = blockedUntil - now;
-        if (remainingTime <= 0) {clearInterval(interval);
+        if (remainingTime <= 0) {
+            clearInterval(interval);
             document.getElementById('countdown').style.display = 'none';
             localStorage.removeItem('blockedUntil');
             clickCount = 0; // Réinitialiser le compteur après le blocage
@@ -73,6 +77,7 @@ function updateCountdown() {
     }, 1000);
 }
 
+// Fonction pour copier le code
 function copyCode() {
     const codeElement = document.getElementById('code');
     const code = codeElement.textContent;
@@ -84,6 +89,7 @@ function copyCode() {
     });
 }
 
+// Fonction pour signaler une erreur
 function reportError() {
     const code = document.getElementById('code').textContent;
     if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
@@ -112,10 +118,12 @@ function reportError() {
     }
 }
 
+// Événements
 document.getElementById('generateButton').addEventListener('click', generateCode);
 document.getElementById('copyButton').addEventListener('click', copyCode);
 document.getElementById('errorButton').addEventListener('click', reportError);
 
+// Vérifier si l'utilisateur est bloqué au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     const blockedUntil = localStorage.getItem('blockedUntil');
     if (blockedUntil) {
