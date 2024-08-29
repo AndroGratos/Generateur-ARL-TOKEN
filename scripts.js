@@ -1,3 +1,23 @@
+// Import Firebase modules
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyAcH4WJ--S8uUTRYb-kusI98f-8LTEJztI",
+    authDomain: "arltokengenerate.firebaseapp.com",
+    projectId: "arltokengenerate",
+    storageBucket: "arltokengenerate.appspot.com",
+    messagingSenderId: "184743525102",
+    appId: "1:184743525102:web:dc37cf1fc414f0bb4f91ff",
+    measurementId: "G-NN2JL2QXCJ"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -32,7 +52,7 @@ function showAd() {
 }
 
 // Fonction pour générer un code
-function generateCode() {
+async function generateCode() {
     clickCount++;
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
@@ -53,6 +73,16 @@ function generateCode() {
         document.getElementById('code').textContent = 'Vous avez atteint la limite de clics. Veuillez réessayer plus tard.';
         document.getElementById('copyButton').style.display = 'none';
         document.getElementById('errorButton').style.display = 'none';
+    }
+
+    // Enregistrer l'interaction dans Firestore
+    const user = auth.currentUser;
+    if (user) {
+        const userRef = doc(db, 'users', user.uid);
+        await setDoc(userRef, {
+            clickCount: clickCount,
+            lastClick: new Date()
+        }, { merge: true });
     }
 }
 
@@ -81,8 +111,7 @@ function updateCountdown() {
 function copyCode() {
     const codeElement = document.getElementById('code');
     const code = codeElement.textContent;
-    navigator.clipboard.writeText(code).then(() => {
-        document.getElementById('notification').style.display = 'block';
+    navigator.clipboard.writeText(code).then(() => {document.getElementById('notification').style.display = 'block';
         setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
     }).catch(err => {
         console.error('Erreur lors de la copie du code :', err);
@@ -134,6 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCountdown();
         } else {
             localStorage.removeItem('blockedUntil');
+            clickCount = 0; // Réinitialiser le compteur après expiration du blocage
         }
     }
 });
