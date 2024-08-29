@@ -39,12 +39,10 @@ function generateCode() {
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
 
-    // Afficher la publicité si le nombre de clics correspond
     if (adDisplayCounts.includes(clickCount)) {
         showAd();
     }
 
-    // Afficher le compte à rebours si nécessaire
     if (clickCount >= maxClicksBeforeBlock) {
         const currentDate = new Date();
         const blockedUntil = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
@@ -95,9 +93,27 @@ function reportError() {
     const code = document.getElementById('code').textContent;
     if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
         const telegramUrl = `https://t.me/androgratos?text=Code%20erroné:%20${encodeURIComponent(code)}`;
-        window.open(telegramUrl, '_blank');
         document.getElementById('error').style.display = 'block';
-        setTimeout(() => document.getElementById('error').style.display = 'none', 3000);
+        let countdown = 10;
+        const countdownElem = document.getElementById('errorCountdown');
+        const interval = setInterval(() => {
+            countdownElem.textContent = `${countdown}s`;
+            countdown--;
+
+            if (countdown < 0) {
+                clearInterval(interval);
+                window.open(telegramUrl, '_blank');
+                document.getElementById('error').style.display = 'none';
+                clickCount = 0; // Réinitialiser le compteur après l'erreur
+            }
+        }, 1000);
+
+        document.getElementById('openTelegram').onclick = () => {
+            clearInterval(interval);
+            window.open(telegramUrl, '_blank');
+            document.getElementById('error').style.display = 'none';
+            clickCount = 0; // Réinitialiser le compteur après l'erreur
+        };
     }
 }
 
@@ -110,8 +126,9 @@ document.getElementById('errorButton').addEventListener('click', reportError);
 document.addEventListener('DOMContentLoaded', () => {
     const blockedUntil = localStorage.getItem('blockedUntil');
     if (blockedUntil) {
-        const now = new Date();
-        if (new Date(blockedUntil) > now) {
+        const currentDate = new Date();
+        const blockedDate = new Date(blockedUntil);
+        if (currentDate < blockedDate) {
             document.getElementById('countdown').style.display = 'block';
             updateCountdown();
         } else {
