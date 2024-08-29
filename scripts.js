@@ -15,25 +15,33 @@ const maxClicksBeforeBlock = 5;
 
 // Fonction pour générer un code
 function generateCode() {
-    clickCount++;
-    localStorage.setItem('clickCount', clickCount); // Sauvegarde du nombre de clics dans localStorage
+    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
+    const now = new Date();
 
-    const randomIndex = Math.floor(Math.random() * codes.length);
-    const code = codes[randomIndex];
-    document.getElementById('code').textContent = code;
-    document.getElementById('copyButton').style.display = 'inline-block';
-    document.getElementById('errorButton').style.display = 'inline-block';
+    if (blockedUntil > now) {
+        document.getElementById('code').textContent = 'Vous êtes encore bloqué. Veuillez réessayer plus tard.';
+        return;
+    }
+
+    clickCount++;
+    localStorage.setItem('clickCount', clickCount);
 
     if (clickCount >= maxClicksBeforeBlock) {
-        const currentDate = new Date();
-        const blockedUntil = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000);
+        const blockedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
         localStorage.setItem('blockedUntil', blockedUntil);
         document.getElementById('countdown').style.display = 'block';
         updateCountdown();
         document.getElementById('code').textContent = 'Vous avez atteint la limite de clics. Veuillez réessayer plus tard.';
         document.getElementById('copyButton').style.display = 'none';
         document.getElementById('errorButton').style.display = 'none';
+        return;
     }
+
+    const randomIndex = Math.floor(Math.random() * codes.length);
+    const code = codes[randomIndex];
+    document.getElementById('code').textContent = code;
+    document.getElementById('copyButton').style.display = 'inline-block';
+    document.getElementById('errorButton').style.display = 'inline-block';
 }
 
 // Fonction pour mettre à jour le compte à rebours
@@ -47,8 +55,8 @@ function updateCountdown() {
             clearInterval(interval);
             document.getElementById('countdown').style.display = 'none';
             localStorage.removeItem('blockedUntil');
-            clickCount = 0; // Réinitialiser le compteur après le blocage
-            localStorage.removeItem('clickCount'); // Supprimer le compteur du localStorage
+            localStorage.removeItem('clickCount');  // Réinitialiser le compteur après le blocage
+            clickCount = 0; // Réinitialiser le compteur de clics
         } else {
             const hours = Math.floor(remainingTime / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -99,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCountdown();
     } else {
         localStorage.removeItem('blockedUntil');
-        localStorage.removeItem('clickCount'); // Supprimer le compteur du localStorage lorsque le blocage est terminé
-        clickCount = 0; 
+        localStorage.removeItem('clickCount');
+        clickCount = 0;
     }
 });
