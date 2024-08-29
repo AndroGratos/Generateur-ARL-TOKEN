@@ -18,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -32,37 +33,14 @@ const codes = [
 
 let clickCount = 0;
 const maxClicksBeforeBlock = 5;
-const adDisplayCounts = [1, 3]; // Afficher des annonces au 1er et 3ème clic
-const adSlotId = "8318450749";
 
-// Fonction pour afficher une annonce
-function showAd() {
-    const adContainer = document.getElementById('adContainer');
-    adContainer.innerHTML = `
-        <ins class="adsbygoogle"
-            style="display:block"
-            data-ad-client="ca-pub-3822521115846697"
-            data-ad-slot="${adSlotId}"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    `;
-}
-
-// Fonction pour générer un code
-async function generateCode() {
+function generateCode() {
     clickCount++;
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
     document.getElementById('code').textContent = code;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
-
-    if (adDisplayCounts.includes(clickCount)) {
-        showAd();
-    }
 
     if (clickCount >= maxClicksBeforeBlock) {
         const currentDate = new Date();
@@ -74,19 +52,8 @@ async function generateCode() {
         document.getElementById('copyButton').style.display = 'none';
         document.getElementById('errorButton').style.display = 'none';
     }
-
-    // Enregistrer l'interaction dans Firestore
-    const user = auth.currentUser;
-    if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        await setDoc(userRef, {
-            clickCount: clickCount,
-            lastClick: new Date()
-        }, { merge: true });
-    }
 }
 
-// Fonction pour mettre à jour le compte à rebours
 function updateCountdown() {
     const countdownTimer = document.getElementById('countdownTimer');
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
@@ -94,76 +61,3 @@ function updateCountdown() {
         const now = new Date();
         const remainingTime = blockedUntil - now;
         if (remainingTime <= 0) {
-            clearInterval(interval);
-            document.getElementById('countdown').style.display = 'none';
-            localStorage.removeItem('blockedUntil');
-            clickCount = 0; // Réinitialiser le compteur après le blocage
-        } else {
-            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-            countdownTimer.textContent = `${hours}h ${minutes}m ${seconds}s`;
-        }
-    }, 1000);
-}
-
-// Fonction pour copier le code
-function copyCode() {
-    const codeElement = document.getElementById('code');
-    const code = codeElement.textContent;
-    navigator.clipboard.writeText(code).then(() => {document.getElementById('notification').style.display = 'block';
-        setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
-    }).catch(err => {
-        console.error('Erreur lors de la copie du code :', err);
-    });
-}
-
-// Fonction pour signaler une erreur
-function reportError() {
-    const code = document.getElementById('code').textContent;
-    if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
-        const telegramUrl = `https://t.me/androgratos?text=Code%20erroné:%20${encodeURIComponent(code)}`;
-        document.getElementById('error').style.display = 'block';
-        let countdown = 10;
-        const countdownElem = document.getElementById('errorCountdown');
-        const interval = setInterval(() => {
-            countdownElem.textContent = `${countdown}s`;
-            countdown--;
-
-            if (countdown < 0) {
-                clearInterval(interval);
-                window.open(telegramUrl, '_blank');
-                document.getElementById('error').style.display = 'none';
-                clickCount = 0; // Réinitialiser le compteur après l'erreur
-            }
-        }, 1000);
-
-        document.getElementById('openTelegram').onclick = () => {
-            clearInterval(interval);
-            window.open(telegramUrl, '_blank');
-            document.getElementById('error').style.display = 'none';
-            clickCount = 0; // Réinitialiser le compteur après l'erreur
-        };
-    }
-}
-
-// Événements
-document.getElementById('generateButton').addEventListener('click', generateCode);
-document.getElementById('copyButton').addEventListener('click', copyCode);
-document.getElementById('errorButton').addEventListener('click', reportError);
-
-// Vérifier si l'utilisateur est bloqué au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-    const blockedUntil = localStorage.getItem('blockedUntil');
-    if (blockedUntil) {
-        const currentDate = new Date();
-        const blockedDate = new Date(blockedUntil);
-        if (currentDate < blockedDate) {
-            document.getElementById('countdown').style.display = 'block';
-            updateCountdown();
-        } else {
-            localStorage.removeItem('blockedUntil');
-            clickCount = 0; // Réinitialiser le compteur après expiration du blocage
-        }
-    }
-});
