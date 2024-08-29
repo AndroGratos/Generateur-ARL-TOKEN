@@ -5,16 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
-    <meta name="google-adsense-account" content="ca-pub-3822521115846697">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3822521115846697" crossorigin="anonymous"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+      import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAcH4WJ--S8uUTRYb-kusI98f-8LTEJztI",
+        authDomain: "arltokengenerate.firebaseapp.com",
+        projectId: "arltokengenerate",
+        storageBucket: "arltokengenerate.appspot.com",
+        messagingSenderId: "184743525102",
+        appId: "1:184743525102:web:dc37cf1fc414f0bb4f91ff",
+        measurementId: "G-NN2JL2QXCJ"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // Auth state listener
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // User is signed in
+          console.log("User is signed in:", user.email);
+          // Additional logic for authenticated users
+        } else {
+          // User is signed out
+          console.log("User is signed out");
+          // Redirect or show login
+        }
+      });
+    </script>
 </head>
 <body oncontextmenu="return false;">
     <div class="container">
         <img id="logo" src="https://i.imgur.com/BDCBn1z.png" alt="Logo">
         <h1>Générateur ARL|TOKEN DEEZER 2024</h1>
         <button id="generateButton">Générer ARL|TOKEN</button>
-        <div id="adContainer"></div>
         <div id="code">Cliquez sur le bouton pour générer un code.</div>
         <button id="copyButton" style="display: none;">Copier</button>
         <button id="errorButton" style="display: none;">Code erroné</button>
