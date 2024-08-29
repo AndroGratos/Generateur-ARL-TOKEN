@@ -7,41 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
-      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-      import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyAcH4WJ--S8uUTRYb-kusI98f-8LTEJztI",
-        authDomain: "arltokengenerate.firebaseapp.com",
-        projectId: "arltokengenerate",
-        storageBucket: "arltokengenerate.appspot.com",
-        messagingSenderId: "184743525102",
-        appId: "1:184743525102:web:dc37cf1fc414f0bb4f91ff",
-        measurementId: "G-NN2JL2QXCJ"
-      };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
-      const auth = getAuth(app);
-      const db = getFirestore(app);
-
-      // Auth state listener
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // User is signed in
-          console.log("User is signed in:", user.email);
-          // Additional logic for authenticated users
-        } else {
-          // User is signed out
-          console.log("User is signed out");
-          // Redirect or show login
-        }
-      });
+      // Supprimer les importations Firebase et la configuration Firebase
     </script>
 </head>
 <body oncontextmenu="return false;">
