@@ -10,12 +10,14 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
-let clickCount = 0;
+let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
 // Fonction pour générer un code
 function generateCode() {
     clickCount++;
+    localStorage.setItem('clickCount', clickCount); // Sauvegarde du nombre de clics dans localStorage
+
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
     document.getElementById('code').textContent = code;
@@ -46,6 +48,7 @@ function updateCountdown() {
             document.getElementById('countdown').style.display = 'none';
             localStorage.removeItem('blockedUntil');
             clickCount = 0; // Réinitialiser le compteur après le blocage
+            localStorage.removeItem('clickCount'); // Supprimer le compteur du localStorage
         } else {
             const hours = Math.floor(remainingTime / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCountdown();
     } else {
         localStorage.removeItem('blockedUntil');
-        clickCount = 0;
+        localStorage.removeItem('clickCount'); // Supprimer le compteur du localStorage lorsque le blocage est terminé
+        clickCount = 0; 
     }
 });
