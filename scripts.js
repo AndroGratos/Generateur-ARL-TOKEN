@@ -122,7 +122,7 @@ document.getElementById('generateButton').addEventListener('click', generateCode
 document.getElementById('copyButton').addEventListener('click', copyCode);
 document.getElementById('errorButton').addEventListener('click', reportError);
 
-// Vérifier si l'utilisateur est bloqué
+// Vérifier si l'utilisateur est bloqué au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
     const blockedUntil = localStorage.getItem('blockedUntil');
     if (blockedUntil) {
