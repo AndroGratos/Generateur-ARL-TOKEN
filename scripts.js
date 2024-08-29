@@ -96,6 +96,8 @@ function reportError() {
     if (code && code !== 'Cliquez sur le bouton pour générer un code.') {
         const telegramUrl = `https://t.me/androgratos?text=Code%20erroné:%20${encodeURIComponent(code)}`;
         window.open(telegramUrl, '_blank');
+        document.getElementById('error').style.display = 'block';
+        setTimeout(() => document.getElementById('error').style.display = 'none', 3000);
     }
 }
 
