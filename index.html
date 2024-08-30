@@ -5,34 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script type="module" src="auth.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
+            authDomain: "generateurtoken-e282f.firebaseapp.com",
+            projectId: "generateurtoken-e282f",
+            storageBucket: "generateurtoken-e282f.appspot.com",
+            messagingSenderId: "485438236563",
+            appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Vérification de l'état de connexion
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // L'utilisateur est connecté
+                document.getElementById('welcomeMessage').textContent = `Bienvenue, ${user.email}`;
+                // Configurez les actions basées sur le rôle si nécessaire
+            } else {
+                // Redirection vers la page de connexion si non connecté
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Fonction de déconnexion
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            signOut(auth)
+                .then(() => {
+                    window.location.href = 'login.html'; // Redirection vers la page de connexion
+                })
+                .catch((error) => {
+                    console.error('Erreur de déconnexion:', error.message);
+                });
+        });
+    </script>
 </head>
-<body oncontextmenu="return false;">
-    <div id="loginPage" style="display: none;">
-        <h1>Connexion</h1>
-        <input type="email" id="loginEmail" placeholder="Email">
-        <input type="password" id="loginPassword" placeholder="Mot de passe">
-        <button id="loginButton">Se connecter</button>
-        <p>Pas encore de compte ? <a href="#" id="showSignUp">Créer un compte</a></p>
-    </div>
-    <div id="signUpPage" style="display: none;">
-        <h1>Créer un Compte</h1>
-        <input type="email" id="signUpEmail" placeholder="Email">
-        <input type="password" id="signUpPassword" placeholder="Mot de passe">
-        <button id="signUpButton">Créer un compte</button>
-        <p>Déjà un compte ? <a href="#" id="showLogin">Se connecter</a></p>
-    </div>
-    <div id="adminContent" style="display: none;">
-        <h1>Bienvenue, Administrateur</h1>
+<body>
+    <div id="mainPage">
+        <h1 id="welcomeMessage">Chargement...</h1>
         <button id="logoutButton">Déconnexion</button>
-        <!-- Contenu spécifique à l'administrateur -->
+        <!-- Contenu du générateur -->
+        <button id="generateButton">Générer ARL|TOKEN</button>
+        <div id="code">Cliquez sur le bouton pour générer un code.</div>
+        <button id="copyButton" style="display: none;">Copier</button>
+        <button id="errorButton" style="display: none;">Code erroné</button>
+        <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
     </div>
-    <div id="userContent" style="display: none;">
-        <h1>Bienvenue</h1>
-        <button id="logoutButton">Déconnexion</button>
-        <!-- Contenu spécifique aux utilisateurs -->
+    <div id="notification">Code copié dans le presse-papier !</div>
+    <div id="error">
+        <p>Code erroné !</p>
+        <p id="errorCountdown">10s</p>
+        <button id="openTelegram">Accéder à Telegram</button>
     </div>
-    <script src="scripts.js"></script>
 </body>
 </html>
