@@ -26,12 +26,9 @@
         // Vérification de l'état de connexion
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // L'utilisateur est connecté
                 document.getElementById('welcomeMessage').textContent = `Bienvenue, ${user.email}`;
-                // Configurez les actions basées sur le rôle si nécessaire
             } else {
-                // Redirection vers la page de connexion si non connecté
-                window.location.href = 'login.html';
+                window.location.href = 'login.html'; // Redirection vers la page de connexion
             }
         });
 
