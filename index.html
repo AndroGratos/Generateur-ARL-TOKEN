@@ -33,14 +33,16 @@
         });
 
         // Fonction de déconnexion
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            signOut(auth)
-                .then(() => {
-                    window.location.href = 'login.html'; // Redirection vers la page de connexion
-                })
-                .catch((error) => {
-                    console.error('Erreur de déconnexion:', error.message);
-                });
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        window.location.href = 'login.html'; // Redirection vers la page de connexion
+                    })
+                    .catch((error) => {
+                        console.error('Erreur de déconnexion:', error.message);
+                    });
+            });
         });
     </script>
 </head>
@@ -55,12 +57,12 @@
         <button id="errorButton" style="display: none;">Code erroné</button>
         <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
     </div>
-    <div id="notification">Code copié dans le presse-papier !</div>
-    <div id="error">
+    <div id="notification" style="display: none;">Code copié dans le presse-papier !</div>
+    <div id="error" style="display: none;">
         <p>Code erroné !</p>
         <p id="errorCountdown">10s</p>
         <button id="openTelegram">Accéder à Telegram</button>
     </div>
-    <script src="script.js" type="module"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
