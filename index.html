@@ -26,7 +26,7 @@
         // Vérification de l'état de connexion
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('welcomeMessage').textContent = `Bienvenue, ${user.email}`;
+                document.getElementById('welcomeMessage').textContent = `Bienvenue`; // Supprimer l'affichage de l'email
             } else {
                 window.location.href = 'login.html'; // Redirection vers la page de connexion
             }
@@ -47,7 +47,7 @@
 <body>
     <div id="mainPage">
         <h1 id="welcomeMessage">Chargement...</h1>
-        <button id="logoutButton">Déconnexion</button>
+        <button id="logoutButton" class="logout-button">Déconnexion</button>
         <!-- Contenu du générateur -->
         <button id="generateButton">Générer ARL|TOKEN</button>
         <div id="code">Cliquez sur le bouton pour générer un code.</div>
