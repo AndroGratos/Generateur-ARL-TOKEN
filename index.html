@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Principale</title>
+    <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="mainPage">
-        <h1>Bienvenue</h1>
+        <h1 id="welcomeMessage">Chargement...</h1>
         <button id="logoutButton" class="logout-button">Déconnexion</button>
+        <!-- Contenu du générateur -->
         <button id="generateButton">Générer ARL|TOKEN</button>
         <div id="code">Cliquez sur le bouton pour générer un code.</div>
         <button id="copyButton" style="display: none;">Copier</button>
         <button id="errorButton" style="display: none;">Code erroné</button>
-        <div id="countdown" style="display: none;">
-            Prochain code disponible dans <span id="countdownTimer">24h</span>
-        </div>
-        <div id="notification" style="display: none;">
-            Code copié dans le presse-papier !
-        </div>
-        <div id="error" style="display: none;">
-            <p>Code erroné !</p>
-            <p id="errorCountdown">10s</p>
-            <button id="openTelegram">Accéder à Telegram</button>
-        </div>
+        <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
     </div>
-    <script type="module" src="script.js" defer></script>
+    <div id="notification" style="display: none;">Code copié dans le presse-papier !</div>
+    <div id="error" style="display: none;">
+        <p>Code erroné !</p>
+        <p id="errorCountdown">10s</p>
+        <button id="openTelegram">Accéder à Telegram</button>
+    </div>
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
