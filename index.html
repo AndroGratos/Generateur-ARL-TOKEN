@@ -8,22 +8,24 @@
 </head>
 <body>
     <div id="mainPage">
-        <h1 id="welcomeMessage">Chargement...</h1>
-        <button id="logoutButton" class="logout-button">Déconnexion</button>
-        <!-- Contenu du générateur -->
-        <button id="generateButton">Générer ARL|TOKEN</button>
-        <div id="code">Cliquez sur le bouton pour générer un code.</div>
-        <button id="copyButton" style="display: none;">Copier</button>
-        <button id="errorButton" style="display: none;">Code erroné</button>
-        <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
+        <button id="logoutButton">Déconnexion</button>
+        <h1 id="welcomeMessage">Bienvenue</h1>
+        <div id="codeSection">
+            <h2>Code ARL</h2>
+            <textarea id="code" readonly></textarea>
+            <button id="generateButton">Générer</button>
+            <button id="copyButton" style="display: none;">Copier</button>
+            <button id="errorButton" style="display: none;">Code Erroné</button>
+        </div>
+        <div id="countdown" style="display: none;">
+            <p>Réessayez dans : <span id="countdownTimer">0s</span></p>
+        </div>
+        <div id="notification" style="display: none;">Code copié dans le presse-papiers !</div>
+        <div id="error" style="display: none;">
+            Code erroné. Veuillez réessayer dans <span id="errorCountdown">10s</span>.
+        </div>
     </div>
-    <div id="notification" style="display: none;">Code copié dans le presse-papier !</div>
-    <div id="error" style="display: none;">
-        <p>Code erroné !</p>
-        <p id="errorCountdown">10s</p>
-        <button id="openTelegram">Accéder à Telegram</button>
-    </div>
-    <script type="module" src="auth.js"></script>
-    <script type="module" src="script.js"></script>
+    <script src="auth.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>
