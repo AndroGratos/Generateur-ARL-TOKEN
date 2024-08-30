@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
         // Configuration Firebase
         const firebaseConfig = {
@@ -28,11 +28,12 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then(() => {
                     window.location.href = 'index.html'; // Redirection vers la page principale
                 })
                 .catch((error) => {
                     console.error('Erreur de connexion:', error.message);
+                    document.getElementById('loginError').textContent = 'Erreur de connexion : ' + error.message;
                 });
         });
 
@@ -41,12 +42,12 @@
             const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPassword').value;
             createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Ajouter des détails supplémentaires dans Firestore si nécessaire
+                .then(() => {
                     window.location.href = 'index.html'; // Redirection vers la page principale
                 })
                 .catch((error) => {
                     console.error('Erreur de création de compte:', error.message);
+                    document.getElementById('loginError').textContent = 'Erreur lors de la création du compte : ' + error.message;
                 });
         });
 
@@ -60,15 +61,21 @@
 </head>
 <body>
     <div id="loginPage">
-        <h1>Connexion</h1>
-        <input type="email" id="loginEmail" placeholder="Email">
-        <input type="password" id="loginPassword" placeholder="Mot de passe">
-        <button id="loginButton">Se connecter</button>
+        <h1>Connexion / Création de Compte</h1>
+        <div id="loginError"></div>
+        <div id="loginSection">
+            <h2>Connexion</h2>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Mot de passe">
+            <button id="loginButton">Se connecter</button>
+        </div>
         <hr>
-        <h2>Créer un compte</h2>
-        <input type="email" id="signupEmail" placeholder="Email">
-        <input type="password" id="signupPassword" placeholder="Mot de passe">
-        <button id="signupButton">Créer un compte</button>
+        <div id="signupSection">
+            <h2>Créer un compte</h2>
+            <input type="email" id="signupEmail" placeholder="Email">
+            <input type="password" id="signupPassword" placeholder="Mot de passe">
+            <button id="signupButton">Créer un compte</button>
+        </div>
     </div>
 </body>
 </html>
