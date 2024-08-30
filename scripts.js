@@ -70,4 +70,37 @@ function copyCode() {
     navigator.clipboard.writeText(code).then(() => {
         document.getElementById('notification').style.display = 'block';
         setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
-    }).catch(err => {
+    }).catch(err => {console.error('Erreur lors de la copie du code :', err);
+    });
+}
+
+function showError() {
+    document.getElementById('error').style.display = 'block';
+    let countdownValue = 10;
+    const errorCountdown = document.getElementById('errorCountdown');
+    const interval = setInterval(() => {
+        countdownValue--;
+        errorCountdown.textContent = `${countdownValue}s`;
+        if (countdownValue <= 0) {
+            clearInterval(interval);
+            document.getElementById('error').style.display = 'none';
+        }
+    }, 1000);
+}
+
+document.getElementById('generateButton').addEventListener('click', generateCode);
+document.getElementById('copyButton').addEventListener('click', copyCode);
+document.getElementById('errorButton').addEventListener('click', showError);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
+    const now = new Date();
+    if (blockedUntil > now) {
+        document.getElementById('countdown').style.display = 'block';
+        updateCountdown();
+    } else {
+        localStorage.removeItem('blockedUntil');
+        localStorage.removeItem('clickCount');
+        clickCount = 0;
+    }
+});
