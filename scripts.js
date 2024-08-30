@@ -1,3 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
+    authDomain: "generateurtoken-e282f.firebaseapp.com",
+    projectId: "generateurtoken-e282f",
+    storageBucket: "generateurtoken-e282f.appspot.com",
+    messagingSenderId: "485438236563",
+    appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
+};
+
+// Initialisation Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
+
+// Codes pour la génération
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -9,9 +29,86 @@ const codes = [
     '84ca750c5f1bc2a5c7eaaad8266a25b4932cfc3a7f86703039709531b05a6f6888e9e549974d750628b55ea4f34790d12e41bd958e71d529255f09bfce031b8f582d0b5e75bf860a45a22f5500eea9ef91b02b0d43b86b91f22d1876a6658edb',
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
-
 let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
+
+// Fonction pour vérifier l'état de connexion
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        const userDoc = doc(db, "users", user.uid);
+        const userSnapshot = await getDoc(userDoc);
+        if (userSnapshot.exists()) {
+            const userData = userSnapshot.data();
+            if (userData.role === "administrateur") {
+                document.getElementById('adminContent').style.display = 'block';
+            } else {
+                document.getElementById('userContent').style.display = 'block';
+            }
+        }
+    } else {
+        document.getElementById('loginPage').style.display = 'block';
+    }
+});
+
+// Fonction de connexion
+document.getElementById('loginButton').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            // Connexion réussie
+        })
+        .catch((error) => {
+            console.error('Erreur de connexion:', error.message);
+        });
+});
+
+// Fonction de création de compte
+document.getElementById('registerButton').addEventListener('click', async () => {
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await setDoc(doc(db, "users", user.uid), {
+            email: email,
+            role: "utilisateur"  // Par défaut, le rôle est utilisateur
+        });
+
+        document.getElementById('registerPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'block';
+
+    } catch (error) {
+        console.error('Erreur lors de la création du compte:', error.message);
+    }
+});
+
+// Fonction de déconnexion
+document.getElementById('logoutButton').addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+        })
+        .catch((error) => {
+            console.error('Erreur de déconnexion:', error.message);
+        });
+});
+
+// Fonction pour aller à la page de création de compte
+document.getElementById('goToRegisterButton').addEventListener('click', () => {
+    document.getElementById('loginPage').style.display = 'none';
+    document.getElementById('registerPage').style.display = 'block';
+});
+
+// Fonction pour revenir à la page de connexion
+document.getElementById('goToLoginButton').addEventListener('click', () => {
+    document.getElementById('registerPage').style.display = 'none';
+    document.getElementById('loginPage').style.display = 'block';
+});
 
 // Fonction pour générer un code
 function generateCode() {
@@ -47,67 +144,4 @@ function generateCode() {
 // Fonction pour mettre à jour le compte à rebours
 function updateCountdown() {
     const countdownTimer = document.getElementById('countdownTimer');
-    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
-    const interval = setInterval(() => {
-        const now = new Date();
-        const remainingTime = blockedUntil - now;
-        if (remainingTime <= 0) {
-            clearInterval(interval);
-            document.getElementById('countdown').style.display = 'none';
-            localStorage.removeItem('blockedUntil');
-            localStorage.removeItem('clickCount');  // Réinitialiser le compteur après le blocage
-            clickCount = 0; // Réinitialiser le compteur de clics
-        } else {
-            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-            countdownTimer.textContent = `${hours}h ${minutes}m ${seconds}s`;
-        }
-    }, 1000);
-}
-
-// Fonction pour copier le code
-function copyCode() {
-    const codeElement = document.getElementById('code');
-    const code = codeElement.textContent;
-    navigator.clipboard.writeText(code).then(() => {
-        document.getElementById('notification').style.display = 'block';
-        setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
-    }).catch(err => {
-        console.error('Erreur lors de la copie du code :', err);
-    });
-}
-
-// Fonction pour gérer l'erreur de code
-function showError() {
-    document.getElementById('error').style.display = 'block';
-    let countdownValue = 10;
-    const errorCountdown = document.getElementById('errorCountdown');
-    const interval = setInterval(() => {
-        countdownValue--;
-        errorCountdown.textContent = `${countdownValue}s`;
-        if (countdownValue <= 0) {
-            clearInterval(interval);
-            document.getElementById('error').style.display = 'none';
-        }
-    }, 1000);
-}
-
-// Ajouter les écouteurs d'événements
-document.getElementById('generateButton').addEventListener('click', generateCode);
-document.getElementById('copyButton').addEventListener('click', copyCode);
-document.getElementById('errorButton').addEventListener('click', showError);
-
-// Vérifier si l'utilisateur est bloqué au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
-    const now = new Date();
-    if (blockedUntil > now) {
-        document.getElementById('countdown').style.display = 'block';
-        updateCountdown();
-    } else {
-        localStorage.removeItem('blockedUntil');
-        localStorage.removeItem('clickCount');
-        clickCount = 0;
-    }
-});
+    const blockedUntil = new Date(localStorage.getItem
