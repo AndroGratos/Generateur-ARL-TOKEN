@@ -6,72 +6,6 @@
     <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
-            authDomain: "generateurtoken-e282f.firebaseapp.com",
-            projectId: "generateurtoken-e282f",
-            storageBucket: "generateurtoken-e282f.appspot.com",
-            messagingSenderId: "485438236563",
-            appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
-        };
-
-        // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        const db = getFirestore();
-
-        // Fonction pour vérifier l'état de connexion
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // L'utilisateur est connecté
-                const userDoc = doc(db, "users", user.uid);
-                const userSnapshot = await getDoc(userDoc);
-                if (userSnapshot.exists()) {
-                    const userData = userSnapshot.data();
-                    if (userData.role === "administrateur") {
-                        // Afficher la page pour les administrateurs
-                        document.getElementById('adminContent').style.display = 'block';
-                    } else {
-                        // Afficher la page pour les utilisateurs
-                        document.getElementById('userContent').style.display = 'block';
-                    }
-                }
-            } else {
-                // L'utilisateur n'est pas connecté
-                document.getElementById('loginPage').style.display = 'block';
-            }
-        });
-
-        // Fonction de connexion
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Connexion réussie
-                })
-                .catch((error) => {
-                    console.error('Erreur de connexion:', error.message);
-                });
-        });
-
-        // Fonction de déconnexion
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            signOut(auth)
-                .then(() => {
-                    // Déconnexion réussie
-                })
-                .catch((error) => {
-                    console.error('Erreur de déconnexion:', error.message);
-                });
-        });
-    </script>
 </head>
 <body oncontextmenu="return false;">
     <div id="loginPage" style="display: none;">
@@ -79,6 +13,14 @@
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Mot de passe">
         <button id="loginButton">Se connecter</button>
+        <button id="goToRegisterButton">Créer un compte</button>
+    </div>
+    <div id="registerPage" style="display: none;">
+        <h1>Création de Compte</h1>
+        <input type="email" id="registerEmail" placeholder="Email">
+        <input type="password" id="registerPassword" placeholder="Mot de passe">
+        <button id="registerButton">Créer le compte</button>
+        <button id="goToLoginButton">Retour à la connexion</button>
     </div>
     <div id="adminContent" style="display: none;">
         <h1>Bienvenue, Administrateur</h1>
@@ -90,7 +32,18 @@
         <button id="logoutButton">Déconnexion</button>
         <!-- Contenu spécifique aux utilisateurs -->
     </div>
-    <!-- Votre contenu principal -->
-    <script src="scripts.js"></script>
+    <div id="code">Cliquez sur le bouton pour générer un code.</div>
+    <button id="generateButton">Générer ARL|TOKEN</button>
+    <button id="copyButton" style="display: none;">Copier</button>
+    <button id="errorButton" style="display: none;">Code erroné</button>
+    <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
+    <div id="notification">Code copié dans le presse-papier !</div>
+    <div id="error">
+        <p>Code erroné !</p>
+        <p id="errorCountdown">10s</p>
+        <button id="openTelegram">Accéder à Telegram</button>
+    </div>
+
+    <script src="scripts.js" type="module"></script>
 </body>
 </html>
