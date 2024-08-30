@@ -3,32 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur ARL|TOKEN</title>
+    <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
+            authDomain: "generateurtoken-e282f.firebaseapp.com",
+            projectId: "generateurtoken-e282f",
+            storageBucket: "generateurtoken-e282f.appspot.com",
+            messagingSenderId: "485438236563",
+            appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
+        };
+
+        // Initialisation Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Vérification de l'état de connexion
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('welcomeMessage').textContent = `Bienvenue`; // Supprimer l'affichage de l'email
+            } else {
+                window.location.href = 'login.html'; // Redirection vers la page de connexion
+            }
+        });
+
+        // Fonction de déconnexion
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        window.location.href = 'login.html'; // Redirection vers la page de connexion
+                    })
+                    .catch((error) => {
+                        console.error('Erreur de déconnexion:', error.message);
+                    });
+            });
+        });
+    </script>
 </head>
 <body>
     <div id="mainPage">
-        <h1>Générateur ARL|TOKEN</h1>
-        
-        <button id="logoutButton">Déconnexion</button> <!-- Bouton de déconnexion -->
-        
+        <h1 id="welcomeMessage">Chargement...</h1>
+        <button id="logoutButton" class="logout-button">Déconnexion</button>
+        <!-- Contenu du générateur -->
         <button id="generateButton">Générer ARL|TOKEN</button>
         <div id="code">Cliquez sur le bouton pour générer un code.</div>
-
-        <button id="copyButton" style="display: none;">Copier le code</button>
-        <button id="errorButton" style="display: none;">Signaler une erreur</button>
-        
-        <div id="notification" style="display: none;">Code copié dans le presse-papier !</div>
-        <div id="error" style="display: none;">
-            Erreur signalée. Merci !<br>
-            Veuillez patienter <span id="errorCountdown">10s</span> avant de pouvoir signaler à nouveau.
-        </div>
-
-        <div id="countdown" style="display: none;">
-            Vous avez atteint la limite de clics. Veuillez réessayer dans <span id="countdownTimer"></span>.
-        </div>
+        <button id="copyButton" style="display: none;">Copier</button>
+        <button id="errorButton" style="display: none;">Code erroné</button>
+        <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
     </div>
-
-    <script src="script.js"></script>
+    <div id="notification" style="display: none;">Code copié dans le presse-papier !</div>
+    <div id="error" style="display: none;">
+        <p>Code erroné !</p>
+        <p id="errorCountdown">10s</p>
+        <button id="openTelegram">Accéder à Telegram</button>
+    </div>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
