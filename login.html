@@ -5,9 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion / Création de Compte</title>
     <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="loginPage">
+        <h1>Connexion / Création de Compte</h1>
+        <div id="loginError"></div>
+        <div id="loginSection">
+            <h2>Connexion</h2>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Mot de passe">
+            <button id="loginButton">Se connecter</button>
+        </div>
+        <hr>
+        <div id="signupSection">
+            <h2>Créer un compte</h2>
+            <input type="email" id="signupEmail" placeholder="Email">
+            <input type="password" id="signupPassword" placeholder="Mot de passe">
+            <button id="signupButton">Créer un compte</button>
+        </div>
+    </div>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
 
         // Configuration Firebase
         const firebaseConfig = {
@@ -21,7 +40,7 @@
 
         // Initialisation Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
+        const auth = getAuth(app);
 
         // Fonction de connexion
         document.getElementById('loginButton').addEventListener('click', () => {
@@ -58,24 +77,5 @@
             }
         });
     </script>
-</head>
-<body>
-    <div id="loginPage">
-        <h1>Connexion / Création de Compte</h1>
-        <div id="loginError"></div>
-        <div id="loginSection">
-            <h2>Connexion</h2>
-            <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Mot de passe">
-            <button id="loginButton">Se connecter</button>
-        </div>
-        <hr>
-        <div id="signupSection">
-            <h2>Créer un compte</h2>
-            <input type="email" id="signupEmail" placeholder="Email">
-            <input type="password" id="signupPassword" placeholder="Mot de passe">
-            <button id="signupButton">Créer un compte</button>
-        </div>
-    </div>
 </body>
 </html>
