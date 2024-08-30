@@ -10,6 +10,7 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
+
 let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
