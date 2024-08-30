@@ -1,9 +1,8 @@
-/* Styles de base */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0; /* Ajout d'un fond pour toutes les pages */
+    background-color: #f0f0f0; /* Fond de toutes les pages */
 }
 
 #loginPage, #mainPage {
@@ -11,17 +10,70 @@ body {
     margin: 50px auto;
     max-width: 600px;
     position: relative;
-    padding-top: 50px; /* Ajouter un espace pour le bouton de déconnexion */
+    padding-top: 50px; /* Espace pour le bouton de déconnexion */
 }
 
-/* Positionnement du bouton de déconnexion */
 #logoutButton {
     position: absolute;
-    top: 10px;  /* Positionné tout en haut */
+    top: 10px;
     right: 10px;
-    padding: 8px 16px; /* Légèrement réduit pour s'adapter mieux dans le coin */
-    background-color: #dc3545; /* Couleur rouge pour différencier */
-    z-index: 10; /* S'assurer qu'il est au-dessus du reste du contenu */
+    padding: 8px 16px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#code {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#notification, #error {
+    display: none;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#notification {
+    background-color: #28a745;
+    color: white;
+}
+
+#error {
+    background-color: #dc3545;
+    color: white;
+}
+
+#errorCountdown {
+    font-weight: bold;
+}
+
+#countdown {
+    margin-top: 20px;
+    background-color: #ffc107;
+    padding: 10px;
+    border-radius: 4px;
+    color: #000;
+    font-weight: bold;
 }
 
 input[type="email"], input[type="password"] {
@@ -31,20 +83,7 @@ input[type="email"], input[type="password"] {
     max-width: 300px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff; /* Couleur uniforme pour les boutons */
-    color: #fff;
-}
-
-button:hover {
-    background-color: #0056b3; /* Couleur au survol */
+    box-sizing: border-box;
 }
 
 #loginError, #notification, #error {
@@ -76,9 +115,7 @@ button:hover {
     font-weight: bold;
 }
 
-#countdown {
-    background-color: #ffc107;
-    padding: 10px;
-    border-radius: 4px;
-    color: #000;
+#countdownTimer {
+    display: inline-block;
+    margin-left: 5px;
 }
