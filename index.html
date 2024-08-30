@@ -26,7 +26,7 @@
         // Vérification de l'état de connexion
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('welcomeMessage').textContent = `Bienvenue`; // Supprimer l'affichage de l'email
+                document.getElementById('welcomeMessage').textContent = `Bienvenue`;
             } else {
                 window.location.href = 'login.html'; // Redirection vers la page de connexion
             }
