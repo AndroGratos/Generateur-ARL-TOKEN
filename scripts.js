@@ -70,7 +70,8 @@ function copyCode() {
     navigator.clipboard.writeText(code).then(() => {
         document.getElementById('notification').style.display = 'block';
         setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
-    }).catch(err => {console.error('Erreur lors de la copie du code :', err);
+    }).catch(err => {
+        console.error('Erreur lors de la copie du code :', err);
     });
 }
 
