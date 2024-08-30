@@ -14,13 +14,11 @@ let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
 function generateCode() {
-    console.log('generateCode called'); // Pour débogage
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const now = new Date();
 
     if (blockedUntil > now) {
         document.getElementById('code').textContent = 'Vous êtes encore bloqué. Veuillez réessayer plus tard.';
-        console.log('User is blocked');
         return;
     }
 
@@ -35,7 +33,6 @@ function generateCode() {
         document.getElementById('code').textContent = 'Vous avez atteint la limite de clics. Veuillez réessayer plus tard.';
         document.getElementById('copyButton').style.display = 'none';
         document.getElementById('errorButton').style.display = 'none';
-        console.log('Click limit reached');
         return;
     }
 
@@ -92,11 +89,11 @@ function showError() {
     }, 1000);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('generateButton').addEventListener('click', generateCode);
-    document.getElementById('copyButton').addEventListener('click', copyCode);
-    document.getElementById('errorButton').addEventListener('click', showError);
+document.getElementById('generateButton').addEventListener('click', generateCode);
+document.getElementById('copyButton').addEventListener('click', copyCode);
+document.getElementById('errorButton').addEventListener('click', showError);
 
+document.addEventListener('DOMContentLoaded', () => {
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const now = new Date();
     if (blockedUntil > now) {
