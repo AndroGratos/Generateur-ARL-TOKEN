@@ -1,8 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
 
-// Configuration Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
     authDomain: "generateurtoken-e282f.firebaseapp.com",
@@ -14,81 +12,19 @@ const firebaseConfig = {
 
 // Initialisation Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+const auth = getAuth(app);
 
-// Vérifier l'état de connexion
-onAuthStateChanged(auth, async (user) => {
+export function handleSignOut() {
+    signOut(auth).then(() => {
+        window.location.href = 'login.html'; // Redirection vers la page de connexion
+    }).catch((error) => {
+        console.error('Erreur lors de la déconnexion :', error.message);
+    });
+}
+
+export function checkUserStatus() {
+    const user = auth.currentUser;
     if (user) {
-        const userDoc = doc(db, "users", user.uid);
-        const userSnapshot = await getDoc(userDoc);
-        if (userSnapshot.exists()) {
-            const userData = userSnapshot.data();
-            if (userData.role === "administrateur") {
-                document.getElementById('adminContent').style.display = 'block';
-                document.getElementById('userContent').style.display = 'none';
-            } else {
-                document.getElementById('userContent').style.display = 'block';
-                document.getElementById('adminContent').style.display = 'none';
-            }
-        }
-    } else {
-        document.getElementById('loginPage').style.display = 'block';
+        window.location.href = 'index.html'; // Redirection si déjà connecté
     }
-});
-
-// Connexion
-document.getElementById('loginButton').addEventListener('click', () => {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-    signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Connexion réussie, redirection vers la page principale
-            window.location.href = 'index.html';
-        })
-        .catch((error) => {
-            console.error('Erreur de connexion:', error.message);
-            document.getElementById('loginError').textContent = 'Erreur de connexion : ' + error.message;
-        });
-});
-
-// Création de compte
-document.getElementById('signUpButton').addEventListener('click', () => {
-    const email = document.getElementById('signUpEmail').value;
-    const password = document.getElementById('signUpPassword').value;
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(async (userCredential) => {
-            // Création réussie, définir le rôle de l'utilisateur dans Firestore
-            const user = userCredential.user;
-            await setDoc(doc(db, "users", user.uid), { role: "utilisateur" });
-            // Redirection vers la page principale
-            window.location.href = 'index.html';
-        })
-        .catch((error) => {
-            console.error('Erreur lors de la création du compte:', error.message);
-            document.getElementById('loginError').textContent = 'Erreur lors de la création du compte : ' + error.message;
-        });
-});
-
-// Déconnexion
-document.getElementById('logoutButton').addEventListener('click', () => {
-    signOut(auth)
-        .then(() => {
-            // Déconnexion réussie, redirection vers la page de connexion
-            window.location.href = 'login.html';
-        })
-        .catch((error) => {
-            console.error('Erreur de déconnexion:', error.message);
-        });
-});
-
-// Afficher / cacher les formulaires de connexion et de création de compte
-document.getElementById('showSignUp').addEventListener('click', () => {
-    document.getElementById('loginPage').style.display = 'none';
-    document.getElementById('signUpPage').style.display = 'block';
-});
-
-document.getElementById('showLogin').addEventListener('click', () => {
-    document.getElementById('signUpPage').style.display = 'none';
-    document.getElementById('loginPage').style.display = 'block';
-});
+}
