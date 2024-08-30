@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -26,8 +26,10 @@ onAuthStateChanged(auth, async (user) => {
             const userData = userSnapshot.data();
             if (userData.role === "administrateur") {
                 document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('userContent').style.display = 'none';
             } else {
                 document.getElementById('userContent').style.display = 'block';
+                document.getElementById('adminContent').style.display = 'none';
             }
         }
     } else {
@@ -41,10 +43,12 @@ document.getElementById('loginButton').addEventListener('click', () => {
     const password = document.getElementById('loginPassword').value;
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Connexion réussie
+            // Connexion réussie, redirection vers la page principale
+            window.location.href = 'index.html';
         })
         .catch((error) => {
             console.error('Erreur de connexion:', error.message);
+            document.getElementById('loginError').textContent = 'Erreur de connexion : ' + error.message;
         });
 });
 
@@ -54,13 +58,15 @@ document.getElementById('signUpButton').addEventListener('click', () => {
     const password = document.getElementById('signUpPassword').value;
     createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-            // Création réussie
+            // Création réussie, définir le rôle de l'utilisateur dans Firestore
             const user = userCredential.user;
-            // Définir le rôle de l'utilisateur dans Firestore si nécessaire
-            // await setDoc(doc(db, "users", user.uid), { role: "utilisateur" });
+            await setDoc(doc(db, "users", user.uid), { role: "utilisateur" });
+            // Redirection vers la page principale
+            window.location.href = 'index.html';
         })
         .catch((error) => {
             console.error('Erreur lors de la création du compte:', error.message);
+            document.getElementById('loginError').textContent = 'Erreur lors de la création du compte : ' + error.message;
         });
 });
 
@@ -68,7 +74,8 @@ document.getElementById('signUpButton').addEventListener('click', () => {
 document.getElementById('logoutButton').addEventListener('click', () => {
     signOut(auth)
         .then(() => {
-            // Déconnexion réussie
+            // Déconnexion réussie, redirection vers la page de connexion
+            window.location.href = 'login.html';
         })
         .catch((error) => {
             console.error('Erreur de déconnexion:', error.message);
