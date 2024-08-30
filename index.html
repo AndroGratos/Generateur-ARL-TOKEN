@@ -6,27 +6,26 @@
     <title>Générateur ARL|TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <script type="module">
-      // Supprimer les importations Firebase et la configuration Firebase
-    </script>
 </head>
 <body oncontextmenu="return false;">
-    <div class="container">
-        <img id="logo" src="https://i.imgur.com/BDCBn1z.png" alt="Logo">
-        <h1>Générateur ARL|TOKEN DEEZER 2024</h1>
-        <button id="generateButton">Générer ARL|TOKEN</button>
-        <div id="code">Cliquez sur le bouton pour générer un code.</div>
-        <button id="copyButton" style="display: none;">Copier</button>
-        <button id="errorButton" style="display: none;">Code erroné</button>
-        <div id="countdown" style="display: none;">Prochain code disponible dans <span id="countdownTimer">24h</span></div>
+    <div id="loginPage">
+        <h1>Connexion</h1>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <button id="loginButton">Se connecter</button>
+        <p id="loginError" style="color: red; display: none;">Erreur de connexion. Veuillez réessayer.</p>
     </div>
-    <div id="notification">Code copié dans le presse-papier !</div>
-    <div id="error">
-        <p>Code erroné !</p>
-        <p id="errorCountdown">10s</p>
-        <button id="openTelegram">Accéder à Telegram</button>
+    <div id="adminContent" style="display: none;">
+        <h1>Bienvenue, Administrateur</h1>
+        <button id="logoutButton">Déconnexion</button>
+        <!-- Contenu spécifique à l'administrateur -->
     </div>
-
-    <script src="scripts.js"></script>
+    <div id="userContent" style="display: none;">
+        <h1>Bienvenue</h1>
+        <button id="logoutButton">Déconnexion</button>
+        <!-- Contenu spécifique aux utilisateurs -->
+    </div>
+    <script src="auth.js" type="module"></script>
+    <script src="scripts.js" type="module"></script>
 </body>
 </html>
