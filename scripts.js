@@ -13,7 +13,6 @@ const codes = [
 let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
-// Fonction pour générer un code
 function generateCode() {
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const now = new Date();
@@ -44,7 +43,6 @@ function generateCode() {
     document.getElementById('errorButton').style.display = 'inline-block';
 }
 
-// Fonction pour mettre à jour le compte à rebours
 function updateCountdown() {
     const countdownTimer = document.getElementById('countdownTimer');
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
@@ -55,8 +53,8 @@ function updateCountdown() {
             clearInterval(interval);
             document.getElementById('countdown').style.display = 'none';
             localStorage.removeItem('blockedUntil');
-            localStorage.removeItem('clickCount');  // Réinitialiser le compteur après le blocage
-            clickCount = 0; // Réinitialiser le compteur de clics
+            localStorage.removeItem('clickCount');
+            clickCount = 0;
         } else {
             const hours = Math.floor(remainingTime / (1000 * 60 * 60));
             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -66,7 +64,6 @@ function updateCountdown() {
     }, 1000);
 }
 
-// Fonction pour copier le code
 function copyCode() {
     const codeElement = document.getElementById('code');
     const code = codeElement.textContent;
@@ -74,40 +71,3 @@ function copyCode() {
         document.getElementById('notification').style.display = 'block';
         setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
     }).catch(err => {
-        console.error('Erreur lors de la copie du code :', err);
-    });
-}
-
-// Fonction pour gérer l'erreur de code
-function showError() {
-    document.getElementById('error').style.display = 'block';
-    let countdownValue = 10;
-    const errorCountdown = document.getElementById('errorCountdown');
-    const interval = setInterval(() => {
-        countdownValue--;
-        errorCountdown.textContent = `${countdownValue}s`;
-        if (countdownValue <= 0) {
-            clearInterval(interval);
-            document.getElementById('error').style.display = 'none';
-        }
-    }, 1000);
-}
-
-// Ajouter les écouteurs d'événements
-document.getElementById('generateButton').addEventListener('click', generateCode);
-document.getElementById('copyButton').addEventListener('click', copyCode);
-document.getElementById('errorButton').addEventListener('click', showError);
-
-// Vérifier si l'utilisateur est bloqué au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-    const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
-    const now = new Date();
-    if (blockedUntil > now) {
-        document.getElementById('countdown').style.display = 'block';
-        updateCountdown();
-    } else {
-        localStorage.removeItem('blockedUntil');
-        localStorage.removeItem('clickCount');
-        clickCount = 0;
-    }
-});
