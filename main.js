@@ -19,10 +19,10 @@ const codes = [
 let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
-document.getElementById('generateButton').addEventListener('click', generateCode);
-document.getElementById('copyButton').addEventListener('click', copyCode);
-document.getElementById('errorButton').addEventListener('click', showError);
-document.getElementById('telegramButton').addEventListener('click', () => {
+document.getElementById('generateButton')?.addEventListener('click', generateCode);
+document.getElementById('copyButton')?.addEventListener('click', copyCode);
+document.getElementById('errorButton')?.addEventListener('click', showError);
+document.getElementById('telegramButton')?.addEventListener('click', () => {
     window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
 });
 
@@ -115,4 +115,4 @@ function updateCountdown() {
             document.getElementById('countdown').style.display = 'none';
         }
     }, 1000);
-}
+        }
