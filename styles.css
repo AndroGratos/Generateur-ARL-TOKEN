@@ -18,7 +18,7 @@ body {
     max-width: 350px;
     width: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center; /* Centrer le texte */
+    text-align: center;
 }
 
 #loginPage h1 {
@@ -32,18 +32,15 @@ body {
     border: 2px solid #00796b;
     border-radius: 10px;
     font-size: 16px;
-    width: 100%; /* Champ de saisie prend toute la largeur */
-    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Placeholder pour les champs de saisie */
-#loginPage input[type="email"]::placeholder,
-#loginPage input[type="password"]::placeholder {
-    color: #888; /* Couleur du texte des placeholders */
+#loginPage input::placeholder {
+    color: #888;
     font-size: 16px;
 }
 
-/* Ajout des couleurs et effets au bouton */
 #loginPage button {
     padding: 12px;
     font-size: 18px;
@@ -53,7 +50,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    width: 100%; /* Bouton prend toute la largeur */
+    width: 100%;
 }
 
 #loginPage button:hover {
@@ -101,14 +98,11 @@ body {
     box-sizing: border-box;
 }
 
-/* Placeholder pour les champs de saisie */
-#signupPage input[type="email"]::placeholder,
-#signupPage input[type="password"]::placeholder {
+#signupPage input::placeholder {
     color: #888;
     font-size: 16px;
 }
 
-/* Ajout des couleurs et effets au bouton */
 #signupPage button {
     padding: 12px;
     font-size: 18px;
@@ -142,7 +136,8 @@ body {
 
 /* Page principale */
 #mainPage {
-    background-color: #ffffff;
+    background-color: #f5f5f5; /* Gris très clair */
+    border: 2px solid #3949ab; /* Couleur bleu foncé */
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -151,18 +146,24 @@ body {
     width: 100%;
 }
 
+#mainPage h1 {
+    color: #3949ab; /* Texte en bleu foncé */
+    margin-bottom: 20px;
+}
+
 #codeBox {
     margin-top: 20px;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fafafa;
+    border: 2px solid #3949ab;
+    border-radius: 10px;
+    background-color: #e8eaf6;
     word-wrap: break-word;
 }
 
 #code {
     font-family: monospace;
     overflow-wrap: break-word;
+    color: #1a237e; /* Texte en bleu marine */
 }
 
 #notification {
@@ -175,4 +176,41 @@ body {
     color: red;
     font-weight: bold;
     margin-top: 20px;
+}
+
+button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #3949ab;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #283593;
+    transform: scale(1.05);
+}
+
+/* Style du bouton Déconnexion */
+#logoutButton {
+    background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
+    margin-top: 20px;
+}
+
+#logoutButton:hover {
+    background-color: #b71c1c;
+}
+
+/* Style du bouton Code Erroné */
+#errorButton {
+    background-color: #d32f2f; /* Rouge pour indiquer une erreur */
+}
+
+#errorButton:hover {
+    background-color: #b71c1c;
 }
