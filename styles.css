@@ -200,6 +200,8 @@ button:hover {
 #logoutButton {
     background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
     margin-top: 20px;
+    width: 30%; /* Réduire la taille du bouton */
+    float: right; /* Alignement à droite */
 }
 
 #logoutButton:hover {
