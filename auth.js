@@ -30,7 +30,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // Fonction de connexion
-document.getElementById('loginButton').addEventListener('click', (e) => {
+document.getElementById('loginButton')?.addEventListener('click', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -46,10 +46,10 @@ document.getElementById('loginButton').addEventListener('click', (e) => {
 });
 
 // Fonction de création de compte
-document.getElementById('signupButton').addEventListener('click', (e) => {
+document.getElementById('signupButton')?.addEventListener('click', (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
 
     createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
@@ -62,7 +62,7 @@ document.getElementById('signupButton').addEventListener('click', (e) => {
 });
 
 // Fonction de déconnexion
-document.getElementById('logoutButton').addEventListener('click', () => {
+document.getElementById('logoutButton')?.addEventListener('click', () => {
     signOut(auth)
         .then(() => {
             window.location.href = 'login.html';
