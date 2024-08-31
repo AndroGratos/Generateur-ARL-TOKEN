@@ -1,6 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -15,14 +14,12 @@ const firebaseConfig = {
 // Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const firestore = getFirestore(app);
 
 // Vérification de l'état de connexion
 onAuthStateChanged(auth, (user) => {
     if (user) {
         window.location.href = 'index.html';
     } else {
-        // Si l'utilisateur n'est pas connecté et qu'il est sur index.html, redirection vers login.html
         if (window.location.pathname.includes('index.html')) {
             window.location.href = 'login.html';
         }
