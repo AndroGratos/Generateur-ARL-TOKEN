@@ -18,9 +18,11 @@ const auth = getAuth(app);
 // Vérification de l'état de connexion
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        window.location.href = 'index.html';
+        if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html') {
+            window.location.href = 'index.html';
+        }
     } else {
-        if (window.location.pathname.includes('index.html')) {
+        if (window.location.pathname === '/index.html') {
             window.location.href = 'login.html';
         }
     }
