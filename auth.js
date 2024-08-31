@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -23,6 +23,7 @@ onAuthStateChanged(auth, (user) => {
         if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html') {
             window.location.href = 'index.html';
         }
+        updateUserLastLogin(user.uid);
     } else {
         if (window.location.pathname === '/index.html') {
             window.location.href = 'login.html';
@@ -37,7 +38,7 @@ document.getElementById('loginButton')?.addEventListener('click', (e) => {
     const password = document.getElementById('password').value;
 
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
+        .then((userCredential) => {
             window.location.href = 'index.html';
         })
         .catch((error) => {
@@ -47,26 +48,20 @@ document.getElementById('loginButton')?.addEventListener('click', (e) => {
 });
 
 // Fonction de création de compte
-document.getElementById('signupButton')?.addEventListener('click', async (e) => {
+document.getElementById('signupButton')?.addEventListener('click', (e) => {
     e.preventDefault();
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
 
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Ajouter l'utilisateur à la collection "users" avec le rôle "user"
-        await setDoc(doc(db, "users", user.uid), {
-            email: email,
-            role: "user"
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+            await initializeUserData(userCredential.user.uid);
+            window.location.href = 'index.html';
+        })
+        .catch((error) => {
+            console.error('Erreur de création de compte:', error.message);
+            alert('Création de compte échouée: ' + error.message);
         });
-
-        window.location.href = 'index.html';
-    } catch (error) {
-        console.error('Erreur de création de compte:', error.message);
-        alert('Création de compte échouée: ' + error.message);
-    }
 });
 
 // Fonction de déconnexion
@@ -79,3 +74,22 @@ document.getElementById('logoutButton')?.addEventListener('click', () => {
             console.error('Erreur de déconnexion:', error.message);
         });
 });
+
+// Fonction pour initialiser les données de l'utilisateur
+async function initializeUserData(uid) {
+    const userDocRef = doc(db, 'users', uid);
+    await setDoc(userDocRef, {
+        email: (await getAuth().currentUser).email,
+        role: 'user',
+        clickCount: 0,
+        lastClickTime: Timestamp.fromDate(new Date())
+    });
+}
+
+// Fonction pour mettre à jour le dernier temps de connexion
+async function updateUserLastLogin(uid) {
+    const userDocRef = doc(db, 'users', uid);
+    await updateDoc(userDocRef, {
+        lastLogin: Timestamp.fromDate(new Date())
+    });
+}
