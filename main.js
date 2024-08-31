@@ -1,10 +1,10 @@
-import codes from './codes.json'; // Assurez-vous que le fichier JSON est à la racine du projet
+import codes from './codes.json';
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
 document.getElementById('telegramButton')?.addEventListener('click', () => {
-    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
+    window.location.href = "https://t.me/androgratos";
 });
 
 function generateCode() {
