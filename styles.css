@@ -1,36 +1,42 @@
 /* Corps de la page */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    background: linear-gradient(to right, #00c6ff, #0072ff); /* Dégradé de couleurs */
+}
+
+/* Styles communs aux pages */
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    margin: 20px;
 }
 
 /* Page de connexion */
 #loginPage {
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 350px;
-    width: 100%;
+    border: 2px solid #4CAF50;
+    border-radius: 20px;
 }
 
-#loginPage form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+#loginPage h1 {
+    color: #4CAF50;
 }
 
 #loginPage input[type="email"],
 #loginPage input[type="password"] {
-    padding: 10px;
+    padding: 12px;
     border: 2px solid #4CAF50;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
 }
 
@@ -47,22 +53,24 @@ body {
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #loginPage button:hover {
     background-color: #45a049;
+    transform: scale(1.05);
 }
 
 #loginPage p {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 #loginPage a {
     color: #4CAF50;
     text-decoration: none;
+    font-weight: bold;
 }
 
 #loginPage a:hover {
@@ -71,26 +79,26 @@ body {
 
 /* Page de création de compte */
 #signupPage {
-    background-color: #fce4ec;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 350px;
-    width: 100%;
+    background-color: #ffffff;
+    border: 2px solid #e91e63;
+    border-radius: 20px;
+}
+
+#signupPage h1 {
+    color: #e91e63;
 }
 
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
-    padding: 10px;
+    padding: 12px;
     border: 2px solid #e91e63;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
 }
 
 #signupPage input[type="email"]:focus,
 #signupPage input[type="password"]:focus {
-    border-color: #d81b60;
+    border-color: #c2185b;
     outline: none;
 }
 
@@ -101,22 +109,24 @@ body {
     background-color: #e91e63;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #signupPage button:hover {
     background-color: #c2185b;
+    transform: scale(1.05);
 }
 
 #signupPage p {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 #signupPage a {
     color: #e91e63;
     text-decoration: none;
+    font-weight: bold;
 }
 
 #signupPage a:hover {
@@ -126,36 +136,54 @@ body {
 /* Page principale */
 #mainPage {
     background-color: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
 }
 
 #codeBox {
     margin-top: 20px;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #fafafa;
     word-wrap: break-word;
+    font-size: 16px;
+    color: #333;
 }
 
 #code {
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
     overflow-wrap: break-word;
 }
 
 #notification {
-    color: green;
+    color: #4CAF50;
     font-weight: bold;
     margin-top: 20px;
 }
 
 #error {
-    color: red;
+    color: #e91e63;
     font-weight: bold;
     margin-top: 20px;
 }
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+        }
