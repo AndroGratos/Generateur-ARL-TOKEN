@@ -59,4 +59,10 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #fafafa;
+    word-wrap: break-word;
+}
+
+#code {
+    font-family: monospace;
+    overflow-wrap: break-word;
 }
