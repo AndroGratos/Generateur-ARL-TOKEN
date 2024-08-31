@@ -25,12 +25,6 @@ body {
     margin-bottom: 20px;
 }
 
-#loginPage form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 #loginPage input[type="email"],
 #loginPage input[type="password"] {
     padding: 12px;
@@ -82,7 +76,7 @@ body {
 
 /* Page de création de compte */
 #signupPage {
-    background-color: #d1c4e9; /* Couleur lavande pour la page de création de compte */
+    background-color: #e3f2fd; /* Couleur bleu clair */
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -92,14 +86,14 @@ body {
 }
 
 #signupPage h1 {
-    color: #4a148c; /* Couleur violet foncé pour le titre */
+    color: #0277bd; /* Bleu foncé */
     margin-bottom: 20px;
 }
 
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
     padding: 12px;
-    border: 2px solid #4a148c;
+    border: 2px solid #0277bd;
     border-radius: 10px;
     font-size: 16px;
     width: 100%;
@@ -117,7 +111,7 @@ body {
 #signupPage button {
     padding: 12px;
     font-size: 18px;
-    background-color: #4a148c;
+    background-color: #0277bd;
     color: white;
     border: none;
     border-radius: 10px;
@@ -127,7 +121,7 @@ body {
 }
 
 #signupPage button:hover {
-    background-color: #311b92;
+    background-color: #01579b;
     transform: scale(1.05);
 }
 
@@ -136,7 +130,7 @@ body {
 }
 
 #signupPage a {
-    color: #4a148c;
+    color: #0277bd;
     text-decoration: none;
     font-weight: bold;
 }
@@ -158,9 +152,9 @@ body {
 
 #codeBox {
     margin-top: 20px;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #fafafa;
     word-wrap: break-word;
 }
