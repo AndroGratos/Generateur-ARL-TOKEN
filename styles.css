@@ -1,6 +1,7 @@
+/* Corps de la page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #e0f7fa; /* Couleur de fond légèrement bleutée pour la page entière */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,75 +9,70 @@ body {
     margin: 0;
 }
 
+/* Page de connexion */
 #loginPage {
-    background-color: #e3f2fd; /* Bleu clair pour la page de connexion */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* Blanc pour le formulaire de connexion */
+    padding: 30px; /* Augmenter le padding pour plus d'espace */
+    border-radius: 15px; /* Coins plus arrondis */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
     text-align: center;
-    max-width: 400px;
+    max-width: 350px; /* Largeur légèrement réduite */
     width: 100%;
 }
 
-#signupPage {
-    background-color: #fce4ec; /* Rose clair pour la page de création de compte */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
+/* Formulaire */
+form {
+    display: flex;
+    flex-direction: column; /* Alignement vertical des éléments */
+    gap: 15px; /* Espacement entre les éléments du formulaire */
 }
 
-#mainPage {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
+/* Champs de formulaire */
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    border: 2px solid #4CAF50; /* Bordure verte */
+    border-radius: 5px;
+    font-size: 16px;
 }
 
+/* Effet de focus pour les champs de formulaire */
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #388e3c; /* Bordure plus sombre au focus */
+    outline: none; /* Supprimer la bordure bleue par défaut */
+}
+
+/* Boutons */
 button {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
-    font-size: 16px;
-    background-color: #4CAF50;
+    font-size: 18px; /* Augmenter légèrement la taille de police */
+    background-color: #4CAF50; /* Couleur de fond verte */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s; /* Transition pour l'effet hover */
 }
 
+/* Effet de survol des boutons */
 button:hover {
     background-color: #45a049;
 }
 
-#notification {
-    color: green;
-    font-weight: bold;
-    margin-top: 20px;
+/* Lien de création de compte */
+p {
+    margin-top: 10px;
 }
 
-#error {
-    color: red;
-    font-weight: bold;
-    margin-top: 20px;
+a {
+    color: #4CAF50; /* Couleur du lien verte */
+    text-decoration: none; /* Supprimer la décoration du lien */
 }
 
-#codeBox {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fafafa;
-    word-wrap: break-word;
-}
-
-#code {
-    font-family: monospace;
-    overflow-wrap: break-word;
+a:hover {
+    text-decoration: underline; /* Souligner le lien au survol */
 }
