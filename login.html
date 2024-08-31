@@ -3,79 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion / Création de Compte</title>
+    <title>Connexion</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="loginPage">
-        <h1>Connexion / Création de Compte</h1>
-        <div id="loginError"></div>
-        <div id="loginSection">
-            <h2>Connexion</h2>
-            <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Mot de passe">
-            <button id="loginButton">Se connecter</button>
-        </div>
-        <hr>
-        <div id="signupSection">
-            <h2>Créer un compte</h2>
-            <input type="email" id="signupEmail" placeholder="Email">
-            <input type="password" id="signupPassword" placeholder="Mot de passe">
-            <button id="signupButton">Créer un compte</button>
-        </div>
+        <h1>Connexion</h1>
+        <button id="loginButton">Se connecter avec Google</button>
     </div>
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';
-
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
-            authDomain: "generateurtoken-e282f.firebaseapp.com",
-            projectId: "generateurtoken-e282f",
-            storageBucket: "generateurtoken-e282f.appspot.com",
-            messagingSenderId: "485438236563",
-            appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
-        };
-
-        // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-
-        // Fonction de connexion
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = 'index.html'; // Redirection vers la page principale
-                })
-                .catch((error) => {
-                    console.error('Erreur de connexion:', error.message);
-                    document.getElementById('loginError').textContent = 'Erreur de connexion : ' + error.message;
-                });
-        });
-
-        // Fonction de création de compte
-        document.getElementById('signupButton').addEventListener('click', () => {
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    window.location.href = 'index.html'; // Redirection vers la page principale
-                })
-                .catch((error) => {
-                    console.error('Erreur de création de compte:', error.message);
-                    document.getElementById('loginError').textContent = 'Erreur lors de la création du compte : ' + error.message;
-                });
-        });
-
-        // Vérification de l'état de connexion
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                window.location.href = 'index.html'; // Redirection si déjà connecté
-            }
-        });
-    </script>
+    <script type="module" src="auth.js"></script>
 </body>
 </html>
