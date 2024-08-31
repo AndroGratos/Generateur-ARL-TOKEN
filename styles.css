@@ -144,6 +144,7 @@ body {
     text-align: center;
     max-width: 400px;
     width: 100%;
+    position: relative;
 }
 
 #mainPage h1 {
@@ -199,9 +200,11 @@ button:hover {
 /* Style du bouton Déconnexion */
 #logoutButton {
     background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
-    margin-top: 20px;
-    width: 30%; /* Réduire la taille du bouton */
-    float: right; /* Alignement à droite */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 120px; /* Réduit la taille du bouton */
+    padding: 10px; /* Réduit l'espace interne pour adapter la taille */
 }
 
 #logoutButton:hover {
