@@ -18,6 +18,7 @@ body {
     text-align: center;
     max-width: 450px;
     width: 100%;
+    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
 }
 
 input[type="email"],
@@ -27,15 +28,18 @@ input[type="password"] {
     border-radius: 10px;
     font-size: 16px;
     width: 100%; /* Champ de saisie prend toute la largeur */
-    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
     margin-top: 5px;
     margin-bottom: 20px;
+    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
+    position: relative;
 }
 
 /* Placeholders comme labels dans les champs */
 input[type="email"]::placeholder,
 input[type="password"]::placeholder {
     color: #888; /* Couleur du texte des placeholders */
+    font-size: 16px;
+    opacity: 1; /* Assurez-vous que les placeholders sont visibles */
 }
 
 /* Page de connexion */
@@ -83,20 +87,20 @@ input[type="password"]::placeholder {
 
 /* Page de création de compte */
 #signupPage {
-    background-color: #ffffff;
-    border: 2px solid #e91e63; /* Couleur rose pour la page de création de compte */
+    background-color: #ffffff; /* Couleur de fond pour la page de création de compte */
+    border: 2px solid #ff5722; /* Couleur orange pour la page de création de compte */
     border-radius: 20px;
 }
 
 #signupPage h1 {
-    color: #e91e63;
+    color: #ff5722;
     margin-bottom: 20px;
 }
 
 #signupPage button {
     padding: 12px;
     font-size: 18px;
-    background-color: #e91e63;
+    background-color: #ff5722;
     color: white;
     border: none;
     border-radius: 10px;
@@ -106,7 +110,7 @@ input[type="password"]::placeholder {
 }
 
 #signupPage button:hover {
-    background-color: #c2185b;
+    background-color: #e64a19;
     transform: scale(1.05);
 }
 
@@ -115,7 +119,7 @@ input[type="password"]::placeholder {
 }
 
 #signupPage a {
-    color: #e91e63;
+    color: #ff5722;
     text-decoration: none;
     font-weight: bold;
 }
@@ -158,7 +162,7 @@ input[type="password"]::placeholder {
 }
 
 #error {
-    color: #e91e63;
+    color: #ff5722;
     font-weight: bold;
     margin-top: 20px;
 }
@@ -177,4 +181,4 @@ button {
 
 button:hover {
     transform: scale(1.05);
-    }
+}
