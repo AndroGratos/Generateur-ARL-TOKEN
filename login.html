@@ -9,8 +9,11 @@
 <body>
     <div id="loginPage">
         <h1>Connexion</h1>
-        <p>Veuillez vous connecter pour accéder au générateur de codes.</p>
-        <!-- Ajoutez ici un formulaire de connexion ou d'autres moyens si nécessaire -->
+        <input type="email" id="email" placeholder="Adresse e-mail" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button id="loginButton">Se connecter</button>
+        <button id="registerButton">Créer un compte</button>
+        <p id="errorMessage" style="color: red;"></p>
     </div>
     <script type="module" src="auth.js"></script>
 </body>
