@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
+    <title>Connexion | Inscription</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="loginPage">
         <h1>Connexion</h1>
-        <p>Veuillez vous connecter pour accéder au générateur de codes.</p>
-        <div id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Adresse e-mail" required>
-            <input type="password" id="loginPassword" placeholder="Mot de passe" required>
-            <button id="loginButton">Se connecter</button>
-            <p>Pas encore de compte ? <a href="signup.html">Créer un compte</a></p>
-        </div>
+        <form>
+            <label for="email">Email :</label>
+            <input type="email" id="email" required>
+
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="password" required>
+
+            <button id="loginButton">Connexion</button>
+            <button id="signupButton">Créer un compte</button>
+        </form>
     </div>
     <script type="module" src="auth.js"></script>
 </body>
