@@ -16,9 +16,8 @@ body {
     border-radius: 20px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 400px;
+    max-width: 450px;
     width: 100%;
-    margin: 20px;
 }
 
 /* Page de connexion */
@@ -30,6 +29,14 @@ body {
 
 #loginPage h1 {
     color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+#loginPage form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch; /* Aligner les champs sur toute la largeur */
 }
 
 #loginPage input[type="email"],
@@ -38,6 +45,7 @@ body {
     border: 2px solid #4CAF50;
     border-radius: 10px;
     font-size: 16px;
+    width: 100%; /* Champ de saisie prend toute la largeur */
 }
 
 #loginPage input[type="email"]:focus,
@@ -48,7 +56,6 @@ body {
 
 #loginPage button {
     padding: 12px;
-    margin: 10px 0;
     font-size: 18px;
     background-color: #4CAF50;
     color: white;
@@ -56,6 +63,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    width: 100%; /* Bouton prend toute la largeur */
 }
 
 #loginPage button:hover {
@@ -80,42 +88,51 @@ body {
 /* Page de création de compte */
 #signupPage {
     background-color: #ffffff;
-    border: 2px solid #e91e63;
+    border: 2px solid #00796b; /* Couleur verte plus douce */
     border-radius: 20px;
 }
 
 #signupPage h1 {
-    color: #e91e63;
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+#signupPage form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch; /* Aligner les champs sur toute la largeur */
 }
 
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
     padding: 12px;
-    border: 2px solid #e91e63;
+    border: 2px solid #00796b;
     border-radius: 10px;
     font-size: 16px;
+    width: 100%; /* Champ de saisie prend toute la largeur */
 }
 
 #signupPage input[type="email"]:focus,
 #signupPage input[type="password"]:focus {
-    border-color: #c2185b;
+    border-color: #004d40;
     outline: none;
 }
 
 #signupPage button {
     padding: 12px;
-    margin: 10px 0;
     font-size: 18px;
-    background-color: #e91e63;
+    background-color: #00796b;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    width: 100%; /* Bouton prend toute la largeur */
 }
 
 #signupPage button:hover {
-    background-color: #c2185b;
+    background-color: #004d40;
     transform: scale(1.05);
 }
 
@@ -124,7 +141,7 @@ body {
 }
 
 #signupPage a {
-    color: #e91e63;
+    color: #00796b;
     text-decoration: none;
     font-weight: bold;
 }
@@ -186,4 +203,4 @@ button {
 
 button:hover {
     transform: scale(1.05);
-        }
+}
