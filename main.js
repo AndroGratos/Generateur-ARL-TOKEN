@@ -28,7 +28,7 @@ function generateCode() {
     const now = new Date();
 
     if (blockedUntil > now) {
-        document.getElementById('code').textContent = 'Vous êtes encore bloqué. Veuillez réessayer plus tard.';
+        document.getElementById('code').value = 'Vous êtes encore bloqué. Veuillez réessayer plus tard.';
         return;
     }
 
@@ -40,7 +40,7 @@ function generateCode() {
         localStorage.setItem('blockedUntil', blockedUntil);
         document.getElementById('countdown').style.display = 'block';
         updateCountdown();
-        document.getElementById('code').textContent = 'Vous avez atteint la limite de clics. Veuillez réessayer plus tard.';
+        document.getElementById('code').value = 'Vous avez atteint la limite de clics. Veuillez réessayer plus tard.';
         document.getElementById('copyButton').style.display = 'none';
         document.getElementById('errorButton').style.display = 'none';
         return;
@@ -48,7 +48,7 @@ function generateCode() {
 
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
-    document.getElementById('code').textContent = code;
+    document.getElementById('code').value = code;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
 
@@ -62,7 +62,7 @@ function generateCode() {
 }
 
 function copyCode() {
-    const code = document.getElementById('code').textContent;
+    const code = document.getElementById('code').value;
     navigator.clipboard.writeText(code).then(() => {
         document.getElementById('notification').style.display = 'block';
         setTimeout(() => {
