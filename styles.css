@@ -1,84 +1,54 @@
-/* Styles de base */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    background-color: #f0f0f0; /* Ajout d'un fond pour toutes les pages */
 }
 
-#loginPage, #mainPage {
+#mainPage {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin: 50px auto;
-    max-width: 600px;
-    position: relative;
-    padding-top: 50px; /* Ajouter un espace pour le bouton de déconnexion */
-}
-
-/* Positionnement du bouton de déconnexion */
-#logoutButton {
-    position: absolute;
-    top: 10px;  /* Positionné tout en haut */
-    right: 10px;
-    padding: 8px 16px; /* Légèrement réduit pour s'adapter mieux dans le coin */
-    background-color: #dc3545; /* Couleur rouge pour différencier */
-    z-index: 10; /* S'assurer qu'il est au-dessus du reste du contenu */
-}
-
-input[type="email"], input[type="password"] {
-    margin: 10px;
-    padding: 10px;
+    max-width: 400px;
     width: 100%;
-    max-width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 button {
-    padding: 10px 20px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
     font-size: 16px;
-    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    border-radius: 4px;
-    background-color: #007bff; /* Couleur uniforme pour les boutons */
-    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3; /* Couleur au survol */
-}
-
-#loginError, #notification, #error {
-    color: red;
-    margin-top: 10px;
-}
-
-#loginError {
-    font-size: 14px;
+    background-color: #45a049;
 }
 
 #notification {
-    display: none;
-    background-color: #28a745;
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
 #error {
-    display: none;
-    background-color: #dc3545;
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-#errorCountdown {
+    color: red;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 #countdown {
-    background-color: #ffc107;
-    padding: 10px;
-    border-radius: 4px;
-    color: #000;
+    color: orange;
+    font-weight: bold;
+    margin-top: 20px;
 }
