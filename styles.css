@@ -6,165 +6,66 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f4;
+    background-color: #e0f7fa; /* Couleur de fond légèrement bleue */
 }
 
-/* Page de connexion */
-#loginPage {
-    background-color: #ffffff;
-    border: 2px solid #00796b; /* Couleur verte douce pour la page de connexion */
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 350px;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-#loginPage h1 {
-    color: #00796b;
-    margin-bottom: 20px;
-}
-
-#loginPage input[type="email"],
-#loginPage input[type="password"] {
-    padding: 12px;
-    border: 2px solid #00796b;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#loginPage input::placeholder {
-    color: #888;
-    font-size: 16px;
-}
-
-#loginPage button {
-    padding: 12px;
-    font-size: 18px;
-    background-color: #00796b;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 100%;
-}
-
-#loginPage button:hover {
-    background-color: #004d40;
-    transform: scale(1.05);
-}
-
-#loginPage p {
-    margin-top: 15px;
-}
-
-#loginPage a {
-    color: #00796b;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-#loginPage a:hover {
-    text-decoration: underline;
-}
-
-/* Page de création de compte */
-#signupPage {
-    background-color: #e3f2fd; /* Couleur bleu clair */
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 350px;
-    width: 100%;
-}
-
-#signupPage h1 {
-    color: #0277bd; /* Bleu foncé */
-    margin-bottom: 20px;
-}
-
-#signupPage input[type="email"],
-#signupPage input[type="password"] {
-    padding: 12px;
-    border: 2px solid #0277bd;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#signupPage input::placeholder {
-    color: #888;
-    font-size: 16px;
-}
-
-#signupPage button {
-    padding: 12px;
-    font-size: 18px;
-    background-color: #0277bd;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 100%;
-}
-
-#signupPage button:hover {
-    background-color: #01579b;
-    transform: scale(1.05);
-}
-
-#signupPage p {
-    margin-top: 15px;
-}
-
-#signupPage a {
-    color: #0277bd;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-#signupPage a:hover {
-    text-decoration: underline;
-}
-
-/* Page principale */
+/* Style de la page principale */
 #mainPage {
-    background-color: #f5f5f5; /* Gris très clair */
-    border: 2px solid #3949ab; /* Couleur bleu foncé */
+    background-color: #ffffff;
     padding: 30px;
-    border-radius: 20px;
+    border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     max-width: 400px;
     width: 100%;
-    position: relative;
+    position: relative; /* Nécessaire pour positionner le bouton de déconnexion */
 }
 
-#mainPage h1 {
-    color: #3949ab; /* Texte en bleu foncé */
-    margin-bottom: 20px;
+/* Style du bouton de génération de code */
+#generateButton {
+    padding: 12px;
+    margin: 20px 0;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+#generateButton:hover {
+    background-color: #45a049;
+}
+
+/* Style du bouton Déconnexion */
+#logoutButton {
+    background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
+    position: absolute;
+    top: 5px;  /* Collé à la bordure supérieure */
+    right: 5px; /* Collé à la bordure droite */
+    width: 120px; /* Taille réduite pour être plus discret */
+    padding: 10px; /* Ajustement de l'espace interne */
+    border-radius: 5px;
+}
+
+#logoutButton:hover {
+    background-color: #b71c1c;
+}
+
+/* Boîte pour afficher le code généré */
 #codeBox {
     margin-top: 20px;
     padding: 10px;
-    border: 2px solid #3949ab;
-    border-radius: 10px;
-    background-color: #e8eaf6;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fafafa;
     word-wrap: break-word;
 }
 
 #code {
     font-family: monospace;
     overflow-wrap: break-word;
-    color: #1a237e; /* Texte en bleu marine */
 }
 
 #notification {
@@ -177,45 +78,4 @@ body {
     color: red;
     font-weight: bold;
     margin-top: 20px;
-}
-
-button {
-    padding: 12px;
-    font-size: 18px;
-    background-color: #3949ab;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 100%;
-    margin-top: 15px;
-}
-
-button:hover {
-    background-color: #283593;
-    transform: scale(1.05);
-}
-
-/* Style du bouton Déconnexion */
-#logoutButton {
-    background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 120px; /* Réduit la taille du bouton */
-    padding: 10px; /* Réduit l'espace interne pour adapter la taille */
-}
-
-#logoutButton:hover {
-    background-color: #b71c1c;
-}
-
-/* Style du bouton Code Erroné */
-#errorButton {
-    background-color: #d32f2f; /* Rouge pour indiquer une erreur */
-}
-
-#errorButton:hover {
-    background-color: #b71c1c;
-}
+    }
