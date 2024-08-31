@@ -16,10 +16,16 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
-let clickCount = 0;
+let clickCount = parseInt(localStorage.getItem('clickCount')) || 0;
 const maxClicksBeforeBlock = 5;
 
-// Fonction pour générer un code
+document.getElementById('generateButton').addEventListener('click', generateCode);
+document.getElementById('copyButton').addEventListener('click', copyCode);
+document.getElementById('errorButton').addEventListener('click', showError);
+document.getElementById('telegramButton').addEventListener('click', () => {
+    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
+});
+
 function generateCode() {
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const now = new Date();
@@ -50,57 +56,63 @@ function generateCode() {
     document.getElementById('errorButton').style.display = 'inline-block';
 
     // Enregistrement du code dans Firestore
-    addDoc(collection(firestore, 'codes'), { code: code, timestamp: new Date() });
+    addDoc(collection(firestore, 'codes'), {
+        code: code,
+        timestamp: new Date()
+    }).catch((error) => {
+        console.error('Erreur lors de l\'enregistrement du code:', error);
+    });
 }
 
-// Fonction pour copier le code dans le presse-papiers
 function copyCode() {
     const code = document.getElementById('code').textContent;
-    navigator.clipboard.writeText(code)
-        .then(() => {
-            document.getElementById('notification').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('notification').style.display = 'none';
-            }, 2000);
-        })
-        .catch((err) => {
-            console.error('Erreur de copie :', err);
-        });
+    navigator.clipboard.writeText(code).then(() => {
+        document.getElementById('notification').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('notification').style.display = 'none';
+        }, 2000);
+    }).catch((error) => {
+        console.error('Erreur lors de la copie:', error);
+    });
 }
 
-// Fonction pour afficher une erreur
 function showError() {
     document.getElementById('error').style.display = 'block';
-    let countdown = 10;
-    document.getElementById('errorCountdown').textContent = countdown;
+    document.getElementById('copyButton').style.display = 'none';
+    document.getElementById('errorButton').style.display = 'none';
+    startErrorCountdown(10);
+}
+
+function startErrorCountdown(seconds) {
+    const countdownElement = document.getElementById('errorCountdown');
+    countdownElement.textContent = seconds;
     const interval = setInterval(() => {
-        countdown--;
-        document.getElementById('errorCountdown').textContent = countdown;
-        if (countdown <= 0) {
+        seconds--;
+        countdownElement.textContent = seconds;
+        if (seconds <= 0) {
             clearInterval(interval);
             document.getElementById('error').style.display = 'none';
+            document.getElementById('copyButton').style.display = 'inline-block';
+            document.getElementById('errorButton').style.display = 'inline-block';
         }
     }, 1000);
 }
 
-// Fonction pour mettre à jour le compte à rebours après avoir atteint la limite de clics
 function updateCountdown() {
     const blockedUntil = new Date(localStorage.getItem('blockedUntil'));
     const now = new Date();
-    const remainingTime = blockedUntil - now;
+    const timeRemaining = Math.max((blockedUntil - now) / 1000, 0);
 
-    if (remainingTime <= 0) {
-        localStorage.removeItem('blockedUntil');
-        document.getElementById('countdown').style.display = 'none';
-        return;
-    }
+    const countdownElement = document.getElementById('countdownTimer');
+    countdownElement.textContent = Math.ceil(timeRemaining);
 
-    const minutes = Math.floor(remainingTime / 60000);
-    const seconds = Math.floor((remainingTime % 60000) / 1000);
-    document.getElementById('countdownTimer').textContent = `${minutes}m ${seconds}s`;
+    const interval = setInterval(() => {
+        const timeRemaining = Math.max((blockedUntil - new Date()) / 1000, 0);
+        countdownElement.textContent = Math.ceil(timeRemaining);
+
+        if (timeRemaining <= 0) {
+            clearInterval(interval);
+            document.getElementById('countdown').style.display = 'none';
+        }
+    }, 1000);
 }
-
-// Gestion des événements
-document.getElementById('generateButton')?.addEventListener('click', generateCode);
-document.getElementById('copyButton')?.addEventListener('click', copyCode);
-document.getElementById('errorButton')?.addEventListener('click', showError);
