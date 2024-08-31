@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
@@ -17,22 +17,29 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-// Vérification de l'état de connexion
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        document.getElementById('welcomeMessage').textContent = 'Bienvenue, ' + user.email;
-    } else {
-        window.location.href = 'login.html'; // Redirection vers la page de connexion
-    }
-});
-
-// Fonction de déconnexion
-document.getElementById('logoutButton').addEventListener('click', () => {
-    signOut(auth)
+// Gestion de la connexion et de l'inscription
+document.getElementById('loginButton').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    signInWithEmailAndPassword(auth, email, password)
         .then(() => {
-            window.location.href = 'login.html'; // Redirection vers la page de connexion
+            window.location.href = 'index.html';
         })
         .catch((error) => {
-            console.error('Erreur de déconnexion:', error.message);
+            document.getElementById('errorMessage').textContent = 'Erreur de connexion: ' + error.message;
+        });
+});
+
+document.getElementById('registerButton').addEventListener('click', () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            window.location.href = 'index.html';
+        })
+        .catch((error) => {
+            document.getElementById('errorMessage').textContent = 'Erreur d\'inscription: ' + error.message;
         });
 });
