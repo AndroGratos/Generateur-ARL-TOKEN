@@ -20,106 +20,37 @@ body {
     width: 100%;
 }
 
+input[type="email"],
+input[type="password"] {
+    padding: 12px;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%; /* Champ de saisie prend toute la largeur */
+    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* Placeholders comme labels dans les champs */
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #888; /* Couleur du texte des placeholders */
+}
+
 /* Page de connexion */
 #loginPage {
     background-color: #ffffff;
-    border: 2px solid #4CAF50;
+    border: 2px solid #00796b; /* Couleur verte douce pour la page de connexion */
     border-radius: 20px;
 }
 
 #loginPage h1 {
-    color: #4CAF50;
-    margin-bottom: 20px;
-}
-
-#loginPage form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: stretch; /* Aligner les champs sur toute la largeur */
-}
-
-#loginPage input[type="email"],
-#loginPage input[type="password"] {
-    padding: 12px;
-    border: 2px solid #4CAF50;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%; /* Champ de saisie prend toute la largeur */
-}
-
-#loginPage input[type="email"]:focus,
-#loginPage input[type="password"]:focus {
-    border-color: #388e3c;
-    outline: none;
-}
-
-#loginPage button {
-    padding: 12px;
-    font-size: 18px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    width: 100%; /* Bouton prend toute la largeur */
-}
-
-#loginPage button:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-}
-
-#loginPage p {
-    margin-top: 15px;
-}
-
-#loginPage a {
-    color: #4CAF50;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-#loginPage a:hover {
-    text-decoration: underline;
-}
-
-/* Page de création de compte */
-#signupPage {
-    background-color: #ffffff;
-    border: 2px solid #00796b; /* Couleur verte plus douce */
-    border-radius: 20px;
-}
-
-#signupPage h1 {
     color: #00796b;
     margin-bottom: 20px;
 }
 
-#signupPage form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: stretch; /* Aligner les champs sur toute la largeur */
-}
-
-#signupPage input[type="email"],
-#signupPage input[type="password"] {
-    padding: 12px;
-    border: 2px solid #00796b;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%; /* Champ de saisie prend toute la largeur */
-}
-
-#signupPage input[type="email"]:focus,
-#signupPage input[type="password"]:focus {
-    border-color: #004d40;
-    outline: none;
-}
-
-#signupPage button {
+#loginPage button {
     padding: 12px;
     font-size: 18px;
     background-color: #00796b;
@@ -131,8 +62,51 @@ body {
     width: 100%; /* Bouton prend toute la largeur */
 }
 
-#signupPage button:hover {
+#loginPage button:hover {
     background-color: #004d40;
+    transform: scale(1.05);
+}
+
+#loginPage p {
+    margin-top: 15px;
+}
+
+#loginPage a {
+    color: #00796b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#loginPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page de création de compte */
+#signupPage {
+    background-color: #ffffff;
+    border: 2px solid #e91e63; /* Couleur rose pour la page de création de compte */
+    border-radius: 20px;
+}
+
+#signupPage h1 {
+    color: #e91e63;
+    margin-bottom: 20px;
+}
+
+#signupPage button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%; /* Bouton prend toute la largeur */
+}
+
+#signupPage button:hover {
+    background-color: #c2185b;
     transform: scale(1.05);
 }
 
@@ -141,7 +115,7 @@ body {
 }
 
 #signupPage a {
-    color: #00796b;
+    color: #e91e63;
     text-decoration: none;
     font-weight: bold;
 }
@@ -203,4 +177,4 @@ button {
 
 button:hover {
     transform: scale(1.05);
-}
+    }
