@@ -35,18 +35,6 @@ button:hover {
     background-color: #45a049;
 }
 
-textarea {
-    width: 100%;
-    height: 100px;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    resize: none; /* Disable resizing */
-}
-
 #notification {
     color: green;
     font-weight: bold;
@@ -63,4 +51,12 @@ textarea {
     color: orange;
     font-weight: bold;
     margin-top: 20px;
+}
+
+#codeBox {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fafafa;
 }
