@@ -6,12 +6,128 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e0f7fa; /* Couleur de fond légèrement bleue */
+    background-color: #f4f4f4;
 }
 
-/* Style de la page principale */
-#mainPage {
+/* Page de connexion */
+#loginPage {
     background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+    position: relative;
+}
+
+#loginPage form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#loginPage input[type="email"],
+#loginPage input[type="password"] {
+    padding: 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#loginPage input[type="email"]:focus,
+#loginPage input[type="password"]:focus {
+    border-color: #388e3c;
+    outline: none;
+}
+
+#loginPage button {
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#loginPage button:hover {
+    background-color: #45a049;
+}
+
+#loginPage p {
+    margin-top: 10px;
+}
+
+#loginPage a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+#loginPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page de création de compte */
+#signupPage {
+    background-color: #ffcc80; /* Couleur orange clair pour la page de création de compte */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+    position: relative;
+}
+
+#signupPage input[type="email"],
+#signupPage input[type="password"] {
+    padding: 10px;
+    border: 2px solid #e91e63;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#signupPage input[type="email"]:focus,
+#signupPage input[type="password"]:focus {
+    border-color: #d81b60;
+    outline: none;
+}
+
+#signupPage button {
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 18px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#signupPage button:hover {
+    background-color: #c2185b;
+}
+
+#signupPage p {
+    margin-top: 10px;
+}
+
+#signupPage a {
+    color: #e91e63;
+    text-decoration: none;
+}
+
+#signupPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page principale */
+#mainPage {
+    background-color: #e3f2fd; /* Bleu clair pour la page principale */
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -78,4 +194,4 @@ body {
     color: red;
     font-weight: bold;
     margin-top: 20px;
-    }
+}
