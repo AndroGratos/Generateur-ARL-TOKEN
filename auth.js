@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -14,6 +15,7 @@ const firebaseConfig = {
 // Initialisation Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 // Vérification de l'état de connexion
 onAuthStateChanged(auth, (user) => {
@@ -45,19 +47,26 @@ document.getElementById('loginButton')?.addEventListener('click', (e) => {
 });
 
 // Fonction de création de compte
-document.getElementById('signupButton')?.addEventListener('click', (e) => {
+document.getElementById('signupButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
 
-    createUserWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = 'index.html';
-        })
-        .catch((error) => {
-            console.error('Erreur de création de compte:', error.message);
-            alert('Création de compte échouée: ' + error.message);
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Ajouter l'utilisateur à la collection "users" avec le rôle "user"
+        await setDoc(doc(db, "users", user.uid), {
+            email: email,
+            role: "user"
         });
+
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Erreur de création de compte:', error.message);
+        alert('Création de compte échouée: ' + error.message);
+    }
 });
 
 // Fonction de déconnexion
