@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un compte</title>
+    <title>Création de Compte</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="signupPage">
-        <h1>Créer un compte</h1>
-        <form>
-            <input type="email" id="email" placeholder="Adresse email" required>
-            <input type="password" id="password" placeholder="Mot de passe" required>
-            <button id="signupButton">S'inscrire</button>
+        <h1>Créer un Compte</h1>
+        <p>Créez un compte pour accéder au générateur de codes.</p>
+        <div id="signupForm">
+            <input type="email" id="signupEmail" placeholder="Adresse e-mail" required>
+            <input type="password" id="signupPassword" placeholder="Mot de passe" required>
+            <button id="signupButton">Créer un compte</button>
             <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
-        </form>
+        </div>
     </div>
+    <script type="module" src="auth.js"></script>
 </body>
 </html>
