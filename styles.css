@@ -8,7 +8,27 @@ body {
     margin: 0;
 }
 
-#loginPage, #signupPage, #mainPage {
+#loginPage {
+    background-color: #e3f2fd; /* Bleu clair pour la page de connexion */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+#signupPage {
+    background-color: #fce4ec; /* Rose clair pour la page de création de compte */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+#mainPage {
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
