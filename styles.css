@@ -12,7 +12,7 @@ body {
 /* Page de connexion */
 #loginPage {
     background-color: #ffffff;
-    border: 2px solid #00796b; /* Couleur verte douce pour la page de connexion */
+    border: 2px solid #00796b;
     border-radius: 20px;
     padding: 30px;
     max-width: 350px;
@@ -74,7 +74,7 @@ body {
 
 /* Page de création de compte */
 #signupPage {
-    background-color: #e3f2fd; /* Couleur bleu clair */
+    background-color: #e3f2fd; 
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -84,7 +84,7 @@ body {
 }
 
 #signupPage h1 {
-    color: #0277bd; /* Bleu foncé */
+    color: #0277bd;
     margin-bottom: 20px;
 }
 
@@ -136,8 +136,8 @@ body {
 
 /* Page principale */
 #mainPage {
-    background-color: #f5f5f5; /* Gris très clair */
-    border: 2px solid #3949ab; /* Couleur bleu foncé */
+    background-color: #f5f5f5;
+    border: 2px solid #3949ab;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -147,7 +147,7 @@ body {
 }
 
 #mainPage h1 {
-    color: #3949ab; /* Texte en bleu foncé */
+    color: #3949ab;
     margin-bottom: 20px;
 }
 
@@ -163,7 +163,7 @@ body {
 #code {
     font-family: monospace;
     overflow-wrap: break-word;
-    color: #1a237e; /* Texte en bleu marine */
+    color: #1a237e;
 }
 
 #notification {
@@ -198,8 +198,13 @@ button:hover {
 
 /* Style du bouton Déconnexion */
 #logoutButton {
-    background-color: #d32f2f; /* Rouge pour le bouton de déconnexion */
+    background-color: #d32f2f;
     margin-top: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: auto;
+    padding: 10px 20px;
 }
 
 #logoutButton:hover {
@@ -208,7 +213,7 @@ button:hover {
 
 /* Style du bouton Code Erroné */
 #errorButton {
-    background-color: #d32f2f; /* Rouge pour indiquer une erreur */
+    background-color: #d32f2f;
 }
 
 #errorButton:hover {
