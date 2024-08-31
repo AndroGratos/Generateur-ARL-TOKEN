@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -17,29 +17,49 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-// Gestion de la connexion et de l'inscription
-document.getElementById('loginButton').addEventListener('click', () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
+// Vérification de l'état de connexion
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById('welcomeMessage').textContent = 'Bienvenue, ' + user.email;
+        document.getElementById('mainPage').style.display = 'block';
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('signupPage').style.display = 'none';
+    } else {
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'block';
+        document.getElementById('signupPage').style.display = 'none';
+    }
+});
+
+// Connexion
+document.getElementById('loginButton')?.addEventListener('click', () => {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
     signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = 'index.html';
-        })
         .catch((error) => {
-            document.getElementById('errorMessage').textContent = 'Erreur de connexion: ' + error.message;
+            console.error('Erreur de connexion:', error.message);
         });
 });
 
-document.getElementById('registerButton').addEventListener('click', () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    
+// Création de compte
+document.getElementById('signupButton')?.addEventListener('click', () => {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+
     createUserWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+            console.error('Erreur de création de compte:', error.message);
+        });
+});
+
+// Déconnexion
+document.getElementById('logoutButton')?.addEventListener('click', () => {
+    signOut(auth)
         .then(() => {
-            window.location.href = 'index.html';
+            window.location.href = 'login.html'; // Redirection vers la page de connexion
         })
         .catch((error) => {
-            document.getElementById('errorMessage').textContent = 'Erreur d\'inscription: ' + error.message;
+            console.error('Erreur de déconnexion:', error.message);
         });
 });
