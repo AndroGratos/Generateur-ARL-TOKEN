@@ -1,45 +1,12 @@
 /* Corps de la page */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #00c6ff, #0072ff); /* Dégradé de couleurs */
-}
-
-/* Styles communs aux pages */
-.container {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 450px;
-    width: 100%;
-    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
-}
-
-input[type="email"],
-input[type="password"] {
-    padding: 12px;
-    border: 2px solid #4CAF50;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%; /* Champ de saisie prend toute la largeur */
-    margin-top: 5px;
-    margin-bottom: 20px;
-    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
-    position: relative;
-}
-
-/* Placeholders comme labels dans les champs */
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
-    color: #888; /* Couleur du texte des placeholders */
-    font-size: 16px;
-    opacity: 1; /* Assurez-vous que les placeholders sont visibles */
+    background-color: #f4f4f4;
 }
 
 /* Page de connexion */
@@ -47,6 +14,10 @@ input[type="password"]::placeholder {
     background-color: #ffffff;
     border: 2px solid #00796b; /* Couleur verte douce pour la page de connexion */
     border-radius: 20px;
+    padding: 30px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #loginPage h1 {
@@ -54,6 +25,30 @@ input[type="password"]::placeholder {
     margin-bottom: 20px;
 }
 
+#loginPage form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#loginPage input[type="email"],
+#loginPage input[type="password"] {
+    padding: 12px;
+    border: 2px solid #00796b;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%; /* Champ de saisie prend toute la largeur */
+    box-sizing: border-box; /* Inclure padding et bordure dans la largeur totale */
+}
+
+/* Placeholder pour les champs de saisie */
+#loginPage input[type="email"]::placeholder,
+#loginPage input[type="password"]::placeholder {
+    color: #888; /* Couleur du texte des placeholders */
+    font-size: 16px;
+}
+
+/* Ajout des couleurs et effets au bouton */
 #loginPage button {
     padding: 12px;
     font-size: 18px;
@@ -87,30 +82,52 @@ input[type="password"]::placeholder {
 
 /* Page de création de compte */
 #signupPage {
-    background-color: #ffffff; /* Couleur de fond pour la page de création de compte */
-    border: 2px solid #ff5722; /* Couleur orange pour la page de création de compte */
+    background-color: #d1c4e9; /* Couleur lavande pour la page de création de compte */
+    padding: 30px;
     border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
 }
 
 #signupPage h1 {
-    color: #ff5722;
+    color: #4a148c; /* Couleur violet foncé pour le titre */
     margin-bottom: 20px;
 }
 
+#signupPage input[type="email"],
+#signupPage input[type="password"] {
+    padding: 12px;
+    border: 2px solid #4a148c;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Placeholder pour les champs de saisie */
+#signupPage input[type="email"]::placeholder,
+#signupPage input[type="password"]::placeholder {
+    color: #888;
+    font-size: 16px;
+}
+
+/* Ajout des couleurs et effets au bouton */
 #signupPage button {
     padding: 12px;
     font-size: 18px;
-    background-color: #ff5722;
+    background-color: #4a148c;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    width: 100%; /* Bouton prend toute la largeur */
+    width: 100%;
 }
 
 #signupPage button:hover {
-    background-color: #e64a19;
+    background-color: #311b92;
     transform: scale(1.05);
 }
 
@@ -119,7 +136,7 @@ input[type="password"]::placeholder {
 }
 
 #signupPage a {
-    color: #ff5722;
+    color: #4a148c;
     text-decoration: none;
     font-weight: bold;
 }
@@ -131,54 +148,36 @@ input[type="password"]::placeholder {
 /* Page principale */
 #mainPage {
     background-color: #ffffff;
-    padding: 40px;
+    padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 500px;
+    max-width: 400px;
     width: 100%;
 }
 
 #codeBox {
     margin-top: 20px;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #fafafa;
     word-wrap: break-word;
-    font-size: 16px;
-    color: #333;
 }
 
 #code {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: monospace;
     overflow-wrap: break-word;
 }
 
 #notification {
-    color: #4CAF50;
+    color: green;
     font-weight: bold;
     margin-top: 20px;
 }
 
 #error {
-    color: #ff5722;
+    color: red;
     font-weight: bold;
     margin-top: 20px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-button:hover {
-    transform: scale(1.05);
-}
+    }
