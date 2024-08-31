@@ -1,78 +1,161 @@
 /* Corps de la page */
 body {
     font-family: Arial, sans-serif;
-    background-color: #e0f7fa; /* Couleur de fond légèrement bleutée pour la page entière */
+    margin: 0;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    background-color: #f4f4f4;
 }
 
 /* Page de connexion */
 #loginPage {
-    background-color: #ffffff; /* Blanc pour le formulaire de connexion */
-    padding: 30px; /* Augmenter le padding pour plus d'espace */
-    border-radius: 15px; /* Coins plus arrondis */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    max-width: 350px; /* Largeur légèrement réduite */
+    max-width: 350px;
     width: 100%;
 }
 
-/* Formulaire */
-form {
+#loginPage form {
     display: flex;
-    flex-direction: column; /* Alignement vertical des éléments */
-    gap: 15px; /* Espacement entre les éléments du formulaire */
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Champs de formulaire */
-input[type="email"],
-input[type="password"] {
+#loginPage input[type="email"],
+#loginPage input[type="password"] {
     padding: 10px;
-    border: 2px solid #4CAF50; /* Bordure verte */
+    border: 2px solid #4CAF50;
     border-radius: 5px;
     font-size: 16px;
 }
 
-/* Effet de focus pour les champs de formulaire */
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #388e3c; /* Bordure plus sombre au focus */
-    outline: none; /* Supprimer la bordure bleue par défaut */
+#loginPage input[type="email"]:focus,
+#loginPage input[type="password"]:focus {
+    border-color: #388e3c;
+    outline: none;
 }
 
-/* Boutons */
-button {
-    display: block;
-    width: 100%;
+#loginPage button {
     padding: 12px;
     margin: 10px 0;
-    font-size: 18px; /* Augmenter légèrement la taille de police */
-    background-color: #4CAF50; /* Couleur de fond verte */
+    font-size: 18px;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Transition pour l'effet hover */
+    transition: background-color 0.3s;
 }
 
-/* Effet de survol des boutons */
-button:hover {
+#loginPage button:hover {
     background-color: #45a049;
 }
 
-/* Lien de création de compte */
-p {
+#loginPage p {
     margin-top: 10px;
 }
 
-a {
-    color: #4CAF50; /* Couleur du lien verte */
-    text-decoration: none; /* Supprimer la décoration du lien */
+#loginPage a {
+    color: #4CAF50;
+    text-decoration: none;
 }
 
-a:hover {
-    text-decoration: underline; /* Souligner le lien au survol */
+#loginPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page de création de compte */
+#signupPage {
+    background-color: #fce4ec;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 350px;
+    width: 100%;
+}
+
+#signupPage input[type="email"],
+#signupPage input[type="password"] {
+    padding: 10px;
+    border: 2px solid #e91e63;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#signupPage input[type="email"]:focus,
+#signupPage input[type="password"]:focus {
+    border-color: #d81b60;
+    outline: none;
+}
+
+#signupPage button {
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 18px;
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#signupPage button:hover {
+    background-color: #c2185b;
+}
+
+#signupPage p {
+    margin-top: 10px;
+}
+
+#signupPage a {
+    color: #e91e63;
+    text-decoration: none;
+}
+
+#signupPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page principale */
+#mainPage {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+#codeBox {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fafafa;
+    word-wrap: break-word;
+}
+
+#code {
+    font-family: monospace;
+    overflow-wrap: break-word;
+}
+
+#notification {
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
 }
