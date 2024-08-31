@@ -5,24 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur ARL | TOKEN DEEZER 2024</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="module" src="auth.js" defer></script>
-    <script type="module" src="main.js" defer></script>
 </head>
 <body>
     <div id="mainPage">
-        <button id="logoutButton">Déconnexion</button>
-        <h1 id="welcomeMessage">Bienvenue</h1>
-        <button id="generateButton">Générer un ARL Token</button>
+        <h1>Générateur de Codes</h1>
         <div id="codeBox">
-            <p id="code">Appuyez sur le bouton pour générer un code.</p>
-            <button id="copyButton" style="display:none;">Copier</button>
-            <button id="errorButton" style="display:none;">Code erroné</button>
+            <p id="code">Cliquez sur "Générer un ARL Token" pour obtenir un code.</p>
         </div>
+        <button id="generateButton">Générer un ARL Token</button>
+        <button id="copyButton" style="display:none;">Copier le Code</button>
+        <button id="errorButton" style="display:none;">Signaler une erreur</button>
         <div id="notification" style="display:none;">Code copié !</div>
-        <div id="error" style="display:none;">
-            <p>Code erroné ! Veuillez réessayer.</p>
-            <button id="telegramButton">Accéder à Telegram</button>
-        </div>
+        <div id="error" style="display:none;">Code erroné !</div>
+        <button id="logoutButton">Déconnexion</button>
     </div>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
