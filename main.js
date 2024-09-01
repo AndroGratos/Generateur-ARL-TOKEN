@@ -93,7 +93,7 @@ function showError() {
 
 function sendEmail() {
     const code = document.getElementById('code').textContent;
-    const emailAddress = "votre-email@example.com"; // Remplacez par votre adresse email
+    const emailAddress = "generateurarltoken@gmail.com"; // Remplacez par votre adresse email
     const subject = "Code Erroné Signalé";
     const body = `Bonjour,\n\nLe code suivant a été signalé comme erroné :\n${code}\n\nMerci de le vérifier.`;
 
