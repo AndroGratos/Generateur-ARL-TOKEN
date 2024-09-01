@@ -109,4 +109,18 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
-    const seconds = remainingTime
+    const seconds = remainingTimeInSeconds % 60;
+
+    // Afficher le décompte
+    document.getElementById('countdown').textContent = 
+        `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
+
+    // Mettre à jour le décompte toutes les secondes
+    if (remainingTimeInSeconds > 0) {
+        setTimeout(() => {
+            updateCountdownDisplay(remainingTimeInSeconds - 1);
+        }, 1000);
+    } else {
+        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+    }
+}
