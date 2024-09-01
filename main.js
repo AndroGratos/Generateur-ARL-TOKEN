@@ -88,27 +88,25 @@ function copyCode() {
 }
 
 function showError() {
+    const code = document.getElementById('code').textContent;
     document.getElementById('error').style.display = 'block';
     document.getElementById('copyButton').style.display = 'none';
     document.getElementById('errorButton').style.display = 'none';
+
+    // Appelle handleErrorRedirect avec le code erroné
+    handleErrorRedirect(code);
+}
+
+function handleErrorRedirect(code) {
+    const telegramUrl = `https://t.me/androgratos?code=${encodeURIComponent(code)}`;
+    // Rediriger après 10 secondes
+    setTimeout(() => {
+        window.location.href = telegramUrl;
+    }, 10000); // 10 secondes
 }
 
 function updateCountdownDisplay(remainingTimeInSeconds) {
     // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
-    const seconds = remainingTimeInSeconds % 60;
-
-    // Afficher le décompte
-    document.getElementById('countdown').textContent = 
-        `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
-
-    // Mettre à jour le décompte toutes les secondes
-    if (remainingTimeInSeconds > 0) {
-        setTimeout(() => {
-            updateCountdownDisplay(remainingTimeInSeconds - 1);
-        }, 1000);
-    } else {
-        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
-    }
-}
+    const seconds = remainingTime
