@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -18,10 +18,16 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // Vérification de l'état de connexion
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user) {
-        if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html') {
-            window.location.href = 'index.html';
+        const userDoc = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDoc);
+
+        if (userSnap.exists()) {
+            const data = userSnap.data();
+            if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html') {
+                window.location.href = 'index.html';
+            }
         }
     } else {
         if (window.location.pathname === '/index.html') {
@@ -56,10 +62,12 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Ajouter l'utilisateur à la collection "users" avec le rôle "user"
+        // Ajouter l'utilisateur à la collection "users" avec les paramètres clickLeft et resetTime
         await setDoc(doc(db, "users", user.uid), {
             email: email,
-            role: "user"
+            role: "user",
+            clickLeft: 5,          // Nombre de clics restants
+            resetTime: null        // Temps de réinitialisation
         });
 
         window.location.href = 'index.html';
