@@ -15,10 +15,7 @@ const codes = [
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
-document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('telegramButton')?.addEventListener('click', () => {
-    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
-});
+document.getElementById('errorButton')?.addEventListener('click', reportError);
 
 async function generateCode() {
     const auth = getAuth();
@@ -42,11 +39,10 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
-        const hours = Math.floor(remainingTime / 3600);
-        const minutes = Math.floor((remainingTime % 3600) / 60);
-        const seconds = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
+        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
+        const hours = Math.floor(remainingTime / 60);
+        const minutes = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
         
         // Afficher le décompte et commencer le compte à rebours
         updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
@@ -88,41 +84,25 @@ function copyCode() {
     });
 }
 
-function showError() {
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('copyButton').style.display = 'none';
-    document.getElementById('errorButton').style.display = 'none';
-    showErrorNotification();
-}
-
-function showErrorNotification() {
-    document.getElementById('errorNotification').style.display = 'block';
-    startCountdown(10); // Démarrer le décompte de 10 secondes
-}
-
-function startCountdown(seconds) {
-    const countdownElement = document.getElementById('countdownTimer');
-    countdownElement.textContent = `Temps restant : ${seconds} secondes`;
-
-    const interval = setInterval(() => {
-        seconds -= 1;
-        if (seconds <= 0) {
-            clearInterval(interval);
-            countdownElement.textContent = 'Temps écoulé';
-        } else {
-            countdownElement.textContent = `Temps restant : ${seconds} secondes`;
-        }
-    }, 1000);
+function reportError() {
+    const code = document.getElementById('code').textContent;
+    const message = `Code erroné : ${code}`;
+    const telegramUrl = `https://t.me/androgratos?text=${encodeURIComponent(message)}`;
+    
+    window.location.href = telegramUrl; // Redirige vers Telegram avec le message pré-rempli
 }
 
 function updateCountdownDisplay(remainingTimeInSeconds) {
+    // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
 
+    // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
 
+    // Mettre à jour le décompte toutes les secondes
     if (remainingTimeInSeconds > 0) {
         setTimeout(() => {
             updateCountdownDisplay(remainingTimeInSeconds - 1);
@@ -130,4 +110,4 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     } else {
         document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
     }
-                             }
+}
