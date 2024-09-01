@@ -42,10 +42,11 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
-        const hours = Math.floor(remainingTime / 60);
-        const minutes = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
+        const hours = Math.floor(remainingTime / 3600);
+        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const seconds = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
         
         // Afficher le décompte et commencer le compte à rebours
         updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
@@ -88,34 +89,40 @@ function copyCode() {
 }
 
 function showError() {
-    const code = document.getElementById('code').textContent;
     document.getElementById('error').style.display = 'block';
     document.getElementById('copyButton').style.display = 'none';
     document.getElementById('errorButton').style.display = 'none';
-
-    // Appelle handleErrorRedirect avec le code erroné
-    handleErrorRedirect(code);
+    showErrorNotification();
 }
 
-function handleErrorRedirect(code) {
-    const telegramUrl = `https://t.me/androgratos?code=${encodeURIComponent(code)}`;
-    // Rediriger après 10 secondes
-    setTimeout(() => {
-        window.location.href = telegramUrl;
-    }, 10000); // 10 secondes
+function showErrorNotification() {
+    document.getElementById('errorNotification').style.display = 'block';
+    startCountdown(10); // Démarrer le décompte de 10 secondes
+}
+
+function startCountdown(seconds) {
+    const countdownElement = document.getElementById('countdownTimer');
+    countdownElement.textContent = `Temps restant : ${seconds} secondes`;
+
+    const interval = setInterval(() => {
+        seconds -= 1;
+        if (seconds <= 0) {
+            clearInterval(interval);
+            countdownElement.textContent = 'Temps écoulé';
+        } else {
+            countdownElement.textContent = `Temps restant : ${seconds} secondes`;
+        }
+    }, 1000);
 }
 
 function updateCountdownDisplay(remainingTimeInSeconds) {
-    // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
 
-    // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
 
-    // Mettre à jour le décompte toutes les secondes
     if (remainingTimeInSeconds > 0) {
         setTimeout(() => {
             updateCountdownDisplay(remainingTimeInSeconds - 1);
@@ -123,4 +130,4 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     } else {
         document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
     }
-}
+                             }
