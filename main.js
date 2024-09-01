@@ -42,12 +42,13 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
-        const hours = Math.floor(remainingTime / 3600);
-        const minutes = Math.floor((remainingTime % 3600) / 60);
-        const seconds = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
-        updateCountdownDisplay(remainingTime);
+        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
+        const hours = Math.floor(remainingTime / 60);
+        const minutes = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        
+        // Afficher le décompte et commencer le compte à rebours
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
         return;
     }
 
@@ -68,8 +69,10 @@ async function generateCode() {
         resetTime: resetTime
     });
 
-    // Mettre à jour le décompte si nécessaire
-    updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+    // Si le temps de réinitialisation est dans le futur, commencer le décompte
+    if (resetTime > now) {
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+    }
 }
 
 function copyCode() {
@@ -95,7 +98,7 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
-    
+
     // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
