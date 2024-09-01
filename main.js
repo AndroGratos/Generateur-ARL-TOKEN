@@ -42,15 +42,13 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60));
+        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
         const hours = Math.floor(remainingTime / 60);
         const minutes = remainingTime % 60;
-        document.getElementById('notification').style.display = 'block';
-        updateCountdownDisplay(remainingTime);
-        setTimeout(() => {
-            document.getElementById('notification').style.display = 'none';
-            updateCountdownDisplay(Math.ceil((resetTime - now) / 1000)); // Mise à jour du compteur une fois la notification cachée
-        }, 2000);
+        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        
+        // Afficher le décompte et commencer le compte à rebours
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
         return;
     }
 
@@ -71,8 +69,8 @@ async function generateCode() {
         resetTime: resetTime
     });
 
-    // Mettre à jour le décompte immédiatement si le temps de réinitialisation est défini
-    if (resetTime) {
+    // Si le temps de réinitialisation est dans le futur, commencer le décompte
+    if (resetTime > now) {
         updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
     }
 }
@@ -100,8 +98,17 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
-    
+
     // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
-        }
+
+    // Mettre à jour le décompte toutes les secondes
+    if (remainingTimeInSeconds > 0) {
+        setTimeout(() => {
+            updateCountdownDisplay(remainingTimeInSeconds - 1);
+        }, 1000);
+    } else {
+        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+    }
+}
