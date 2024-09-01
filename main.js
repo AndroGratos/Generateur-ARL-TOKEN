@@ -16,7 +16,9 @@ const codes = [
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('emailButton')?.addEventListener('click', sendEmail);
+document.getElementById('telegramButton')?.addEventListener('click', () => {
+    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
+});
 
 async function generateCode() {
     const auth = getAuth();
@@ -40,13 +42,14 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
-        const hours = Math.floor(remainingTime / 60);
-        const minutes = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
+        const hours = Math.floor(remainingTime / 3600);
+        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const seconds = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
         
         // Afficher le décompte et commencer le compte à rebours
-        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+        updateCountdownDisplay(remainingTime);
         return;
     }
 
@@ -70,6 +73,8 @@ async function generateCode() {
     // Si le temps de réinitialisation est dans le futur, commencer le décompte
     if (resetTime > now) {
         updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+    } else {
+        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
     }
 }
 
@@ -91,28 +96,21 @@ function showError() {
     document.getElementById('errorButton').style.display = 'none';
 }
 
-function sendEmail() {
-    const code = document.getElementById('code').textContent;
-    const emailAddress = "generateurarltoken@gmail.com"; // Remplacez par votre adresse email
-    const subject = "Code Erroné Signalé";
-    const body = `Bonjour,\n\nLe code suivant a été signalé comme erroné :\n${code}\n\nMerci de le vérifier.`;
-
-    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
 function updateCountdownDisplay(remainingTimeInSeconds) {
+    // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
 
+    // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
 
+    // Mettre à jour le décompte toutes les secondes
     if (remainingTimeInSeconds > 0) {
         setTimeout(() => {
             updateCountdownDisplay(remainingTimeInSeconds - 1);
         }, 1000);
-    } else {
-        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+    } else {document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
     }
 }
