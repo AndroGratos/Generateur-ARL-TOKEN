@@ -17,12 +17,46 @@ document.getElementById('telegramButton')?.addEventListener('click', () => {
     window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
 });
 
-function generateCode() {
+async function generateCode() {
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        alert("Vous devez être connecté pour générer un code.");
+        return;
+    }
+
+    const userDoc = firebase.firestore().collection('users').doc(user.uid);
+    const userSnap = await userDoc.get();
+
+    if (!userSnap.exists) {
+        alert("Utilisateur non trouvé.");
+        return;
+    }
+
+    const data = userSnap.data();
+    let { clickLeft, resetTime } = data;
+
+    if (clickLeft <= 0 && resetTime && Date.now() < resetTime) {
+        const remainingTime = Math.ceil((resetTime - Date.now()) / (1000 * 60 * 60));
+        alert(`Vous devez attendre encore ${remainingTime} heure(s) avant de pouvoir générer un nouveau code.`);
+        return;
+    }
+
+    if (clickLeft <= 0) {
+        clickLeft = 5;
+        resetTime = Date.now() + 5 * 60 * 60 * 1000; // Réinitialiser le temps après 5 heures
+    }
+
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
     document.getElementById('code').textContent = code;
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
+
+    // Mettre à jour le compteur de clics et le temps de réinitialisation
+    await userDoc.update({
+        clickLeft: clickLeft - 1,
+        resetTime: resetTime
+    });
 }
 
 function copyCode() {
