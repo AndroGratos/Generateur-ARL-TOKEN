@@ -42,10 +42,11 @@ async function generateCode() {
     const now = Date.now();
 
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60));
-        const hours = Math.floor(remainingTime / 60);
-        const minutes = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
+        const hours = Math.floor(remainingTime / 3600);
+        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const seconds = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
         updateCountdownDisplay(remainingTime);
         return;
     }
@@ -98,4 +99,13 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
+
+    // Mettre à jour le décompte toutes les secondes
+    if (remainingTimeInSeconds > 0) {
+        setTimeout(() => {
+            updateCountdownDisplay(remainingTimeInSeconds - 1);
+        }, 1000);
+    } else {
+        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+    }
 }
