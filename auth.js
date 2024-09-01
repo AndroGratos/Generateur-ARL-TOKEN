@@ -62,12 +62,10 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Ajouter l'utilisateur à la collection "users" avec les paramètres clickLeft et resetTime
+        // Ajouter l'utilisateur à la collection "users" avec un rôle par défaut
         await setDoc(doc(db, "users", user.uid), {
             email: email,
-            role: "user",
-            clickLeft: 5,          // Nombre de clics restants
-            resetTime: null        // Temps de réinitialisation
+            role: "user"  // Par défaut, l'utilisateur est un "user"
         });
 
         window.location.href = 'index.html';
