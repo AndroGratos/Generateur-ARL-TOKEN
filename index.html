@@ -18,11 +18,14 @@
             <button id="copyButton" style="display:none;">Copier</button>
             <button id="errorButton" style="display:none;">Code erroné</button>
         </div>
-        <div id="countdown">Temps restant : Aucune limite</div> <!-- Décompte ajouté ici -->
+        <div id="countdown">Temps restant : Aucune limite</div>
         <div id="notification" style="display:none;">Code copié !</div>
         <div id="error" style="display:none;">
             <p>Code erroné ! Veuillez réessayer.</p>
-            <button id="telegramButton">Accéder à Telegram</button>
+            <div id="errorNotification" style="display:none;">
+                <p id="countdownTimer">Temps restant : 10 secondes</p>
+                <button id="telegramButton">Accéder à Telegram</button>
+            </div>
         </div>
     </div>
 </body>
