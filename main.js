@@ -1,12 +1,7 @@
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-const codes = [
-    'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
-    'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
-    '0ed12f74302dafdba1ae8bc54dd32c196853eea11f002059725213c9cdfa3854e5f77862c6a9a0b431032be9cf05f36f72729ed585480import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
-
+// Liste des codes à générer
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -19,12 +14,10 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
+// Ajout d'écouteurs pour les boutons
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('telegramButton')?.addEventListener('click', () => {
-    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
-});
 
 async function generateCode() {
     const auth = getAuth();
@@ -44,79 +37,106 @@ async function generateCode() {
         return;
     }
 
-    let { clickLeft, resetTime } = userSnap.data();
+    const { role, lastGenerated, generatedCount } = userSnap.data();
     const now = Date.now();
 
-    if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
-        const hours = Math.floor(remainingTime / 3600);
-        const minutes = Math.floor((remainingTime % 3600) / 60);
-        const seconds = remainingTime % 60;
-        alert(`Vous devez attendre encore ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
-        
-        // Afficher le décompte et commencer le compte à rebours
-        updateCountdownDisplay(remainingTime);
+    // Si l'utilisateur est "admin", il n'y a pas de limite
+    if (role === "admin") {
+        generateAndDisplayCode();
         return;
     }
 
-    if (clickLeft <= 0) {
-        clickLeft = 5;
-        resetTime = now + 5 * 60 * 60 * 1000; // Réinitialiser le temps après 5 heures
+    // Si l'utilisateur est un "user", appliquer les restrictions
+    if (role === "user") {
+        if (lastGenerated && now - lastGenerated >= 5 * 60 * 60 * 1000) {
+            // Réinitialiser les compteurs si 5 heures se sont écoulées
+            await updateDoc(userDocRef, {
+                generatedCount: 0,
+                lastGenerated: now
+            });
+        }
+
+        if (generatedCount >= 5) {
+            const remainingTime = 5 * 60 * 60 * 1000 - (now - lastGenerated);
+            const hours = Math.floor(remainingTime / (60 * 60 * 1000));
+            const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+            const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
+            alert(`Vous devez attendre encore ${hours} heure(s), ${minutes} minute(s) et ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
+            return;
+        }
+
+        // Si l'utilisateur n'a pas atteint la limite, générer le code
+        await updateDoc(userDocRef, {
+            generatedCount: generatedCount + 1,
+            lastGenerated: now
+        });
     }
 
+    generateAndDisplayCode();
+}
+
+function generateAndDisplayCode() {
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
-    document.getElementById('code').textContent = code;
-    document.getElementById('copyButton').style.display = 'inline-block';
-    document.getElementById('errorButton').style.display = 'inline-block';
+    const codeElement = document.getElementById('code');
+    
+    if (!codeElement) {
+        console.error("L'élément pour afficher le code est introuvable.");
+        return;
+    }
 
-    // Mettre à jour le compteur de clics et le temps de réinitialisation
-    await updateDoc(userDocRef, {
-        clickLeft: clickLeft - 1,
-        resetTime: resetTime
-    });
+    // Afficher le code
+    codeElement.textContent = code;
 
-    // Si le temps de réinitialisation est dans le futur, commencer le décompte
-    if (resetTime > now) {
-        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+    // Afficher les boutons de copie et de signalement d'erreur
+    const copyButton = document.getElementById('copyButton');
+    const errorButton = document.getElementById('errorButton');
+
+    if (copyButton && errorButton) {
+        copyButton.style.display = 'inline-block';
+        errorButton.style.display = 'inline-block';
     } else {
-        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+        console.error("Les boutons copyButton ou errorButton sont introuvables.");
     }
 }
 
 function copyCode() {
     const code = document.getElementById('code').textContent;
+
+    if (!code) {
+        console.error("Aucun code à copier.");
+        return;
+    }
+
     navigator.clipboard.writeText(code).then(() => {
-        document.getElementById('notification').style.display = 'block';
-        setTimeout(() => {
-            document.getElementById('notification').style.display = 'none';
-        }, 2000);
+        const notification = document.getElementById('notification');
+        if (notification) {
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        } else {
+            console.error("L'élément de notification est introuvable.");
+        }
     }).catch((error) => {
         console.error('Erreur lors de la copie:', error);
     });
 }
 
 function showError() {
-    document.getElementById('error').style.display = 'block';
-    document.getElementById('copyButton').style.display = 'none';
-    document.getElementById('errorButton').style.display = 'none';
-}
+    const errorElement = document.getElementById('error');
 
-function updateCountdownDisplay(remainingTimeInSeconds) {
-    // Convertir en heures, minutes et secondes
-    const hours = Math.floor(remainingTimeInSeconds / 3600);
-    const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
-    const seconds = remainingTimeInSeconds % 60;
+    if (errorElement) {
+        errorElement.style.display = 'block';
 
-    // Afficher le décompte
-    document.getElementById('countdown').textContent = 
-        `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
+        const copyButton = document.getElementById('copyButton');
+        const errorButton = document.getElementById('errorButton');
 
-    // Mettre à jour le décompte toutes les secondes
-    if (remainingTimeInSeconds > 0) {
-        setTimeout(() => {
-            updateCountdownDisplay(remainingTimeInSeconds - 1);
-        }, 1000);
-    } else {document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+        if (copyButton && errorButton) {
+            copyButton.style.display = 'none';
+            errorButton.style.display = 'none';
+        }
+    } else {
+        console.error("L'élément d'erreur est introuvable.");
     }
 }
