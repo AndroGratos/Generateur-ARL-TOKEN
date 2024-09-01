@@ -15,7 +15,8 @@ const codes = [
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
-document.getElementById('errorButton')?.addEventListener('click', reportError);
+document.getElementById('errorButton')?.addEventListener('click', showError);
+document.getElementById('emailButton')?.addEventListener('click', sendEmail);
 
 async function generateCode() {
     const auth = getAuth();
@@ -84,25 +85,29 @@ function copyCode() {
     });
 }
 
-function reportError() {
+function showError() {
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('copyButton').style.display = 'none';
+    document.getElementById('errorButton').style.display = 'none';
+}
+
+function sendEmail() {
     const code = document.getElementById('code').textContent;
-    const message = `Code erroné : ${code}`;
-    const telegramUrl = `https://t.me/androgratos?text=${encodeURIComponent(message)}`;
-    
-    window.location.href = telegramUrl; // Redirige vers Telegram avec le message pré-rempli
+    const emailAddress = "votre-email@example.com"; // Remplacez par votre adresse email
+    const subject = "Code Erroné Signalé";
+    const body = `Bonjour,\n\nLe code suivant a été signalé comme erroné :\n${code}\n\nMerci de le vérifier.`;
+
+    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function updateCountdownDisplay(remainingTimeInSeconds) {
-    // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
 
-    // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
 
-    // Mettre à jour le décompte toutes les secondes
     if (remainingTimeInSeconds > 0) {
         setTimeout(() => {
             updateCountdownDisplay(remainingTimeInSeconds - 1);
