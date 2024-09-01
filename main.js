@@ -10,35 +10,12 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
-const MAX_CLICKS = 5;
-const RESET_TIME_HOURS = 5;
-
-document.getElementById('generateButton')?.addEventListener('click', handleGenerateClick);
+document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('logoutButton')?.addEventListener('click', () => {
-    window.location.href = 'login.html';
+document.getElementById('telegramButton')?.addEventListener('click', () => {
+    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
 });
-
-function handleGenerateClick() {
-    const user = getCurrentUser();
-    if (!user) return;
-    const now = new Date();
-    const lastClickTime = user.lastClickTime ? user.lastClickTime.toDate() : now;
-    const nextResetTime = new Date(lastClickTime.getTime() + RESET_TIME_HOURS * 60 * 60 * 1000);
-    
-    if (user.clickCount >= MAX_CLICKS && now < nextResetTime) {
-        alert(`Vous avez atteint la limite de ${MAX_CLICKS} clics. Réessayez après ${Math.ceil((nextResetTime - now) / (1000 * 60 * 60))} heures.`);
-        return;
-    }
-
-    if (now >= nextResetTime) {
-        resetClickCount(user.uid);
-    }
-
-    generateCode();
-    updateClickCount(user.uid, user.clickCount + 1, now);
-}
 
 function generateCode() {
     const randomIndex = Math.floor(Math.random() * codes.length);
@@ -65,30 +42,3 @@ function showError() {
     document.getElementById('copyButton').style.display = 'none';
     document.getElementById('errorButton').style.display = 'none';
 }
-
-async function updateClickCount(uid, newClickCount, now) {
-    const userDocRef = doc(db, 'users', uid);
-    await updateDoc(userDocRef, {
-        clickCount: newClickCount,
-        lastClickTime: Timestamp.fromDate(now)
-    });
-}
-
-async function resetClickCount(uid) {
-    const userDocRef = doc(db, 'users', uid);
-    await updateDoc(userDocRef, {
-        clickCount: 0,
-        lastClickTime: Timestamp.fromDate(new Date())
-    });
-}
-
-function getCurrentUser() {
-    // Assuming you have a way to get the current user's UID from Firebase Auth
-    return auth.currentUser ? getUserData(auth.currentUser.uid) : null;
-}
-
-async function getUserData(uid) {
-    const userDocRef = doc(db, 'users', uid);
-    const userDoc = await getDoc(userDocRef);
-    return userDoc.exists() ? userDoc.data() : null;
-        }
