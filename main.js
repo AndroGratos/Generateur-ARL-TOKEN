@@ -1,7 +1,5 @@
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-// Liste des codes à générer
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
     'c4de4d2e125541bb71d85ce0542843973bc6e080ef94ffe96612eb2337df1805338a2f6f452920ea16fbe01f507c4ad64c917481dca15638ff96d3c8911d4eb1208169a5c0a8dd631699fa19798e5030d338d6ebcb4db765537d053689d173f1',
@@ -14,129 +12,60 @@ const codes = [
     'db3f587dcc4c4d3723088834767f8a77f22d67a6cd2225ae377a8c1033225aad663b716a6bc5c9d58887b6056c4d140af50358e617873a5c4ea25c12fec0aa4c42efd44c1760b7a0d316d2d57012c2ce083b6de8bd1cf2ed66b49ebee071acce'
 ];
 
-// Ajout d'écouteurs pour les boutons
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
 
 async function generateCode() {
-    const auth = getAuth();
-    const firestore = getFirestore();
-    const user = auth.currentUser;
+    const role = localStorage.getItem('role');
+    const user = getAuth().currentUser;
 
     if (!user) {
         alert("Vous devez être connecté pour générer un code.");
         return;
     }
 
-    const userDocRef = doc(firestore, 'users', user.uid);
-    const userSnap = await getDoc(userDocRef);
+    if (role === 'user') {
+        const lastGenerated = parseInt(localStorage.getItem('lastGenerated'), 10) || 0;
+        const generatedCount = parseInt(localStorage.getItem('generatedCount'), 10) || 0;
+        const now = Date.now();
 
-    if (!userSnap.exists()) {
-        alert("Utilisateur non trouvé.");
-        return;
-    }
-
-    const { role, lastGenerated, generatedCount } = userSnap.data();
-    const now = Date.now();
-
-    // Si l'utilisateur est "admin", il n'y a pas de limite
-    if (role === "admin") {
-        generateAndDisplayCode();
-        return;
-    }
-
-    // Si l'utilisateur est un "user", appliquer les restrictions
-    if (role === "user") {
-        if (lastGenerated && now - lastGenerated >= 5 * 60 * 60 * 1000) {
-            // Réinitialiser les compteurs si 5 heures se sont écoulées
-            await updateDoc(userDocRef, {
-                generatedCount: 0,
-                lastGenerated: now
-            });
-        }
-
-        if (generatedCount >= 5) {
+        if (generatedCount >= 5 && (now - lastGenerated) < 5 * 60 * 60 * 1000) {
             const remainingTime = 5 * 60 * 60 * 1000 - (now - lastGenerated);
-            const hours = Math.floor(remainingTime / (60 * 60 * 1000));
-            const minutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
-            const seconds = Math.floor((remainingTime % (60 * 1000)) / 1000);
-            alert(`Vous devez attendre encore ${hours} heure(s), ${minutes} minute(s) et ${seconds} seconde(s) avant de pouvoir générer un nouveau code.`);
+            alert(`Vous devez attendre encore ${Math.ceil(remainingTime / 1000 / 60)} minutes avant de générer un nouveau code.`);
             return;
+        } else if (generatedCount >= 5) {
+            localStorage.setItem('generatedCount', 0);
+            localStorage.setItem('lastGenerated', 0);
         }
-
-        // Si l'utilisateur n'a pas atteint la limite, générer le code
-        await updateDoc(userDocRef, {
-            generatedCount: generatedCount + 1,
-            lastGenerated: now
-        });
     }
 
-    generateAndDisplayCode();
-}
-
-function generateAndDisplayCode() {
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
-    const codeElement = document.getElementById('code');
-    
-    if (!codeElement) {
-        console.error("L'élément pour afficher le code est introuvable.");
-        return;
-    }
+    document.getElementById('code').textContent = code;
+    document.getElementById('copyButton').style.display = 'inline-block';
+    document.getElementById('errorButton').style.display = 'inline-block';
 
-    // Afficher le code
-    codeElement.textContent = code;
-
-    // Afficher les boutons de copie et de signalement d'erreur
-    const copyButton = document.getElementById('copyButton');
-    const errorButton = document.getElementById('errorButton');
-
-    if (copyButton && errorButton) {
-        copyButton.style.display = 'inline-block';
-        errorButton.style.display = 'inline-block';
-    } else {
-        console.error("Les boutons copyButton ou errorButton sont introuvables.");
+    if (role === 'user') {
+        localStorage.setItem('generatedCount', generatedCount + 1);
+        localStorage.setItem('lastGenerated', Date.now());
     }
 }
 
 function copyCode() {
     const code = document.getElementById('code').textContent;
-
-    if (!code) {
-        console.error("Aucun code à copier.");
-        return;
-    }
-
     navigator.clipboard.writeText(code).then(() => {
-        const notification = document.getElementById('notification');
-        if (notification) {
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 2000);
-        } else {
-            console.error("L'élément de notification est introuvable.");
-        }
+        document.getElementById('notification').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('notification').style.display = 'none';
+        }, 2000);
     }).catch((error) => {
         console.error('Erreur lors de la copie:', error);
     });
 }
 
 function showError() {
-    const errorElement = document.getElementById('error');
-
-    if (errorElement) {
-        errorElement.style.display = 'block';
-
-        const copyButton = document.getElementById('copyButton');
-        const errorButton = document.getElementById('errorButton');
-
-        if (copyButton && errorButton) {
-            copyButton.style.display = 'none';
-            errorButton.style.display = 'none';
-        }
-    } else {
-        console.error("L'élément d'erreur est introuvable.");
-    }
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('copyButton').style.display = 'none';
+    document.getElementById('errorButton').style.display = 'none';
 }
