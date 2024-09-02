@@ -1,4 +1,5 @@
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const codes = [
     'b237ae95d1e0c40b96077f5f18ce5b9ec3bfb249f45174d483c2b93aa03ac28933974b916e3e672d3a1f5861751590a5ece1304d773f98618c50da1a2a257cafa55a76dca10c62bedeebc35b79c3adfc387cd56bb6b387b2de1e367c0b253c1f',
@@ -15,29 +16,45 @@ const codes = [
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
+document.getElementById('telegramButton')?.addEventListener('click', () => {
+    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
+});
 
 async function generateCode() {
-    const role = localStorage.getItem('role');
-    const user = getAuth().currentUser;
+    const auth = getAuth();
+    const firestore = getFirestore();
+    const user = auth.currentUser;
 
     if (!user) {
         alert("Vous devez être connecté pour générer un code.");
         return;
     }
 
-    if (role === 'user') {
-        const lastGenerated = parseInt(localStorage.getItem('lastGenerated'), 10) || 0;
-        const generatedCount = parseInt(localStorage.getItem('generatedCount'), 10) || 0;
-        const now = Date.now();
+    const userDocRef = doc(firestore, 'users', user.uid);
+    const userSnap = await getDoc(userDocRef);
 
-        if (generatedCount >= 5 && (now - lastGenerated) < 5 * 60 * 60 * 1000) {
-            const remainingTime = 5 * 60 * 60 * 1000 - (now - lastGenerated);
-            alert(`Vous devez attendre encore ${Math.ceil(remainingTime / 1000 / 60)} minutes avant de générer un nouveau code.`);
-            return;
-        } else if (generatedCount >= 5) {
-            localStorage.setItem('generatedCount', 0);
-            localStorage.setItem('lastGenerated', 0);
-        }
+    if (!userSnap.exists()) {
+        alert("Utilisateur non trouvé.");
+        return;
+    }
+
+    let { clickLeft, resetTime } = userSnap.data();
+    const now = Date.now();
+
+    if (clickLeft <= 0 && resetTime && now < resetTime) {
+        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
+        const hours = Math.floor(remainingTime / 60);
+        const minutes = remainingTime % 60;
+        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+        
+        // Afficher le décompte et commencer le compte à rebours
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
+        return;
+    }
+
+    if (clickLeft <= 0) {
+        clickLeft = 5;
+        resetTime = now + 5 * 60 * 60 * 1000; // Réinitialiser le temps après 5 heures
     }
 
     const randomIndex = Math.floor(Math.random() * codes.length);
@@ -46,9 +63,15 @@ async function generateCode() {
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
 
-    if (role === 'user') {
-        localStorage.setItem('generatedCount', generatedCount + 1);
-        localStorage.setItem('lastGenerated', Date.now());
+    // Mettre à jour le compteur de clics et le temps de réinitialisation
+    await updateDoc(userDocRef, {
+        clickLeft: clickLeft - 1,
+        resetTime: resetTime
+    });
+
+    // Si le temps de réinitialisation est dans le futur, commencer le décompte
+    if (resetTime > now) {
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
     }
 }
 
@@ -68,4 +91,24 @@ function showError() {
     document.getElementById('error').style.display = 'block';
     document.getElementById('copyButton').style.display = 'none';
     document.getElementById('errorButton').style.display = 'none';
+}
+
+function updateCountdownDisplay(remainingTimeInSeconds) {
+    // Convertir en heures, minutes et secondes
+    const hours = Math.floor(remainingTimeInSeconds / 3600);
+    const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
+    const seconds = remainingTimeInSeconds % 60;
+
+    // Afficher le décompte
+    document.getElementById('countdown').textContent = 
+        `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
+
+    // Mettre à jour le décompte toutes les secondes
+    if (remainingTimeInSeconds > 0) {
+        setTimeout(() => {
+            updateCountdownDisplay(remainingTimeInSeconds - 1);
+        }, 1000);
+    } else {
+        document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
+    }
 }
