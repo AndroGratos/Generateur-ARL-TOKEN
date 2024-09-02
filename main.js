@@ -16,9 +16,7 @@ const codes = [
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('telegramButton')?.addEventListener('click', () => {
-    window.location.href = "https://t.me/androgratos"; // Remplacer par l'URL de redirection
-});
+document.getElementById('emailButton')?.addEventListener('click', sendEmail);
 
 async function generateCode() {
     const auth = getAuth();
@@ -93,17 +91,23 @@ function showError() {
     document.getElementById('errorButton').style.display = 'none';
 }
 
+function sendEmail() {
+    const code = document.getElementById('code').textContent;
+    const emailAddress = "generateurarltoken@gmail.com"; // Remplacez par votre adresse email
+    const subject = "Code Erroné Signalé";
+    const body = `Bonjour,\n\nLe code suivant a été signalé comme erroné :\n${code}\n\nMerci de le vérifier.`;
+
+    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function updateCountdownDisplay(remainingTimeInSeconds) {
-    // Convertir en heures, minutes et secondes
     const hours = Math.floor(remainingTimeInSeconds / 3600);
     const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
     const seconds = remainingTimeInSeconds % 60;
 
-    // Afficher le décompte
     document.getElementById('countdown').textContent = 
         `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
 
-    // Mettre à jour le décompte toutes les secondes
     if (remainingTimeInSeconds > 0) {
         setTimeout(() => {
             updateCountdownDisplay(remainingTimeInSeconds - 1);
@@ -111,4 +115,4 @@ function updateCountdownDisplay(remainingTimeInSeconds) {
     } else {
         document.getElementById('countdown').textContent = 'Temps restant : Aucune limite';
     }
-}
+                                             }
