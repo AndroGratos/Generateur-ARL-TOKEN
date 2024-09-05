@@ -25,7 +25,7 @@ body {
     margin-bottom: 20px;
 }
 
-#loginPage input[type="email"],
+#loginPage input[type="text"],
 #loginPage input[type="password"],
 #signupPage input[type="text"],
 #signupPage input[type="email"],
