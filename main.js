@@ -18,6 +18,8 @@ document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
 document.getElementById('emailButton')?.addEventListener('click', sendEmail);
 
+document.getElementById('countdown').style.display = 'none'; // Masquer au début
+
 async function generateCode() {
     const auth = getAuth();
     const firestore = getFirestore();
@@ -39,17 +41,23 @@ async function generateCode() {
     let { clickLeft, resetTime } = userSnap.data();
     const now = Date.now();
 
-    // Masquer le texte "Temps restant" tant que l'utilisateur a des clics restants
-    document.getElementById('countdown').style.display = 'none';
-
-    // Si aucun clic restant et que le temps de réinitialisation est encore valide
+    // L'utilisateur est bloqué
     if (clickLeft <= 0 && resetTime && now < resetTime) {
-        const remainingTime = Math.ceil((resetTime - now) / 1000); // Temps restant en secondes
-        updateCountdownDisplay(remainingTime); // Afficher le décompte
+        const remainingTime = Math.ceil((resetTime - now) / (1000 * 60)); // Temps restant en minutes
+        const hours = Math.floor(remainingTime / 60);
+        const minutes = remainingTime % 60;
+
+        // Afficher la notification
+        alert(`Vous devez attendre encore ${hours} heure(s) et ${minutes} minute(s) avant de pouvoir générer un nouveau code.`);
+
+        // Afficher le décompte après la notification
+        document.getElementById('countdown').style.display = 'block'; // Afficher le texte
+
+        // Mettre à jour l'affichage du compte à rebours
+        updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
         return;
     }
 
-    // Réinitialiser les clics et définir le temps de réinitialisation si le temps est expiré
     if (clickLeft <= 0) {
         clickLeft = 5;
         resetTime = now + 5 * 60 * 60 * 1000; // Réinitialiser le temps après 5 heures
@@ -67,8 +75,8 @@ async function generateCode() {
         resetTime: resetTime
     });
 
-    // Masquer le décompte, sauf si tous les clics sont épuisés
-    if (clickLeft - 1 <= 0 && resetTime > now) {
+    // Si le temps de réinitialisation est dans le futur, commencer le décompte
+    if (resetTime > now) {
         updateCountdownDisplay(Math.ceil((resetTime - now) / 1000));
     }
 }
@@ -79,10 +87,6 @@ function copyCode() {
         document.getElementById('notification').style.display = 'block';
         setTimeout(() => {
             document.getElementById('notification').style.display = 'none';
-            const countdownText = document.getElementById('countdown').textContent;
-            if (countdownText.includes('Temps restant')) {
-                document.getElementById('countdown').style.display = 'block';
-            }
         }, 2000);
     }).catch((error) => {
         console.error('Erreur lors de la copie:', error);
@@ -104,20 +108,23 @@ function sendEmail() {
     window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-function updateCountdownDisplay(remainingTimeInSeconds) {
-    const hours = Math.floor(remainingTimeInSeconds / 3600);
-    const minutes = Math.floor((remainingTimeInSeconds % 3600) / 60);
-    const seconds = remainingTimeInSeconds % 60;
+function updateCountdownDisplay(remainingSeconds) {
+    const countdownElement = document.getElementById('countdown');
 
-    document.getElementById('countdown').textContent = 
-        `Temps restant : ${hours} heure(s) ${minutes} minute(s) ${seconds} seconde(s)`;
+    // Mettre à jour le compte à rebours toutes les secondes
+    const interval = setInterval(() => {
+        if (remainingSeconds <= 0) {
+            clearInterval(interval);
+            countdownElement.textContent = ''; // Vider le texte une fois le temps écoulé
+            document.getElementById('countdown').style.display = 'none'; // Masquer l'élément
+        } else {
+            const hours = Math.floor(remainingSeconds / 3600);
+            const minutes = Math.floor((remainingSeconds % 3600) / 60);
+            const seconds = remainingSeconds % 60;
 
-    // Afficher le décompte seulement s'il n'y a plus de clics disponibles
-    document.getElementById('countdown').style.display = 'block';
+            countdownElement.textContent = `Temps restant: ${hours}h ${minutes}m ${seconds}s`;
 
-    if (remainingTimeInSeconds > 0) {
-        setTimeout(() => {
-            updateCountdownDisplay(remainingTimeInSeconds - 1);
-        }, 1000);
-    }
-}
+            remainingSeconds--;
+        }
+    }, 1000);
+            }
