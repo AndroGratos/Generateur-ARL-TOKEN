@@ -55,6 +55,7 @@ document.getElementById('loginButton')?.addEventListener('click', (e) => {
 // Fonction de création de compte
 document.getElementById('signupButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
+    const identifier = document.getElementById('signupIdentifier').value;
     const email = document.getElementById('signupEmail').value;
     const password = document.getElementById('signupPassword').value;
 
@@ -64,6 +65,7 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
 
         // Ajouter l'utilisateur à la collection "users" avec les paramètres clickLeft et resetTime
         await setDoc(doc(db, "users", user.uid), {
+            identifier: identifier,   // Ajouter l'identifiant
             email: email,
             role: "user",
             clickLeft: 5,          // Nombre de clics restants
