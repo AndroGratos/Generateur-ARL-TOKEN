@@ -10,9 +10,8 @@ body {
 }
 
 /* Styles communs pour les pages de connexion et de création de compte */
-#loginPage, #signupPage {
+#loginPage, #signupPage, #mainPage {
     background-color: #ffffff;
-    border: 2px solid #00796b;
     border-radius: 20px;
     padding: 30px;
     max-width: 350px;
@@ -21,59 +20,138 @@ body {
     text-align: center;
 }
 
-/* Couleurs des titres */
-#loginPage h1, #signupPage h1 {
-    color: #00796b;
-    margin-bottom: 20px;
-}
-
-/* Styles des champs d'entrée */
-#loginPage input[type="email"], #loginPage input[type="password"],
-#signupPage input[type="text"], #signupPage input[type="email"], #signupPage input[type="password"] {
-    padding: 12px;
+/* Page de connexion */
+#loginPage {
     border: 2px solid #00796b;
-    border-radius: 10px;
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
-/* Styles des espaces réservés */
-#loginPage input::placeholder, #signupPage input::placeholder {
-    color: #888;
-    font-size: 16px;
+#loginPage h1 {
+    color: #00796b;
 }
 
-/* Styles des boutons */
-#loginPage button, #signupPage button {
+#loginPage input[type="email"],
+#loginPage input[type="password"] {
+    border: 2px solid #00796b;
+}
+
+#loginPage button {
+    background-color: #00796b;
+}
+
+#loginPage button:hover {
+    background-color: #004d40;
+}
+
+#loginPage a {
+    color: #00796b;
+}
+
+/* Page de création de compte */
+#signupPage {
+    border: 2px solid #0277bd;
+    background-color: #e3f2fd;
+}
+
+#signupPage h1 {
+    color: #0277bd;
+}
+
+#signupPage input[type="email"],
+#signupPage input[type="password"] {
+    border: 2px solid #0277bd;
+}
+
+#signupPage button {
+    background-color: #0277bd;
+}
+
+#signupPage button:hover {
+    background-color: #01579b;
+}
+
+#signupPage a {
+    color: #0277bd;
+}
+
+/* Page principale */
+#mainPage {
+    border: 2px solid #3949ab;
+    background-color: #f5f5f5;
+}
+
+#mainPage h1 {
+    color: #3949ab;
+}
+
+#codeBox {
+    border: 2px solid #3949ab;
+    background-color: #e8eaf6;
+}
+
+#code {
+    color: #1a237e;
+}
+
+#notification {
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+    display: none; /* Initialement caché */
+}
+
+/* Styles communs pour les boutons */
+button {
     padding: 12px;
     font-size: 18px;
-    background-color: #00796b;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     width: 100%;
-}
-
-/* Styles au survol des boutons */
-#loginPage button:hover, #signupPage button:hover {
-    background-color: #004d40;
-    transform: scale(1.05);
-}
-
-/* Styles des paragraphes et liens */
-#loginPage p, #signupPage p {
     margin-top: 15px;
 }
 
-#loginPage a, #signupPage a {
-    color: #00796b;
-    text-decoration: none;
-    font-weight: bold;
+button:hover {
+    transform: scale(1.05);
 }
 
-#loginPage a:hover, #signupPage a:hover {
-    text-decoration: underline;
+/* Style des boutons spécifiques */
+#logoutButton, #errorButton {
+    background-color: #d32f2f;
+}
+
+#logoutButton:hover, #errorButton:hover {
+    background-color: #b71c1c;
+}
+
+/* Styles spécifiques pour les pages */
+#loginPage button {
+    background-color: #00796b;
+}
+
+#loginPage button:hover {
+    background-color: #004d40;
+}
+
+#signupPage button {
+    background-color: #0277bd;
+}
+
+#signupPage button:hover {
+    background-color: #01579b;
+}
+
+#loginPage a {
+    color: #00796b;
+}
+
+#signupPage a {
+    color: #0277bd;
 }
