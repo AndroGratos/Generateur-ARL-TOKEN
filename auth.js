@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -37,19 +37,31 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // Fonction de connexion
-document.getElementById('loginButton')?.addEventListener('click', (e) => {
+document.getElementById('loginButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
-    const email = document.getElementById('email').value;
+    const identifier = document.getElementById('identifier').value;
     const password = document.getElementById('password').value;
 
-    signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-            window.location.href = 'index.html';
-        })
-        .catch((error) => {
-            console.error('Erreur de connexion:', error.message);
-            alert('Connexion échouée: ' + error.message);
-        });
+    try {
+        // Trouver l'utilisateur par identifiant
+        const usersCollection = collection(db, 'users');
+        const userQuery = query(usersCollection, where('identifier', '==', identifier));
+        const userSnapshot = await getDocs(userQuery);
+
+        if (userSnapshot.empty) {
+            throw new Error('Identifiant incorrect.');
+        }
+
+        const userDoc = userSnapshot.docs[0].data();
+        const email = userDoc.email; // Obtenir l'email à partir des données utilisateur
+
+        // Connexion avec l'email et le mot de passe
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = 'index.html';
+    } catch (error) {
+        console.error('Erreur de connexion:', error.message);
+        alert('Connexion échouée: ' + error.message);
+    }
 });
 
 // Fonction de création de compte
