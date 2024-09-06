@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
@@ -24,8 +24,7 @@ onAuthStateChanged(auth, async (user) => {
         const userSnap = await getDoc(userDoc);
 
         if (userSnap.exists()) {
-            const data = userSnap.data();
-            if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html') {
+            if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
                 window.location.href = 'index.html';
             }
         }
@@ -43,7 +42,6 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
     const password = document.getElementById('password').value;
 
     try {
-        // Trouver l'utilisateur par identifiant
         const usersCollection = collection(db, 'users');
         const userQuery = query(usersCollection, where('identifier', '==', identifier));
         const userSnapshot = await getDocs(userQuery);
@@ -53,9 +51,8 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
         }
 
         const userDoc = userSnapshot.docs[0].data();
-        const email = userDoc.email; // Obtenir l'email à partir des données utilisateur
+        const email = userDoc.email;
 
-        // Connexion avec l'email et le mot de passe
         await signInWithEmailAndPassword(auth, email, password);
         window.location.href = 'index.html';
     } catch (error) {
@@ -75,13 +72,12 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Ajouter l'utilisateur à la collection "users" avec les paramètres clickLeft et resetTime
         await setDoc(doc(db, "users", user.uid), {
-            identifier: identifier,   // Ajouter l'identifiant
+            identifier: identifier,
             email: email,
             role: "user",
-            clickLeft: 5,          // Nombre de clics restants
-            resetTime: null        // Temps de réinitialisation
+            clickLeft: 5,
+            resetTime: null
         });
 
         window.location.href = 'index.html';
@@ -100,4 +96,18 @@ document.getElementById('logoutButton')?.addEventListener('click', () => {
         .catch((error) => {
             console.error('Erreur de déconnexion:', error.message);
         });
+});
+
+// Fonction de réinitialisation du mot de passe
+document.getElementById('resetButton')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('resetEmail').value;
+
+    try {
+        await sendPasswordResetEmail(auth, email);
+        alert('Email de réinitialisation envoyé !');
+    } catch (error) {
+        console.error('Erreur d\'envoi de l\'email de réinitialisation:', error.message);
+        alert('Erreur d\'envoi de l\'email de réinitialisation: ' + error.message);
+    }
 });
