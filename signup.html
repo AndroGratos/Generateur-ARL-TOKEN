@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Création de Compte</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-container input {
+            width: calc(100% - 30px); /* Pour laisser de la place à l'icône */
+        }
+        .password-container span {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="signupPage">
@@ -13,7 +29,13 @@
         <div id="signupForm">
             <input type="text" id="signupIdentifier" placeholder="Identifiant" required>
             <input type="email" id="signupEmail" placeholder="Adresse e-mail" required>
-            <input type="password" id="signupPassword" placeholder="Mot de passe" required>
+
+            <!-- Champ de mot de passe avec icône à l'intérieur -->
+            <div class="password-container">
+                <input type="password" id="signupPassword" placeholder="Mot de passe" required>
+                <span id="toggleSignupPassword">🙈</span>
+            </div>
+
             <button id="signupButton">Créer un compte</button>
             <p>Déjà un compte ? <a href="login.html">Se connecter</a></p>
         </div>
