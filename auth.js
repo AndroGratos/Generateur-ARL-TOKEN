@@ -17,61 +17,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Vérification de l'état de connexion
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        const userDoc = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userDoc);
-
-        if (userSnap.exists()) {
-            // Vérifie si l'utilisateur a accès à la page principale
-            if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
-                window.location.href = 'index.html';
-            }
-        }
-    } else {
-        // Redirection vers la page de connexion si l'utilisateur est non authentifié
-        if (window.location.pathname === '/index.html') {
-            window.location.href = 'login.html';
-        }
-    }
-});
-
-// Fonction de connexion
-document.getElementById('loginButton')?.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const identifier = document.getElementById('identifier').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        const usersCollection = collection(db, 'users');
-        const userQuery = query(usersCollection, where('identifier', '==', identifier));
-        const userSnapshot = await getDocs(userQuery);
-
-        if (userSnapshot.empty) {
-            throw new Error('Identifiant incorrect.');
-        }
-
-        const userDoc = userSnapshot.docs[0].data();
-        const email = userDoc.email;
-
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Vérifie si l'email est vérifié
-        if (user.emailVerified) {
-            window.location.href = 'index.html';
-        } else {
-            alert("Veuillez vérifier votre adresse e-mail pour pouvoir accéder au générateur.");
-            // Redirection vers la page de connexion si l'email n'est pas vérifié
-            window.location.href = 'login.html';
-        }
-    } catch (error) {
-        console.error('Erreur de connexion:', error.message);
-        alert('Connexion échouée: ' + error.message);
-    }
-});
-
 // Fonction de création de compte
 document.getElementById('signupButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -104,6 +49,40 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
     }
 });
 
+// Fonction de connexion
+document.getElementById('loginButton')?.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const identifier = document.getElementById('identifier').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const usersCollection = collection(db, 'users');
+        const userQuery = query(usersCollection, where('identifier', '==', identifier));
+        const userSnapshot = await getDocs(userQuery);
+
+        if (userSnapshot.empty) {
+            throw new Error('Identifiant incorrect.');
+        }
+
+        const userDoc = userSnapshot.docs[0].data();
+        const email = userDoc.email;
+
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Vérifie si l'email est vérifié
+        if (user.emailVerified) {
+            window.location.href = 'index.html';
+        } else {
+            alert("Veuillez vérifier votre adresse e-mail pour vous connecter.");
+            window.location.href = 'login.html';
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error.message);
+        alert('Connexion échouée: ' + error.message);
+    }
+});
+
 // Fonction de déconnexion
 document.getElementById('logoutButton')?.addEventListener('click', () => {
     signOut(auth)
@@ -126,5 +105,35 @@ document.getElementById('resetButton')?.addEventListener('click', async (e) => {
     } catch (error) {
         console.error('Erreur d\'envoi de l\'email de réinitialisation:', error.message);
         alert('Erreur d\'envoi de l\'email de réinitialisation: ' + error.message);
+    }
+});
+
+// Vérification de l'état de connexion pour gérer les redirections
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        const userDoc = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDoc);
+
+        if (userSnap.exists()) {
+            const isEmailVerified = user.emailVerified;
+
+            // Contrôle d'accès pour index.html
+            if (window.location.pathname === '/index.html') {
+                if (!isEmailVerified) {
+                    // Redirection vers la page de connexion si l'email n'est pas vérifié
+                    window.location.href = 'login.html';
+                }
+            } else if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
+                // Redirection vers index.html pour les pages d'inscription et de connexion si l'utilisateur est déjà connecté
+                if (isEmailVerified) {
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+    } else {
+        // Redirection vers la page de connexion si l'utilisateur est non authentifié
+        if (window.location.pathname === '/index.html') {
+            window.location.href = 'login.html';
+        }
     }
 });
