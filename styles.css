@@ -39,25 +39,29 @@ body {
 #signupPage input[type="text"],
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
-    padding: 12px;
+    padding: 12px 40px 12px 12px; /* Ajuste le padding pour laisser de l'espace pour le bouton */
     border: 2px solid #00796b; /* Couleur pour les champs de texte */
     border-radius: 10px;
     font-size: 16px;
     width: 100%; /* Largeur complète du conteneur */
     box-sizing: border-box;
     margin-top: 10px;
+    position: relative; /* Nécessaire pour le bouton à l'intérieur */
 }
 
 /* Style pour le bouton d'affichage/masquage du mot de passe */
 .password-toggle {
+    position: absolute;
+    right: 10px; /* Espacement à droite */
+    top: 50%;
+    transform: translateY(-50%); /* Alignement vertical centré */
     background: none;
     border: none;
     cursor: pointer;
     font-size: 18px; /* Ajustez la taille du bouton si nécessaire */
     color: #00796b; /* Couleur du bouton */
-    margin-left: -40px; /* Ajustez cet espace pour qu'il soit bien aligné */
-    z-index: 10; /* Assurez-vous que le bouton est au-dessus du champ de texte */
     padding: 0;
+    z-index: 10; /* Assurez-vous que le bouton est au-dessus du champ de texte */
 }
 
 /* Style pour le bouton d'affichage/masquage du mot de passe à l'intérieur du champ */
