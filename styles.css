@@ -54,7 +54,7 @@ body {
     position: absolute;
     right: 10px; /* Espacement à droite */
     top: 50%;
-    transform: translateY(-50%); /* Alignement vertical centré */
+    transform: translateY(-50%) translateY(2px); /* Ajuste verticalement pour aligner le bouton avec le texte */
     background: none;
     border: none;
     cursor: pointer;
