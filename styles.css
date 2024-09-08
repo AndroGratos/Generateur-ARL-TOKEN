@@ -25,28 +25,27 @@ body {
     margin-bottom: 20px;
 }
 
-/* Conteneur pour les champs de texte et les boutons */
+/* Conteneur pour les champs de texte avec le bouton d'affichage/masquage du mot de passe à l'intérieur */
 .input-container {
-    display: flex;
-    align-items: center; /* Aligner verticalement le bouton avec le champ de texte */
     position: relative;
+    display: flex;
+    align-items: center;
     width: 100%;
 }
 
-/* Style des champs de texte avec le bouton d'affichage/masquage du mot de passe à côté */
+/* Style des champs de texte */
 #loginPage input[type="text"],
 #loginPage input[type="password"],
 #signupPage input[type="text"],
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
-    padding: 12px 40px 12px 12px; /* Ajuste le padding pour laisser de l'espace pour le bouton */
+    padding: 12px 40px 12px 12px; /* Ajuste le padding pour laisser de la place pour le bouton */
     border: 2px solid #00796b; /* Couleur pour les champs de texte */
     border-radius: 10px;
     font-size: 16px;
     width: 100%; /* Largeur complète du conteneur */
     box-sizing: border-box;
     margin-top: 10px;
-    position: relative; /* Nécessaire pour le bouton à l'intérieur */
 }
 
 /* Style pour le bouton d'affichage/masquage du mot de passe */
@@ -54,7 +53,7 @@ body {
     position: absolute;
     right: 10px; /* Espacement à droite */
     top: 50%;
-    transform: translateY(-50%) translateY(2px); /* Ajuste verticalement pour aligner le bouton avec le texte */
+    transform: translateY(-50%); /* Centre verticalement */
     background: none;
     border: none;
     cursor: pointer;
