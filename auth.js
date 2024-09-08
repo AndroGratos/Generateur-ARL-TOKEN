@@ -108,6 +108,38 @@ document.getElementById('resetButton')?.addEventListener('click', async (e) => {
     }
 });
 
+// Fonction pour afficher ou cacher le mot de passe (connexion)
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById('password');
+    const togglePasswordIcon = document.getElementById('togglePassword');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        togglePasswordIcon.textContent = '🐵'; // Changer l'icône
+    } else {
+        passwordField.type = 'password';
+        togglePasswordIcon.textContent = '🙈'; // Revenir à l'icône de départ
+    }
+}
+
+// Fonction pour afficher ou cacher le mot de passe (création de compte)
+function toggleSignupPasswordVisibility() {
+    const passwordField = document.getElementById('signupPassword');
+    const togglePasswordIcon = document.getElementById('toggleSignupPassword');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        togglePasswordIcon.textContent = '🐵'; // Changer l'icône
+    } else {
+        passwordField.type = 'password';
+        togglePasswordIcon.textContent = '🙈'; // Revenir à l'icône de départ
+    }
+}
+
+// Écouteurs pour les événements de clic sur les icônes
+document.getElementById('togglePassword')?.addEventListener('click', togglePasswordVisibility);
+document.getElementById('toggleSignupPassword')?.addEventListener('click', toggleSignupPasswordVisibility);
+
 // Vérification de l'état de connexion pour gérer les redirections
 onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -123,17 +155,4 @@ onAuthStateChanged(auth, async (user) => {
                     // Redirection vers la page de connexion si l'email n'est pas vérifié
                     window.location.href = 'login.html';
                 }
-            } else if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
-                // Redirection vers index.html pour les pages d'inscription et de connexion si l'utilisateur est déjà connecté
-                if (isEmailVerified) {
-                    window.location.href = 'index.html';
-                }
-            }
-        }
-    } else {
-        // Redirection vers la page de connexion si l'utilisateur est non authentifié
-        if (window.location.pathname === '/index.html') {
-            window.location.href = 'login.html';
-        }
-    }
-});
+            
