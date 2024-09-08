@@ -11,7 +11,13 @@
         <h1>Connexion</h1>
         <form>
             <input type="text" id="identifier" placeholder="Identifiant" required>
-            <input type="password" id="password" placeholder="Mot de passe" required>
+            
+            <!-- Champ de mot de passe avec icône pour afficher/cacher -->
+            <div>
+                <input type="password" id="password" placeholder="Mot de passe" required>
+                <span id="togglePassword" style="cursor: pointer;">🙈</span>
+            </div>
+
             <button id="loginButton">Connexion</button>
             <p>Pas encore de compte ? <a href="signup.html">Créer un compte</a></p>
             <p><a href="password-reset.html">Mot de passe oublié ?</a></p>
