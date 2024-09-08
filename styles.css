@@ -46,20 +46,21 @@ body {
     width: 100%; /* Largeur complète du conteneur */
     box-sizing: border-box;
     margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 
 /* Style pour le bouton d'affichage/masquage du mot de passe */
 .password-toggle {
     position: absolute;
-    right: 10px; /* Espacement à droite */
-    top: 50%;
-    transform: translateY(-50%); /* Centre verticalement */
+    right: 12px; /* Ajuste l'espacement à droite pour mieux s'adapter à l'intérieur du champ */
+    display: flex;
+    align-items: center; /* Centre verticalement */
+    font-size: 18px; /* Ajustez la taille du bouton si nécessaire */
+    color: #00796b; /* Couleur du bouton */
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px; /* Ajustez la taille du bouton si nécessaire */
-    color: #00796b; /* Couleur du bouton */
-    padding: 0;
     z-index: 10; /* Assurez-vous que le bouton est au-dessus du champ de texte */
 }
 
