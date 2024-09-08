@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-container input {
+            width: calc(100% - 30px); /* Pour laisser de la place à l'icône */
+        }
+        .password-container span {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <div id="loginPage">
@@ -12,10 +28,10 @@
         <form>
             <input type="text" id="identifier" placeholder="Identifiant" required>
             
-            <!-- Champ de mot de passe avec icône pour afficher/cacher -->
-            <div>
+            <!-- Champ de mot de passe avec icône à l'intérieur -->
+            <div class="password-container">
                 <input type="password" id="password" placeholder="Mot de passe" required>
-                <span id="togglePassword" style="cursor: pointer;">🙈</span>
+                <span id="togglePassword">🙈</span>
             </div>
 
             <button id="loginButton">Connexion</button>
