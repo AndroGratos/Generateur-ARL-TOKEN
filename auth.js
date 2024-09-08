@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 // Configuration Firebase
 const firebaseConfig = {
@@ -24,11 +24,13 @@ onAuthStateChanged(auth, async (user) => {
         const userSnap = await getDoc(userDoc);
 
         if (userSnap.exists()) {
+            // Vérifie si l'utilisateur a accès à la page principale
             if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
                 window.location.href = 'index.html';
             }
         }
     } else {
+        // Redirection vers la page de connexion si l'utilisateur est non authentifié
         if (window.location.pathname === '/index.html') {
             window.location.href = 'login.html';
         }
@@ -53,8 +55,17 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
         const userDoc = userSnapshot.docs[0].data();
         const email = userDoc.email;
 
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = 'index.html';
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // Vérifie si l'email est vérifié
+        if (user.emailVerified) {
+            window.location.href = 'index.html';
+        } else {
+            alert("Veuillez vérifier votre adresse e-mail pour pouvoir accéder au générateur.");
+            // Redirection vers la page de connexion si l'email n'est pas vérifié
+            window.location.href = 'login.html';
+        }
     } catch (error) {
         console.error('Erreur de connexion:', error.message);
         alert('Connexion échouée: ' + error.message);
@@ -72,6 +83,11 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
+        // Envoi de l'e-mail de vérification
+        await sendEmailVerification(user);
+        alert("Un e-mail de vérification a été envoyé. Veuillez vérifier votre boîte de réception.");
+
+        // Sauvegarde des infos utilisateur dans Firestore
         await setDoc(doc(db, "users", user.uid), {
             identifier: identifier,
             email: email,
@@ -80,7 +96,8 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
             resetTime: null
         });
 
-        window.location.href = 'index.html';
+        // Redirection vers la page de connexion après l'inscription
+        window.location.href = 'login.html';
     } catch (error) {
         console.error('Erreur de création de compte:', error.message);
         alert('Création de compte échouée: ' + error.message);
