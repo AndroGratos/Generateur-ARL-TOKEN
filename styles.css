@@ -21,7 +21,7 @@ body {
 }
 
 #loginPage h1, #signupPage h1 {
-    color: #00796b; /* Couleur pour la connexion, mettez à jour si nécessaire */
+    color: #00796b; /* Couleur pour la connexion */
     margin-bottom: 20px;
 }
 
@@ -62,13 +62,6 @@ body {
     border: none;
     cursor: pointer;
     z-index: 10; /* Assurez-vous que le bouton est au-dessus du champ de texte */
-}
-
-/* Style pour le bouton d'affichage/masquage du mot de passe à l'intérieur du champ */
-#loginPage input::placeholder,
-#signupPage input::placeholder {
-    color: #888;
-    font-size: 16px;
 }
 
 /* Style pour le bouton de connexion et de création de compte */
@@ -119,8 +112,37 @@ body {
     text-align: center;
     max-width: 400px;
     width: 100%;
+    position: relative; /* Ajouté pour positionner les boutons */
 }
 
+/* Style pour les boutons de déconnexion et de paramètres */
+#logoutButton, #settingsButton {
+    width: 50px; /* Taille du bouton */
+    height: 50px; /* Taille du bouton */
+    border-radius: 50%; /* Rond */
+    position: absolute;
+    top: -100px; /* Monté au-dessus de la boîte */
+}
+
+#logoutButton {
+    background-color: #d32f2f;
+    right: 20px; /* À droite */
+}
+
+#logoutButton:hover {
+    background-color: #b71c1c;
+}
+
+#settingsButton {
+    background-color: #00796b; /* Couleur pour le bouton paramètres */
+    left: 20px; /* À gauche */
+}
+
+#settingsButton:hover {
+    background-color: #004d40;
+}
+
+/* Styles pour le contenu de la boîte principale */
 #mainPage h1 {
     color: #3949ab;
     margin-bottom: 20px;
@@ -173,21 +195,6 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Style du bouton Déconnexion */
-#logoutButton {
-    background-color: #d32f2f;
-    margin-top: 20px;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: auto;
-    padding: 10px 20px;
-}
-
-#logoutButton:hover {
-    background-color: #b71c1c;
-}
-
 /* Style du bouton Code Erroné */
 #errorButton {
     background-color: #d32f2f;
@@ -195,4 +202,41 @@ button:hover {
 
 #errorButton:hover {
     background-color: #b71c1c;
+}
+
+/* Style de la modal des paramètres */
+.modal {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
