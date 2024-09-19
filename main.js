@@ -7,7 +7,12 @@ document.getElementById('generateButton')?.addEventListener('click', generateCod
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
 document.getElementById('errorButton')?.addEventListener('click', showError);
 document.getElementById('emailButton')?.addEventListener('click', sendEmail);
+document.getElementById('settingsButton')?.addEventListener('click', openSettings);
+document.getElementById('saveButton')?.addEventListener('click', saveSettings);
 document.getElementById('countdown').style.display = 'none';
+
+// Nouveau gestionnaire pour le texte cliquable
+document.getElementById('toggleColorSettings')?.addEventListener('click', toggleColorSettings);
 
 async function loadCodes() {
     const firestore = getFirestore();
@@ -99,3 +104,21 @@ function updateCountdownDisplay(remainingSeconds) {
         }
     }, 1000);
 }
+
+function openSettings() {
+    document.getElementById('settingsModal').style.display = 'block';
+}
+
+function saveSettings() {
+    const color = document.getElementById('color').value;
+    document.body.style.backgroundColor = color; // Exemple pour changer le fond
+}
+
+function toggleColorSettings() {
+    const colorSettings = document.getElementById('colorSettings');
+    colorSettings.style.display = colorSettings.style.display === 'none' ? 'block' : 'none';
+}
+
+document.querySelector('.close-button').addEventListener('click', () => {
+    document.getElementById('settingsModal').style.display = 'none';
+});
