@@ -10,7 +10,8 @@
 </head>
 <body>
     <div id="mainPage">
-        <button id="logoutButton">Déconnexion</button>
+        <button id="logoutButton">✖️</button>
+        <button id="settingsButton">⚙️</button>
         <h1 id="welcomeMessage">Bienvenue</h1>
         <button id="generateButton">Générer un ARL Token</button>
         <div id="codeBox">
@@ -23,6 +24,23 @@
         <div id="error" style="display:none;">
             <p>Code incorrect ! Veuillez nous le signaler</p>
             <button id="emailButton">Envoyer un Email</button>
+        </div>
+    </div>
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Paramètres</h2>
+            <p id="toggleColorSettings" style="cursor: pointer; color: blue;">Modifier les couleurs</p>
+            <div id="colorSettings" style="display: none;">
+                <h3>Choisissez les couleurs pour les pages :</h3>
+                <div>
+                    <input type="radio" name="page" value="main"> Page principale
+                    <input type="radio" name="page" value="login"> Page de connexion
+                </div>
+                <label for="color">Choisir la couleur :</label>
+                <input type="color" id="color" name="color">
+                <button id="saveButton">Sauvegarder</button>
+            </div>
         </div>
     </div>
 </body>
