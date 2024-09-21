@@ -1,1 +1,242 @@
-body{font-family:Arial,sans-serif;margin:0;height:100vh;display:flex;justify-content:center;align-items:center;background-color:#f4f4f4;}#loginPage,#signupPage{background-color:#ffffff;border-radius:20px;padding:30px;max-width:350px;width:100%;box-shadow:04px8pxrgba(0,0,0,0.2);text-align:center;}#loginPageh1,#signupPageh1{color:#00796b;margin-bottom:20px;}.input-container{position:relative;display:flex;align-items:center;width:100%;}#loginPageinput[type="text"],#loginPageinput[type="password"],#signupPageinput[type="text"],#signupPageinput[type="email"],#signupPageinput[type="password"]{padding:12px40px12px12px;border:2pxsolid#00796b;border-radius:10px;font-size:16px;width:100%;box-sizing:border-box;margin-top:10px;display:flex;align-items:center;}.password-toggle{position:absolute;right:12px;display:flex;align-items:center;font-size:18px;color:#00796b;background:none;border:none;cursor:pointer;z-index:10;}#loginPagebutton,#signupPagebutton{padding:12px;font-size:18px;background-color:#00796b;color:white;border:none;border-radius:10px;cursor:pointer;transition:background-color0.3s,transform0.2s;width:calc(100%-24px);margin-top:10px;}#loginPagebutton:hover,#signupPagebutton:hover{background-color:#004d40;transform:scale(1.05);}#loginPagep,#signupPagep{margin-top:15px;}#loginPagea,#signupPagea{color:#00796b;text-decoration:none;font-weight:bold;}#loginPagea:hover,#signupPagea:hover{text-decoration:underline;}#mainPage{background-color:#f5f5f5;border:2pxsolid#3949ab;padding:30px;border-radius:20px;box-shadow:04px8pxrgba(0,0,0,0.2);text-align:center;max-width:400px;width:100%;position:relative;}#logoutButton,#settingsButton{width:50px;height:50px;border-radius:50%;position:absolute;top:-100px;}#logoutButton{background-color:#d32f2f;right:20px;}#logoutButton:hover{background-color:#b71c1c;}#settingsButton{background-color:#00796b;left:20px;}#settingsButton:hover{background-color:#004d40;}#mainPageh1{color:#3949ab;margin-bottom:20px;}#codeBox{margin-top:20px;padding:10px;border:2pxsolid#3949ab;border-radius:10px;background-color:#e8eaf6;word-wrap:break-word;}#code{font-family:monospace;overflow-wrap:break-word;color:#1a237e;}#notification{color:green;font-weight:bold;margin-top:20px;}#error{color:red;font-weight:bold;margin-top:20px;display:none;}button{padding:12px;font-size:18px;background-color:#3949ab;color:white;border:none;border-radius:10px;cursor:pointer;transition:background-color0.3s,transform0.2s;width:calc(100%-24px);margin-top:15px;}button:hover{background-color:#283593;transform:scale(1.05);}#errorButton{background-color:#d32f2f;}#errorButton:hover{background-color:#b71c1c;}.modal{display:none;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgb(0,0,0);background-color:rgba(0,0,0,0.4);}.modal-content{background-color:#fefefe;margin:15%auto;padding:20px;border:1pxsolid#888;width:80%;max-width:400px;}.close-button{color:#aaa;float:right;font-size:28px;font-weight:bold;}.close-button:hover,.close-button:focus{color:black;text-decoration:none;cursor:pointer;}
+/* Corps de la page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+}
+
+/* Page de connexion */
+#loginPage, #signupPage {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+#loginPage h1, #signupPage h1 {
+    color: #00796b; /* Couleur pour la connexion */
+    margin-bottom: 20px;
+}
+
+/* Conteneur pour les champs de texte avec le bouton d'affichage/masquage du mot de passe à l'intérieur */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Style des champs de texte */
+#loginPage input[type="text"],
+#loginPage input[type="password"],
+#signupPage input[type="text"],
+#signupPage input[type="email"],
+#signupPage input[type="password"] {
+    padding: 12px 40px 12px 12px; /* Ajuste le padding pour laisser de la place pour le bouton */
+    border: 2px solid #00796b; /* Couleur pour les champs de texte */
+    border-radius: 10px;
+    font-size: 16px;
+    width: 100%; /* Largeur complète du conteneur */
+    box-sizing: border-box;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Style pour le bouton d'affichage/masquage du mot de passe */
+.password-toggle {
+    position: absolute;
+    right: 12px; /* Ajuste l'espacement à droite pour mieux s'adapter à l'intérieur du champ */
+    display: flex;
+    align-items: center; /* Centre verticalement */
+    font-size: 18px; /* Ajustez la taille du bouton si nécessaire */
+    color: #00796b; /* Couleur du bouton */
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10; /* Assurez-vous que le bouton est au-dessus du champ de texte */
+}
+
+/* Style pour le bouton de connexion et de création de compte */
+#loginPage button,
+#signupPage button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #00796b; /* Couleur pour les boutons */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: calc(100% - 24px); /* Ajuster la largeur pour les marges */
+    margin-top: 10px;
+}
+
+#loginPage button:hover,
+#signupPage button:hover {
+    background-color: #004d40; /* Couleur pour les boutons au survol */
+    transform: scale(1.05);
+}
+
+#loginPage p,
+#signupPage p {
+    margin-top: 15px;
+}
+
+#loginPage a,
+#signupPage a {
+    color: #00796b; /* Couleur des liens */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#loginPage a:hover,
+#signupPage a:hover {
+    text-decoration: underline;
+}
+
+/* Page principale */
+#mainPage {
+    background-color: #f5f5f5;
+    border: 2px solid #3949ab;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    position: relative; /* Ajouté pour positionner les boutons */
+}
+
+/* Style pour les boutons de déconnexion et de paramètres */
+#logoutButton, #settingsButton {
+    width: 50px; /* Taille du bouton */
+    height: 50px; /* Taille du bouton */
+    border-radius: 50%; /* Rond */
+    position: absolute;
+    top: -100px; /* Monté au-dessus de la boîte */
+}
+
+#logoutButton {
+    background-color: #d32f2f;
+    right: 20px; /* À droite */
+}
+
+#logoutButton:hover {
+    background-color: #b71c1c;
+}
+
+#settingsButton {
+    background-color: #00796b; /* Couleur pour le bouton paramètres */
+    left: 20px; /* À gauche */
+}
+
+#settingsButton:hover {
+    background-color: #004d40;
+}
+
+/* Styles pour le contenu de la boîte principale */
+#mainPage h1 {
+    color: #3949ab;
+    margin-bottom: 20px;
+}
+
+#codeBox {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #3949ab;
+    border-radius: 10px;
+    background-color: #e8eaf6;
+    word-wrap: break-word;
+}
+
+#code {
+    font-family: monospace;
+    overflow-wrap: break-word;
+    color: #1a237e;
+}
+
+#notification {
+    color: green;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#error {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+    display: none; /* Initialement caché */
+}
+
+/* Style des boutons */
+button {
+    padding: 12px;
+    font-size: 18px;
+    background-color: #3949ab;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: calc(100% - 24px); /* Ajuster la largeur pour les marges */
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #283593;
+    transform: scale(1.05);
+}
+
+/* Style du bouton Code Erroné */
+#errorButton {
+    background-color: #d32f2f;
+}
+
+#errorButton:hover {
+    background-color: #b71c1c;
+}
+
+/* Style de la modal des paramètres */
+.modal {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
