@@ -84,6 +84,7 @@ body {
 #loginPage p,
 #signupPage p {
     margin-top: 15px;
+    color: #e0e0e0; /* Couleur du texte améliorée */
 }
 
 #loginPage a,
@@ -222,4 +223,4 @@ button:hover {
     color: #00bcd4; /* Couleur au survol */
     text-decoration: none;
     cursor: pointer;
-}
+    }
