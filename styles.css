@@ -44,7 +44,7 @@ body {
     margin-top: 10px;
     display: flex;
     align-items: center;
-    background-color: #1e1e1e; /* Fond des champs */
+    background-color: #292929; /* Fond des champs plus clair */
     color: #e0e0e0; /* Texte clair */
 }
 
