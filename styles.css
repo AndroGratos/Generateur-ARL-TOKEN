@@ -1,27 +1,27 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #121212; /* Fond sombre */
+    background-color: #0d0d0d; /* Fond très sombre */
 }
 
 #loginPage,
 #signupPage {
-    background-color: #1e1e1e; /* Fond sombre pour les pages */
-    border-radius: 20px;
+    background-color: #1a1a1a; /* Fond sombre pour les pages */
+    border-radius: 15px;
     padding: 30px;
-    max-width: 350px;
+    max-width: 400px;
     width: 100%;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Ombre légère */
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
     text-align: center;
 }
 
 #loginPage h1,
 #signupPage h1 {
-    color: #3949ab; /* Couleur bleue */
+    color: #00bcd4; /* Cyan lumineux */
     margin-bottom: 20px;
 }
 
@@ -37,40 +37,38 @@ body {
 #signupPage input[type="text"],
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
-    padding: 12px 40px 12px 12px;
-    border: 2px solid #3949ab; /* Bordure bleue */
-    border-radius: 10px;
+    padding: 12px;
+    border: 2px solid #00bcd4; /* Bordure cyan */
+    border-radius: 8px;
     font-size: 16px;
     width: 100%;
-    box-sizing: border-box;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    background-color: #1e1e1e; /* Fond des champs */
-    color: white; /* Texte clair */
+    background-color: #1a1a1a; /* Fond des champs */
+    color: #e0e0e0; /* Texte clair */
+    transition: border-color 0.3s;
+}
+
+#loginPage input[type="text"]:focus,
+#loginPage input[type="password"]:focus,
+#signupPage input[type="text"]:focus,
+#signupPage input[type="email"]:focus,
+#signupPage input[type="password"]:focus {
+    border-color: #0097a7; /* Bordure plus claire au focus */
 }
 
 .password-toggle {
     position: absolute;
     right: 12px;
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    color: #3949ab; /* Couleur des icônes */
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 10;
+    color: #00bcd4; /* Couleur des icônes */
 }
 
 #loginPage button,
 #signupPage button {
     padding: 12px;
     font-size: 18px;
-    background-color: #3949ab; /* Boutons bleus */
-    color: white; /* Texte clair */
+    background-color: #00bcd4; /* Boutons cyan */
+    color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     width: calc(100% - 24px);
@@ -79,7 +77,7 @@ body {
 
 #loginPage button:hover,
 #signupPage button:hover {
-    background-color: #303f9f; /* Couleur hover */
+    background-color: #0097a7; /* Couleur hover */
     transform: scale(1.05);
 }
 
@@ -90,81 +88,60 @@ body {
 
 #loginPage a,
 #signupPage a {
-    color: #3949ab; /* Liens bleus */
+    color: #00bcd4; /* Liens cyan */
     text-decoration: none;
     font-weight: bold;
 }
 
-#loginPage a:hover,
-#signupPage a:hover {
-    text-decoration: underline;
-}
-
 #mainPage {
-    background-color: #1e1e1e; /* Fond sombre pour la page principale */
-    border: 2px solid #3949ab; /* Bordure bleue */
+    background-color: #1a1a1a; /* Fond sombre pour la page principale */
+    border: 2px solid #00bcd4; /* Bordure cyan */
     padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
     text-align: center;
     max-width: 400px;
     width: 100%;
-    position: relative;
-}
-
-#logoutButton,
-#settingsButton {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    position: absolute;
-    top: -100px;
 }
 
 #logoutButton {
+    padding: 12px;
+    font-size: 18px;
     background-color: #d32f2f; /* Rouge pour déconnexion */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
 }
 
 #logoutButton:hover {
     background-color: #b71c1c; /* Couleur hover */
 }
 
-#settingsButton {
-    background-color: #3949ab; /* Couleur réglages */
-}
-
-#settingsButton:hover {
-    background-color: #303f9f; /* Couleur hover */
-}
-
 #mainPage h1 {
-    color: #3949ab; /* Couleur titre principale */
+    color: #00bcd4; /* Couleur titre principale */
     margin-bottom: 20px;
 }
 
 #codeBox {
     margin-top: 20px;
     padding: 10px;
-    border: 2px solid #3949ab; /* Bordure bleue */
-    border-radius: 10px;
+    border: 2px solid #00bcd4; /* Bordure cyan */
+    border-radius: 8px;
     background-color: #292929; /* Fond clair pour le code */
-    word-wrap: break-word;
-}
-
-#code {
-    font-family: monospace;
-    overflow-wrap: break-word;
-    color: #3949ab; /* Couleur du code */
+    color: #e0e0e0; /* Texte clair */
 }
 
 #notification {
-    color: #00e676; /* Notification lumineuse */
+    color: #76ff03; /* Notification lumineuse */
     font-weight: bold;
     margin-top: 20px;
 }
 
 #error {
-    color: red; /* Erreur */
+    color: #ff5252; /* Erreur */
     font-weight: bold;
     margin-top: 20px;
     display: none;
@@ -173,10 +150,10 @@ body {
 button {
     padding: 12px;
     font-size: 18px;
-    background-color: #3949ab; /* Couleur bouton */
+    background-color: #00bcd4; /* Couleur bouton */
     color: white; /* Texte clair */
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     width: calc(100% - 24px);
@@ -184,16 +161,8 @@ button {
 }
 
 button:hover {
-    background-color: #303f9f; /* Couleur hover */
+    background-color: #0097a7; /* Couleur hover */
     transform: scale(1.05);
-}
-
-#errorButton {
-    background-color: #d32f2f; /* Rouge pour erreur */
-}
-
-#errorButton:hover {
-    background-color: #b71c1c; /* Couleur hover */
 }
 
 .modal {
@@ -205,11 +174,11 @@ button:hover {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7); /* Fond sombre */
+    background-color: rgba(0, 0, 0, 0.8); /* Fond sombre */
 }
 
 .modal-content {
-    background-color: #1e1e1e; /* Fond modal */
+    background-color: #1a1a1a; /* Fond modal */
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -229,4 +198,4 @@ button:hover {
     color: white; /* Couleur au survol */
     text-decoration: none;
     cursor: pointer;
-    }
+}
