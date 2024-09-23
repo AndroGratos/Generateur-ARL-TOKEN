@@ -21,7 +21,7 @@ body {
 
 #loginPage h1,
 #signupPage h1 {
-    color: #00e676; /* Couleur lumineuse */
+    color: #3949ab; /* Couleur bleue */
     margin-bottom: 20px;
 }
 
@@ -38,7 +38,7 @@ body {
 #signupPage input[type="email"],
 #signupPage input[type="password"] {
     padding: 12px 40px 12px 12px;
-    border: 2px solid #00e676; /* Bordure lumineuse */
+    border: 2px solid #3949ab; /* Bordure bleue */
     border-radius: 10px;
     font-size: 16px;
     width: 100%;
@@ -56,7 +56,7 @@ body {
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: #00e676; /* Couleur des icônes */
+    color: #3949ab; /* Couleur des icônes */
     background: none;
     border: none;
     cursor: pointer;
@@ -67,8 +67,8 @@ body {
 #signupPage button {
     padding: 12px;
     font-size: 18px;
-    background-color: #00e676; /* Boutons lumineux */
-    color: black; /* Texte sombre */
+    background-color: #3949ab; /* Boutons bleus */
+    color: white; /* Texte clair */
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -79,7 +79,7 @@ body {
 
 #loginPage button:hover,
 #signupPage button:hover {
-    background-color: #00b248; /* Couleur hover */
+    background-color: #303f9f; /* Couleur hover */
     transform: scale(1.05);
 }
 
@@ -90,7 +90,7 @@ body {
 
 #loginPage a,
 #signupPage a {
-    color: #00e676; /* Liens lumineux */
+    color: #3949ab; /* Liens bleus */
     text-decoration: none;
     font-weight: bold;
 }
@@ -102,7 +102,7 @@ body {
 
 #mainPage {
     background-color: #1e1e1e; /* Fond sombre pour la page principale */
-    border: 2px solid #00e676; /* Bordure lumineuse */
+    border: 2px solid #3949ab; /* Bordure bleue */
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
@@ -130,22 +130,22 @@ body {
 }
 
 #settingsButton {
-    background-color: #00e676; /* Couleur réglages */
+    background-color: #3949ab; /* Couleur réglages */
 }
 
 #settingsButton:hover {
-    background-color: #00b248; /* Couleur hover */
+    background-color: #303f9f; /* Couleur hover */
 }
 
 #mainPage h1 {
-    color: #00e676; /* Couleur titre principale */
+    color: #3949ab; /* Couleur titre principale */
     margin-bottom: 20px;
 }
 
 #codeBox {
     margin-top: 20px;
     padding: 10px;
-    border: 2px solid #00e676; /* Bordure lumineuse */
+    border: 2px solid #3949ab; /* Bordure bleue */
     border-radius: 10px;
     background-color: #292929; /* Fond clair pour le code */
     word-wrap: break-word;
@@ -154,7 +154,7 @@ body {
 #code {
     font-family: monospace;
     overflow-wrap: break-word;
-    color: #00e676; /* Couleur du code */
+    color: #3949ab; /* Couleur du code */
 }
 
 #notification {
@@ -173,8 +173,8 @@ body {
 button {
     padding: 12px;
     font-size: 18px;
-    background-color: #00e676; /* Couleur bouton */
-    color: black; /* Texte sombre */
+    background-color: #3949ab; /* Couleur bouton */
+    color: white; /* Texte clair */
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -184,7 +184,7 @@ button {
 }
 
 button:hover {
-    background-color: #00b248; /* Couleur hover */
+    background-color: #303f9f; /* Couleur hover */
     transform: scale(1.05);
 }
 
