@@ -1,5 +1,5 @@
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     height: 100vh;
     display: flex;
@@ -7,13 +7,6 @@ body {
     align-items: center;
     background-color: #121212; /* Fond sombre */
     color: #e0e0e0; /* Texte clair */
-    transition: background-color 0.3s, color 0.3s;
-}
-
-h1 {
-    color: #00bcd4; /* Couleur lumineuse pour les titres */
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(0, 188, 212, 0.7); /* Lueur */
 }
 
 #loginPage, #signupPage, #resetPage, #mainPage {
@@ -24,7 +17,11 @@ h1 {
     width: 100%;
     box-shadow: 0 4px 20px rgba(0, 188, 212, 0.5); /* Ombre lumineuse */
     text-align: center;
-    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#loginPage h1, #signupPage h1, #resetPage h1, #mainPage h1 {
+    color: #00bcd4; /* Couleur lumineuse pour les titres */
+    margin-bottom: 20px;
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
@@ -37,11 +34,6 @@ input[type="text"], input[type="email"], input[type="password"] {
     margin-top: 10px;
     background-color: #333333; /* Fond des champs */
     color: #e0e0e0; /* Texte clair */
-    transition: border-color 0.3s;
-}
-
-input::placeholder {
-    color: #b0bec5; /* Texte des placeholders */
 }
 
 button {
@@ -52,24 +44,17 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
     width: calc(100% - 24px);
     margin-top: 15px;
 }
 
 button:hover {
     background-color: #0097a7; /* Couleur au survol */
-    transform: scale(1.05);
 }
 
 a {
     color: #00bcd4; /* Liens lumineux */
     text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 #codeBox {
@@ -117,7 +102,6 @@ a:hover {
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
-    box-shadow: 0 4px 20px rgba(0, 188, 212, 0.5);
 }
 
 .close-button {
@@ -125,13 +109,6 @@ a:hover {
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: #00bcd4; /* Couleur au survol */
-    text-decoration: none;
-    cursor: pointer;
 }
 
 #logoutButton, #settingsButton {
@@ -147,17 +124,9 @@ a:hover {
     right: 20px;
 }
 
-#logoutButton:hover {
-    background-color: #b71c1c; /* Rouge foncé au survol */
-}
-
 #settingsButton {
     background-color: #00bcd4; /* Couleur des paramètres */
     left: 20px;
-}
-
-#settingsButton:hover {
-    background-color: #0097a7; /* Couleur au survol */
 }
 
 #countdown {
@@ -166,10 +135,6 @@ a:hover {
 
 #errorButton {
     background-color: #d32f2f; /* Bouton d'erreur */
-}
-
-#errorButton:hover {
-    background-color: #b71c1c; /* Couleur au survol */
 }
 
 .password-container {
@@ -188,4 +153,4 @@ a:hover {
     transform: translateY(-50%);
     cursor: pointer;
     color: #00bcd4; /* Couleur pour l'icône */
-                                }
+}
