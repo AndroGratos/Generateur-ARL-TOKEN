@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/fireba
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
-// Configuration Firebase
+
 const firebaseConfig = {
     apiKey: "AIzaSyD2MzAcFOGELXdRwdK-C1Mczm2quyV-HZs",
     authDomain: "generateurtoken-e282f.firebaseapp.com",
@@ -12,12 +12,12 @@ const firebaseConfig = {
     appId: "1:485438236563:web:a587b79c5d4bb26edeea66"
 };
 
-// Initialisation Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Fonction de création de compte
+
 document.getElementById('signupButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const identifier = document.getElementById('signupIdentifier').value;
@@ -28,11 +28,11 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Envoi de l'e-mail de vérification
+        
         await sendEmailVerification(user);
         alert("Un e-mail de vérification a été envoyé. Veuillez vérifier votre boîte de réception.");
 
-        // Sauvegarde des infos utilisateur dans Firestore
+        
         await setDoc(doc(db, "users", user.uid), {
             identifier: identifier,
             email: email,
@@ -41,7 +41,7 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
             resetTime: null
         });
 
-        // Redirection vers la page de connexion après l'inscription
+        
         window.location.href = 'login.html';
     } catch (error) {
         console.error('Erreur de création de compte:', error.message);
@@ -49,7 +49,7 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
     }
 });
 
-// Fonction de connexion
+
 document.getElementById('loginButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const identifier = document.getElementById('identifier').value;
@@ -70,7 +70,7 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Vérifie si l'email est vérifié
+        
         if (user.emailVerified) {
             window.location.href = 'index.html';
         } else {
@@ -83,7 +83,7 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
     }
 });
 
-// Fonction de déconnexion
+
 document.getElementById('logoutButton')?.addEventListener('click', () => {
     signOut(auth)
         .then(() => {
@@ -94,7 +94,7 @@ document.getElementById('logoutButton')?.addEventListener('click', () => {
         });
 });
 
-// Fonction de réinitialisation du mot de passe
+
 document.getElementById('resetButton')?.addEventListener('click', async (e) => {
     e.preventDefault();
     const email = document.getElementById('resetEmail').value;
@@ -108,16 +108,18 @@ document.getElementById('resetButton')?.addEventListener('click', async (e) => {
     }
 });
 
-// Gestion de l'affichage/cachage du mot de passe
+
 document.getElementById('togglePassword')?.addEventListener('click', () => {
     const passwordField = document.getElementById('password');
     const togglePassword = document.getElementById('togglePassword');
     if (passwordField.type === 'password') {
         passwordField.type = 'text';
-        togglePassword.textContent = '🐵'; // Mot de passe visible
+        togglePassword.classList.remove('fa-eye');
+        togglePassword.classList.add('fa-eye-slash'); 
     } else {
         passwordField.type = 'password';
-        togglePassword.textContent = '🙈'; // Mot de passe caché
+        togglePassword.classList.remove('fa-eye-slash');
+        togglePassword.classList.add('fa-eye'); 
     }
 });
 
@@ -126,14 +128,16 @@ document.getElementById('toggleSignupPassword')?.addEventListener('click', () =>
     const toggleSignupPassword = document.getElementById('toggleSignupPassword');
     if (signupPasswordField.type === 'password') {
         signupPasswordField.type = 'text';
-        toggleSignupPassword.textContent = '🐵'; // Mot de passe visible
+        toggleSignupPassword.classList.remove('fa-eye');
+        toggleSignupPassword.classList.add('fa-eye-slash'); 
     } else {
         signupPasswordField.type = 'password';
-        toggleSignupPassword.textContent = '🙈'; // Mot de passe caché
+        toggleSignupPassword.classList.remove('fa-eye-slash');
+        toggleSignupPassword.classList.add('fa-eye'); 
     }
 });
 
-// Vérification de l'état de connexion pour gérer les redirections
+
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userDoc = doc(db, "users", user.uid);
@@ -142,21 +146,18 @@ onAuthStateChanged(auth, async (user) => {
         if (userSnap.exists()) {
             const isEmailVerified = user.emailVerified;
 
-            // Contrôle d'accès pour index.html
+            
             if (window.location.pathname === '/index.html') {
                 if (!isEmailVerified) {
-                    // Redirection vers la page de connexion si l'email n'est pas vérifié
                     window.location.href = 'login.html';
                 }
             } else if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
-                // Redirection vers index.html pour les pages d'inscription et de connexion si l'utilisateur est déjà connecté
                 if (isEmailVerified) {
                     window.location.href = 'index.html';
                 }
             }
         }
     } else {
-        // Redirection vers la page de connexion si l'utilisateur est non authentifié
         if (window.location.pathname === '/index.html') {
             window.location.href = 'login.html';
         }
