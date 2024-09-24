@@ -42,7 +42,7 @@ document.getElementById('signupButton')?.addEventListener('click', async (e) => 
         });
 
         
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     } catch (error) {
         console.error('Erreur de création de compte:', error.message);
         alert('Création de compte échouée: ' + error.message);
@@ -72,10 +72,10 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
 
         
         if (user.emailVerified) {
-            window.location.href = 'index.html';
+            window.location.href = 'generate.html';
         } else {
             alert("Veuillez vérifier votre adresse e-mail pour vous connecter.");
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
     } catch (error) {
         console.error('Erreur de connexion:', error.message);
@@ -87,7 +87,7 @@ document.getElementById('loginButton')?.addEventListener('click', async (e) => {
 document.getElementById('logoutButton')?.addEventListener('click', () => {
     signOut(auth)
         .then(() => {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         })
         .catch((error) => {
             console.error('Erreur de déconnexion:', error.message);
@@ -147,19 +147,19 @@ onAuthStateChanged(auth, async (user) => {
             const isEmailVerified = user.emailVerified;
 
             
-            if (window.location.pathname === '/index.html') {
+            if (window.location.pathname === '/generate.html') {
                 if (!isEmailVerified) {
-                    window.location.href = 'login.html';
-                }
-            } else if (window.location.pathname === '/login.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
-                if (isEmailVerified) {
                     window.location.href = 'index.html';
+                }
+            } else if (window.location.pathname === '/index.html' || window.location.pathname === '/signup.html' || window.location.pathname === '/password-reset.html') {
+                if (isEmailVerified) {
+                    window.location.href = 'generate.html';
                 }
             }
         }
     } else {
-        if (window.location.pathname === '/index.html') {
-            window.location.href = 'login.html';
+        if (window.location.pathname === '/generate.html') {
+            window.location.href = 'index.html';
         }
     }
 });
