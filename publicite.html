@@ -6,8 +6,6 @@
     <title>Publicité</title>
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet">
     <style>
         /* Styles supplémentaires pour s'assurer que la vidéo est contenue */
         #videoContainer {
@@ -16,11 +14,27 @@
             align-items: center;
             max-width: 100%; /* Ne pas dépasser la largeur de l'écran */
             overflow: hidden; /* Masque tout dépassement */
+            margin-top: 20px; /* Ajoute un peu d'espace au-dessus */
         }
         #adVideo {
             width: 100%; /* La vidéo occupera 100% de la largeur de son conteneur */
             max-width: 600px; /* Largeur maximale pour la vidéo */
             height: auto; /* Hauteur automatique pour conserver les proportions */
+        }
+        #mainPage {
+            text-align: center;
+            color: white; /* Couleur du texte */
+        }
+        body {
+            background-color: #282c34; /* Couleur de fond similaire à generate.html */
+            font-family: Arial, sans-serif; /* Police similaire à generate.html */
+        }
+        footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
@@ -28,7 +42,7 @@
     <div id="mainPage">
         <h1 id="welcomeMessage">Regardez cette publicité</h1>
         <div id="videoContainer">
-            <video id="adVideo" class="video-js" controls>
+            <video id="adVideo" controls>
                 <source src="https://welltodo-type.com/d-mkF.zBdNGFNMvfZSGeUt/feMm/9quTZrUmlvkEPITEUG1POaT/cN4WMbjrg/tsNsTZUU5TN/zbg/y/ORQq" type="video/mp4">
                 Votre navigateur ne prend pas en charge la vidéo.
             </video>
@@ -48,5 +62,11 @@
             window.location.href = 'generate.html'; // Redirection vers generate.html
         };
     </script>
+    <footer>
+        <p style="color: white;">Si tu veux me soutenir :</p>
+        <a href="https://fr.tipeee.com/androgratos" target="_blank" style="color: #ff9800; text-decoration: none;">
+            <i class="fas fa-hand-holding-usd fa-2x"></i>
+        </a>
+    </footer>
 </body>
 </html>
