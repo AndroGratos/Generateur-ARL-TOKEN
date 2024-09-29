@@ -1,0 +1,11 @@
+<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Publicité</title><link href="styles.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"><style>#videoContainer{display:flex;justify-content:center;align-items:center;max-width:100%;overflow:hidden}#adVideo{width:100%;max-width:600px;height:auto}</style></head><body><div id="mainPage"><h1 id="welcomeMessage">Regardez cette publicité</h1><div id="videoContainer"><video id="adVideo" controls><source src="https://www.cpmrevenuegate.com/s2e8fzzns?key=cd9fcb6f1cd38528f4093dd558bf9633" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo.</video></div><button id="continueButton" style="display:none;margin-top:20px;background-color:#ff9800;color:#fff">Continuer vers la génération de code</button></div><script>const adVideo = document.getElementById('adVideo');
+        const continueButton = document.getElementById('continueButton');
+
+        adVideo.onended = function() {
+            continueButton.style.display = 'block'; // Afficher le bouton après la fin de la vidéo
+        };
+
+        continueButton.onclick = function() {
+            localStorage.setItem('clickCount', 0); // Réinitialise le compteur
+            window.location.href = 'generate.html'; // Redirection vers generate.html
+        };</script></body></html>
