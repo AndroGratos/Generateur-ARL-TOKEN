@@ -1,1 +1,95 @@
-const _0x122f70=_0x1c20;(function(_0xc6c173,_0xd19a87){const _0x49073e=_0x1c20,_0x5ad175=_0xc6c173();while(!![]){try{const _0x5f20be=parseInt(_0x49073e(0xc2))/0x1+-parseInt(_0x49073e(0xae))/0x2*(-parseInt(_0x49073e(0xb7))/0x3)+-parseInt(_0x49073e(0xc3))/0x4+-parseInt(_0x49073e(0xbb))/0x5*(parseInt(_0x49073e(0xb5))/0x6)+parseInt(_0x49073e(0xbc))/0x7+parseInt(_0x49073e(0xac))/0x8+-parseInt(_0x49073e(0xbf))/0x9;if(_0x5f20be===_0xd19a87)break;else _0x5ad175['push'](_0x5ad175['shift']());}catch(_0x203b6c){_0x5ad175['push'](_0x5ad175['shift']());}}}(_0x4831,0xa8595));import{getAuth}from'https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js';import{getFirestore,doc,getDoc,collection,getDocs}from'https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js';let codes=[],clickCount=0x0;document[_0x122f70(0xa5)](_0x122f70(0xb0))?.[_0x122f70(0xcd)](_0x122f70(0xc0),generateCode),document[_0x122f70(0xa5)]('copyButton')?.[_0x122f70(0xcd)]('click',copyCode),document[_0x122f70(0xa5)](_0x122f70(0xb2))?.['addEventListener'](_0x122f70(0xc0),showError),document['getElementById'](_0x122f70(0xc4))?.['addEventListener']('click',sendEmail),document[_0x122f70(0xa5)](_0x122f70(0xca))?.['addEventListener'](_0x122f70(0xc0),openSettings),document['getElementById'](_0x122f70(0xa9))?.['addEventListener']('click',saveSettings),document['getElementById']('countdown')[_0x122f70(0xaa)][_0x122f70(0xbe)]=_0x122f70(0xc9);async function loadCodes(){const _0x21177a=getFirestore(),_0x5e5f8b=collection(_0x21177a,'codes'),_0x570c15=await getDocs(_0x5e5f8b);codes=_0x570c15['docs']['map'](_0x322605=>_0x322605['id']);}async function checkUserStatus(){const _0x5666f7=_0x122f70,_0x685a19=getAuth(),_0xb0e8a1=_0x685a19['currentUser'];if(!_0xb0e8a1){alert(_0x5666f7(0xc5));return;}const _0xc853eb=doc(getFirestore(),_0x5666f7(0xc6),_0xb0e8a1['uid']),_0x349790=await getDoc(_0xc853eb);if(!_0x349790['exists']()){alert('Utilisateur\x20non\x20trouvé.');return;}if(clickCount>=0x3)return window[_0x5666f7(0xb8)][_0x5666f7(0xba)]=_0x5666f7(0xcb),![];return!![];}async function generateCode(){const _0x4a4502=_0x122f70;await loadCodes();const _0x4069cb=await checkUserStatus();if(!_0x4069cb)return;const _0x18a615=Math[_0x4a4502(0xa7)](Math[_0x4a4502(0xb9)]()*codes[_0x4a4502(0xb4)]),_0x107a25=codes[_0x18a615];document[_0x4a4502(0xa5)](_0x4a4502(0xab))['textContent']=_0x107a25,document[_0x4a4502(0xa5)](_0x4a4502(0xa6))[_0x4a4502(0xaa)]['display']=_0x4a4502(0xb6),document[_0x4a4502(0xa5)]('errorButton')[_0x4a4502(0xaa)][_0x4a4502(0xbe)]=_0x4a4502(0xb6),clickCount++;}function copyCode(){const _0x376a63=_0x122f70,_0x5dc333=document['getElementById'](_0x376a63(0xab))[_0x376a63(0xc7)];navigator[_0x376a63(0xa8)][_0x376a63(0xb3)](_0x5dc333)['then'](()=>{const _0x4d516c=_0x376a63;document[_0x4d516c(0xa5)](_0x4d516c(0xce))['style']['display']=_0x4d516c(0xc1),setTimeout(()=>document['getElementById'](_0x4d516c(0xce))['style']['display']=_0x4d516c(0xc9),0x7d0);})['catch'](_0x31a4a2=>console[_0x376a63(0xbd)]('Erreur\x20lors\x20de\x20la\x20copie:',_0x31a4a2));}function showError(){const _0x2f147c=_0x122f70;document[_0x2f147c(0xa5)](_0x2f147c(0xbd))[_0x2f147c(0xaa)][_0x2f147c(0xbe)]=_0x2f147c(0xc1),document['getElementById']('copyButton')['style'][_0x2f147c(0xbe)]=_0x2f147c(0xc9),document[_0x2f147c(0xa5)](_0x2f147c(0xb2))['style']['display']=_0x2f147c(0xc9);}function sendEmail(){const _0x26ef30=_0x122f70,_0x3fd0b1=document[_0x26ef30(0xa5)](_0x26ef30(0xab))[_0x26ef30(0xc7)],_0xae0fc9='generateurarltoken@gmail.com',_0xf1601c=_0x26ef30(0xc8),_0x4b7943='Bonjour,\x0a\x0aLe\x20code\x20suivant\x20a\x20été\x20signalé\x20comme\x20erroné\x20:\x0a'+_0x3fd0b1+_0x26ef30(0xb1);window[_0x26ef30(0xb8)][_0x26ef30(0xba)]='mailto:'+_0xae0fc9+_0x26ef30(0xaf)+encodeURIComponent(_0xf1601c)+_0x26ef30(0xad)+encodeURIComponent(_0x4b7943);}function openSettings(){const _0x2d9b4c=_0x122f70;document[_0x2d9b4c(0xa5)](_0x2d9b4c(0xcc))[_0x2d9b4c(0xaa)]['display']='block';}function saveSettings(){}function _0x4831(){const _0x10986d=['block','310981fByzzr','107152Mchanb','emailButton','Vous\x20devez\x20être\x20connecté\x20pour\x20générer\x20un\x20code.','users','textContent','Code\x20Erroné\x20Signalé','none','settingsButton','publicite.html','settingsModal','addEventListener','notification','.close-button','getElementById','copyButton','floor','clipboard','saveButton','style','code','1317328zyQXNG','&body=','93562cclKoo','?subject=','generateButton','\x0a\x0aMerci\x20de\x20le\x20vérifier.','errorButton','writeText','length','138pSibJK','inline-block','75nMggnL','location','random','href','58745zhkKHX','2719927viPkor','error','display','9424449RUPqqR','click'];_0x4831=function(){return _0x10986d;};return _0x4831();}function _0x1c20(_0x2a3a63,_0x166a1b){const _0x4831d8=_0x4831();return _0x1c20=function(_0x1c20b5,_0xc7af6b){_0x1c20b5=_0x1c20b5-0xa4;let _0x360f91=_0x4831d8[_0x1c20b5];return _0x360f91;},_0x1c20(_0x2a3a63,_0x166a1b);}document['querySelector'](_0x122f70(0xa4))[_0x122f70(0xcd)](_0x122f70(0xc0),()=>{const _0x5655b1=_0x122f70;document[_0x5655b1(0xa5)]('settingsModal')['style'][_0x5655b1(0xbe)]=_0x5655b1(0xc9);});
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
+
+let codes = [];
+let clickCount = 0; // Compteur pour le nombre de codes générés
+
+document.getElementById('generateButton')?.addEventListener('click', generateCode);
+document.getElementById('copyButton')?.addEventListener('click', copyCode);
+document.getElementById('errorButton')?.addEventListener('click', showError);
+document.getElementById('emailButton')?.addEventListener('click', sendEmail);
+document.getElementById('settingsButton')?.addEventListener('click', openSettings);
+document.getElementById('saveButton')?.addEventListener('click', saveSettings);
+document.getElementById('countdown').style.display = 'none';
+
+async function loadCodes() {
+    const firestore = getFirestore();
+    const codesCollectionRef = collection(firestore, 'codes');
+    const querySnapshot = await getDocs(codesCollectionRef);
+    codes = querySnapshot.docs.map(doc => doc.id);
+}
+
+async function checkUserStatus() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+        alert("Vous devez être connecté pour générer un code.");
+        return;
+    }
+
+    const userDocRef = doc(getFirestore(), 'users', user.uid);
+    const userSnap = await getDoc(userDocRef);
+
+    if (!userSnap.exists()) {
+        alert("Utilisateur non trouvé.");
+        return;
+    }
+
+    // Vérifie si l'utilisateur a atteint la limite de génération de codes
+    if (clickCount >= 3) {
+        window.location.href = 'publicite.html'; // Redirection vers la page de publicité
+        return false;
+    }
+    return true;
+}
+
+async function generateCode() {
+    await loadCodes();
+    const userCanGenerate = await checkUserStatus();
+
+    if (!userCanGenerate) return;
+
+    const randomIndex = Math.floor(Math.random() * codes.length);
+    const code = codes[randomIndex];
+
+    document.getElementById('code').textContent = code;
+    document.getElementById('copyButton').style.display = 'inline-block';
+    document.getElementById('errorButton').style.display = 'inline-block';
+    
+    clickCount++; // Incrémente le compteur de codes générés
+}
+
+function copyCode() {
+    const code = document.getElementById('code').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        document.getElementById('notification').style.display = 'block';
+        setTimeout(() => document.getElementById('notification').style.display = 'none', 2000);
+    }).catch(error => console.error('Erreur lors de la copie:', error));
+}
+
+function showError() {
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('copyButton').style.display = 'none';
+    document.getElementById('errorButton').style.display = 'none';
+}
+
+function sendEmail() {
+    const code = document.getElementById('code').textContent;
+    const emailAddress = "generateurarltoken@gmail.com";
+    const subject = "Code Erroné Signalé";
+    const body = `Bonjour,\n\nLe code suivant a été signalé comme erroné :\n${code}\n\nMerci de le vérifier.`;
+    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function openSettings() {
+    document.getElementById('settingsModal').style.display = 'block';
+}
+
+function saveSettings() {
+    // Fonctionnalité pour enregistrer les paramètres
+}
+
+document.querySelector('.close-button').addEventListener('click', () => {
+    document.getElementById('settingsModal').style.display = 'none';
+});
