@@ -1,11 +1,62 @@
-<!doctype html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Publicité</title><link href="styles.css" rel="stylesheet"><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"><style>#videoContainer{display:flex;justify-content:center;align-items:center;max-width:100%;overflow:hidden}#adVideo{width:100%;max-width:600px;height:auto}</style></head><body><div id="mainPage"><h1 id="welcomeMessage">Regardez cette publicité</h1><div id="videoContainer"><video id="adVideo" controls><source src="https://www.cpmrevenuegate.com/s2e8fzzns?key=cd9fcb6f1cd38528f4093dd558bf9633" type="video/mp4">Votre navigateur ne prend pas en charge la vidéo.</video></div><button id="continueButton" style="display:none;margin-top:20px;background-color:#ff9800;color:#fff">Continuer vers la génération de code</button></div><script>const adVideo = document.getElementById('adVideo');
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Publicité</title>
+    <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.2.4/videojs-vast-vpaid.min.js"></script>
+    <style>
+        /* Styles pour contenir la vidéo */
+        #videoContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%; /* Ne pas dépasser la largeur de l'écran */
+            overflow: hidden; /* Masquer tout dépassement */
+        }
+        #adVideo {
+            width: 100%; /* La vidéo occupera 100% de la largeur de son conteneur */
+            max-width: 600px; /* Largeur maximale pour la vidéo */
+            height: auto; /* Hauteur automatique pour conserver les proportions */
+        }
+    </style>
+</head>
+<body>
+    <div id="mainPage">
+        <h1 id="welcomeMessage">Regardez cette publicité</h1>
+        <div id="videoContainer">
+            <video-js id="adVideo" class="video-js vjs-big-play-centered" controls>
+                <source src="https://www.cpmrevenuegate.com/s2e8fzzns?key=cd9fcb6f1cd38528f4093dd558bf9633" type="video/mp4">
+                Votre navigateur ne prend pas en charge la vidéo.
+            </video-js>
+        </div>
+        <button id="continueButton" style="display:none; margin-top: 20px; background-color: #ff9800; color: white;">Continuer vers la génération de code</button>
+    </div>
+    
+    <script>
+        const adVideo = document.getElementById('adVideo');
         const continueButton = document.getElementById('continueButton');
 
-        adVideo.onended = function() {
-            continueButton.style.display = 'block'; // Afficher le bouton après la fin de la vidéo
+        // Configuration VAST
+        const vastOptions = {
+            adTagUrl: 'https://welltodo-type.com/dxm.F/zLdOGINgvzZFGFUC/Ream/9Vu/Z/UDlXkhPOT/Up1rO/THcw4XMxjcgctNNpTJUq5dNwzagCywObQL', // URL VAST
+            autoplay: true,
+            controls: true,
+            timeout: 5000 // Délai d'attente avant d'abandonner
         };
+
+        adVideo.vast(vastOptions);
+
+        adVideo.on('ended', function() {
+            continueButton.style.display = 'block'; // Afficher le bouton après la fin de la vidéo
+        });
 
         continueButton.onclick = function() {
             localStorage.setItem('clickCount', 0); // Réinitialise le compteur
             window.location.href = 'generate.html'; // Redirection vers generate.html
-        };</script></body></html>
+        };
+    </script>
+</body>
+</html>
