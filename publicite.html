@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Publicité</title>
-    <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.18.1/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-vast-vpaid@2.2.4/videojs-vast-vpaid.min.js"></script>
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/video.js/dist/video.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/video.js/dist/video-js.min.css" rel="stylesheet">
     <style>
-        /* Styles pour contenir la vidéo */
+        /* Styles supplémentaires pour s'assurer que la vidéo est contenue */
         #videoContainer {
             display: flex;
             justify-content: center;
             align-items: center;
             max-width: 100%; /* Ne pas dépasser la largeur de l'écran */
-            overflow: hidden; /* Masquer tout dépassement */
+            overflow: hidden; /* Masque tout dépassement */
         }
         #adVideo {
             width: 100%; /* La vidéo occupera 100% de la largeur de son conteneur */
@@ -27,31 +28,20 @@
     <div id="mainPage">
         <h1 id="welcomeMessage">Regardez cette publicité</h1>
         <div id="videoContainer">
-            <video-js id="adVideo" class="video-js vjs-big-play-centered" controls>
-                <source src="https://www.cpmrevenuegate.com/s2e8fzzns?key=cd9fcb6f1cd38528f4093dd558bf9633" type="video/mp4">
+            <video id="adVideo" class="video-js" controls>
+                <source src="https://welltodo-type.com/d-mkF.zBdNGFNMvfZSGeUt/feMm/9quTZrUmlvkEPITEUG1POaT/cN4WMbjrg/tsNsTZUU5TN/zbg/y/ORQq" type="video/mp4">
                 Votre navigateur ne prend pas en charge la vidéo.
-            </video-js>
+            </video>
         </div>
         <button id="continueButton" style="display:none; margin-top: 20px; background-color: #ff9800; color: white;">Continuer vers la génération de code</button>
     </div>
-    
     <script>
         const adVideo = document.getElementById('adVideo');
         const continueButton = document.getElementById('continueButton');
 
-        // Configuration VAST
-        const vastOptions = {
-            adTagUrl: 'https://welltodo-type.com/dxm.F/zLdOGINgvzZFGFUC/Ream/9Vu/Z/UDlXkhPOT/Up1rO/THcw4XMxjcgctNNpTJUq5dNwzagCywObQL', // URL VAST
-            autoplay: true,
-            controls: true,
-            timeout: 5000 // Délai d'attente avant d'abandonner
-        };
-
-        adVideo.vast(vastOptions);
-
-        adVideo.on('ended', function() {
+        adVideo.onended = function() {
             continueButton.style.display = 'block'; // Afficher le bouton après la fin de la vidéo
-        });
+        };
 
         continueButton.onclick = function() {
             localStorage.setItem('clickCount', 0); // Réinitialise le compteur
