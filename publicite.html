@@ -7,7 +7,12 @@
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        /* Styles supplémentaires pour s'assurer que la vidéo est contenue */
+        body {
+            background-color: #282c34; /* Couleur de fond similaire à generate.html */
+            font-family: Arial, sans-serif; /* Police similaire à generate.html */
+            color: white; /* Couleur du texte */
+            text-align: center; /* Centrer le texte */
+        }
         #videoContainer {
             display: flex;
             justify-content: center;
@@ -21,20 +26,14 @@
             max-width: 600px; /* Largeur maximale pour la vidéo */
             height: auto; /* Hauteur automatique pour conserver les proportions */
         }
-        #mainPage {
-            text-align: center;
-            color: white; /* Couleur du texte */
-        }
-        body {
-            background-color: #282c34; /* Couleur de fond similaire à generate.html */
-            font-family: Arial, sans-serif; /* Police similaire à generate.html */
-        }
-        footer {
-            position: fixed;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
+        #continueButton {
+            display: none;
+            margin-top: 20px;
+            background-color: #ff9800;
             color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -43,11 +42,11 @@
         <h1 id="welcomeMessage">Regardez cette publicité</h1>
         <div id="videoContainer">
             <video id="adVideo" controls>
-                <source src="https://welltodo-type.com/d-mkF.zBdNGFNMvfZSGeUt/feMm/9quTZrUmlvkEPITEUG1POaT/cN4WMbjrg/tsNsTZUU5TN/zbg/y/ORQq" type="video/mp4">
+                <source src="https://welltodo-type.com/d.mVFVz/d/GNNXv/ZzGFUk/-e-mI9/uFZjU/l/k/PGT/Uv1QOET/co4vM/j/gct/NhTjUC5VNlz/g/yLOuSgZOsya/Wz1vpydSDO0Qxo" type="video/mp4">
                 Votre navigateur ne prend pas en charge la vidéo.
             </video>
         </div>
-        <button id="continueButton" style="display:none; margin-top: 20px; background-color: #ff9800; color: white;">Continuer vers la génération de code</button>
+        <button id="continueButton">Continuer vers la génération de code</button>
     </div>
     <script>
         const adVideo = document.getElementById('adVideo');
@@ -62,11 +61,5 @@
             window.location.href = 'generate.html'; // Redirection vers generate.html
         };
     </script>
-    <footer>
-        <p style="color: white;">Si tu veux me soutenir :</p>
-        <a href="https://fr.tipeee.com/androgratos" target="_blank" style="color: #ff9800; text-decoration: none;">
-            <i class="fas fa-hand-holding-usd fa-2x"></i>
-        </a>
-    </footer>
 </body>
 </html>
