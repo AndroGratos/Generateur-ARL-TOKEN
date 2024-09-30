@@ -29,7 +29,7 @@
         function validateCaptcha() {
             if (hcaptcha.getResponse()) {
                 // Si le captcha est validé, réinitialiser le compteur et rediriger vers generate.html
-                localStorage.setItem('captchaValidated', 'true'); // Stocker l'indicateur du captcha validé
+                localStorage.setItem('clickCount', 3); // Réinitialiser le compteur à 3 dans le localStorage
                 window.location.href = 'generate.html'; // Redirection vers generate.html
             } else {
                 alert("Veuillez valider le captcha.");
