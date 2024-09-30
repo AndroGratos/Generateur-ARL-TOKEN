@@ -10,52 +10,13 @@ if (localStorage.getItem('captchaValidated') === 'true') {
     localStorage.removeItem('captchaValidated'); // Supprime l'indicateur du localStorage
 }
 
-document.getElementById('generateButton')?.addEventListener('click', generateCode);
-document.getElementById('copyButton')?.addEventListener('click', copyCode);
-document.getElementById('errorButton')?.addEventListener('click', showError);
-document.getElementById('emailButton')?.addEventListener('click', sendEmail);
-document.getElementById('settingsButton')?.addEventListener('click', openSettings);
-document.getElementById('saveButton')?.addEventListener('click', saveSettings);
-document.getElementById('countdown').style.display = 'none';
-
-async function loadCodes() {
-    const firestore = getFirestore();
-    const codesCollectionRef = collection(firestore, 'codes');
-    const querySnapshot = await getDocs(codesCollectionRef);
-    codes = querySnapshot.docs.map(doc => doc.id);
-}
-
-async function checkUserStatus() {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (!user) {
-        alert("Vous devez être connecté pour générer un code.");
-        return;
-    }
-
-    const userDocRef = doc(getFirestore(), 'users', user.uid);
-    const userSnap = await getDoc(userDocRef);
-
-    if (!userSnap.exists()) {
-        alert("Utilisateur non trouvé.");
-        return;
-    }
-
-    // Vérifie si l'utilisateur a atteint la limite de génération de codes
-    if (clickCount <= 0) {
-        window.location.href = 'publicite.html'; // Redirection vers la page de publicité uniquement si clickCount est à 0
-        return false;
-    }
-    return true;
-}
-
-async function generateCode() {
-    await loadCodes();
+// Gestion des événements des boutons
+document.getElementById('generateButton')?.addEventListener('click', async () => {
     const userCanGenerate = await checkUserStatus();
-
     if (!userCanGenerate) return;
 
+    await loadCodes();
+    
     const randomIndex = Math.floor(Math.random() * codes.length);
     const code = codes[randomIndex];
 
@@ -64,6 +25,48 @@ async function generateCode() {
     document.getElementById('errorButton').style.display = 'inline-block';
     
     clickCount--; // Décrémente le compteur de codes générés
+});
+
+document.getElementById('copyButton')?.addEventListener('click', copyCode);
+document.getElementById('errorButton')?.addEventListener('click', showError);
+document.getElementById('emailButton')?.addEventListener('click', sendEmail);
+document.getElementById('settingsButton')?.addEventListener('click', openSettings);
+document.getElementById('saveButton')?.addEventListener('click', saveSettings);
+document.getElementById('countdown').style.display = 'none';
+
+// Chargement des codes depuis Firestore
+async function loadCodes() {
+    const firestore = getFirestore();
+    const codesCollectionRef = collection(firestore, 'codes');
+    const querySnapshot = await getDocs(codesCollectionRef);
+    codes = querySnapshot.docs.map(doc => doc.id);
+}
+
+// Vérification de l'état de l'utilisateur
+async function checkUserStatus() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+        alert("Vous devez être connecté pour accéder à cette page.");
+        window.location.href = 'login.html'; // Redirige vers une page de connexion
+        return false;
+    }
+
+    const userDocRef = doc(getFirestore(), 'users', user.uid);
+    const userSnap = await getDoc(userDocRef);
+
+    if (!userSnap.exists()) {
+        alert("Utilisateur non trouvé.");
+        return false;
+    }
+
+    // Vérifie si l'utilisateur a atteint la limite de génération de codes
+    if (clickCount <= 0) {
+        window.location.href = 'publicite.html'; // Redirection vers la page de publicité uniquement si clickCount est à 0
+        return false;
+    }
+    return true;
 }
 
 function copyCode() {
