@@ -54,6 +54,10 @@
             hcaptchaResponse.innerHTML = "Valider hCaptcha";
             hcaptchaResponse.onclick = function() {
                 if (hcaptcha.getResponse()) {
+                    // Appeler la fonction pour mettre à jour le statut de l'utilisateur après avoir regardé la publicité
+                    import('./main.js').then(module => {
+                        module.updateWatchedAdStatus();
+                    });
                     // Redirection vers generate.html après validation
                     window.location.href = 'generate.html';
                 } else {
