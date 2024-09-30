@@ -3,31 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Validation du Captcha</title>
+    <title>Publicité</title>
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        #hcaptcha {
+            display: none; /* Masquer le hCaptcha initialement */
+        }
+    </style>
 </head>
 <body>
     <div id="mainPage">
-        <h1 id="welcomeMessage">Veuillez valider le Captcha</h1>
+        <h1 id="welcomeMessage">Veuillez valider le captcha</h1>
         
         <div id="hcaptcha" class="h-captcha" data-sitekey="b260d19c-0022-489a-9644-7f0a95dc8f52"></div>
-        
-        <button id="validateButton">Valider le Captcha</button>
     </div>
 
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
     
     <script>
-        document.getElementById('validateButton').addEventListener('click', function() {
+        // Affiche le hCaptcha dès que la page se charge
+        document.getElementById('hcaptcha').style.display = 'block';
+
+        // Événement de soumission pour vérifier le hCaptcha
+        function validateCaptcha() {
             if (hcaptcha.getResponse()) {
-                localStorage.setItem('captchaValidated', 'true'); // Marque que le captcha a été validé
-                // Redirection vers generate.html après validation
-                window.location.href = 'generate.html';
+                // Si le captcha est validé, réinitialiser le compteur et rediriger vers generate.html
+                localStorage.setItem('captchaValidated', 'true'); // Stocker l'indicateur du captcha validé
+                window.location.href = 'generate.html'; // Redirection vers generate.html
             } else {
                 alert("Veuillez valider le captcha.");
             }
-        });
+        }
+
+        // Appel de la fonction validateCaptcha lors de la soumission du captcha
+        window.onload = function() {
+            hcaptcha.render('hcaptcha', {
+                sitekey: 'b260d19c-0022-489a-9644-7f0a95dc8f52',
+                callback: validateCaptcha // Lier la fonction de validation au callback
+            });
+        };
     </script>
 </body>
 </html>
