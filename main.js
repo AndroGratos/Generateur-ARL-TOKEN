@@ -4,10 +4,11 @@ import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gsta
 let codes = [];
 let clickCount = 3; // Compteur initial pour le nombre de codes générés
 
-// Vérification de l'état du captcha à chaque chargement de page
-if (localStorage.getItem('captchaValidated') === 'true') {
-    clickCount = 3; // Réinitialise le compteur à 3 si le captcha a été validé
-    localStorage.removeItem('captchaValidated'); // Supprime l'indicateur du localStorage
+// Vérification de l'état du compteur à chaque chargement de la page
+if (localStorage.getItem('clickCount')) {
+    clickCount = parseInt(localStorage.getItem('clickCount')); // Réinitialise le compteur à partir du localStorage
+} else {
+    localStorage.setItem('clickCount', clickCount); // Définit la valeur initiale
 }
 
 // Gestion des événements des boutons
@@ -25,6 +26,7 @@ document.getElementById('generateButton')?.addEventListener('click', async () =>
     document.getElementById('errorButton').style.display = 'inline-block';
     
     clickCount--; // Décrémente le compteur de codes générés
+    localStorage.setItem('clickCount', clickCount); // Met à jour le localStorage
 });
 
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
@@ -50,14 +52,6 @@ async function checkUserStatus() {
     if (!user) {
         alert("Vous devez être connecté pour accéder à cette page.");
         window.location.href = 'login.html'; // Redirige vers une page de connexion
-        return false;
-    }
-
-    const userDocRef = doc(getFirestore(), 'users', user.uid);
-    const userSnap = await getDoc(userDocRef);
-
-    if (!userSnap.exists()) {
-        alert("Utilisateur non trouvé.");
         return false;
     }
 
