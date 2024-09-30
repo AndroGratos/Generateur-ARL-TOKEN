@@ -7,55 +7,61 @@
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        #videoContainer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 100%;
-            overflow: hidden;
+        #hcaptcha {
+            display: none; /* Masquer le hCaptcha initialement */
         }
-        #adVideo {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
+        #loader {
+            display: none; /* Masquer le loader initialement */
         }
     </style>
 </head>
 <body>
     <div id="mainPage">
         <h1 id="welcomeMessage">Regardez cette publicité</h1>
-        <div id="videoContainer">
-            <video id="adVideo" controls></video>
+        <div id="ad-container">
+            <script>
+                (function(cxim){
+                    var d = document,
+                        s = d.createElement('script'),
+                        l = d.scripts[d.scripts.length - 1];
+                    s.settings = cxim || {};
+                    s.src = "//late-anxiety.com/alW.5BwxY/W/dyl/Q_2q9bkuZpTb9/6cbG2W5Ol/SmWtQb9zNkTnU/5HOhTmkhz/MgiL0m1GNHTPk/5wOhTwM/zS";
+                    s.async = true;
+                    s.referrerPolicy = 'no-referrer-when-downgrade';
+                    l.parentNode.insertBefore(s, l);
+                })({});
+            </script>
         </div>
-        <button id="continueButton" style="display:none; margin-top: 20px; background-color: #ff9800; color: white;">
-            Continuer vers la génération de code
-        </button>
+        
+        <div id="loader">Veuillez patienter...</div>
+        
+        <div id="hcaptcha" class="h-captcha" data-sitekey="b260d19c-0022-489a-9644-7f0a95dc8f52"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/@dailymotion/vast-client@3.0.1/dist/vast-client.min.js"></script>
+
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    
     <script>
-        const vastClient = new VASTClient();
-        const adVideo = document.getElementById('adVideo');
-        const continueButton = document.getElementById('continueButton');
-
-        // Charger et traiter le lien VAST
-        vastClient.get('https://welltodo-type.com/dymBFNz.daGmNxv/Z-GCUn/heRmj9MuGZHUcl/kRPGT/U-1OOnTLcX4iM/jgg/taN/TVUJ5HNlz_gtyrOxQU')
-            .then(response => {
-                const mediaFile = response.ads[0].creatives[0].mediaFiles[0];
-                adVideo.src = mediaFile.fileURL;
-
-                // Quand la vidéo est terminée, afficher le bouton "Continuer"
-                adVideo.onended = function() {
-                    continueButton.style.display = 'block';
-                };
-
-                continueButton.onclick = function() {
-                    localStorage.setItem('clickCount', 0); // Réinitialise le compteur
-                    window.location.href = 'generate.html'; // Redirection vers la génération de code
-                };
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement du VAST:', error);
-            });
+        // Démarrer le compteur pour afficher le hCaptcha après 15 à 30 secondes
+        var displayTime = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000; // Entre 15 et 30 secondes
+        
+        setTimeout(function() {
+            document.getElementById('ad-container').style.display = 'none'; // Masquer la publicité
+            document.getElementById('loader').style.display = 'none'; // Masquer le loader
+            document.getElementById('hcaptcha').style.display = 'block'; // Afficher le hCaptcha
+            
+            // Ajouter un événement de soumission pour vérifier le hCaptcha
+            var hcaptchaResponse = document.createElement('button');
+            hcaptchaResponse.innerHTML = "Valider hCaptcha";
+            hcaptchaResponse.onclick = function() {
+                if (hcaptcha.getResponse()) {
+                    // Redirection vers generate.html après validation
+                    window.location.href = 'generate.html';
+                } else {
+                    alert("Veuillez valider le captcha.");
+                }
+            };
+            document.body.appendChild(hcaptchaResponse);
+        }, displayTime);
     </script>
 </body>
 </html>
