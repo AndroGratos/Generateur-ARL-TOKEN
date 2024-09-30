@@ -7,33 +7,17 @@
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #282c34; /* Couleur de fond similaire à generate.html */
-            font-family: Arial, sans-serif; /* Police similaire à generate.html */
-            color: white; /* Couleur du texte */
-            text-align: center; /* Centrer le texte */
-        }
         #videoContainer {
             display: flex;
             justify-content: center;
             align-items: center;
-            max-width: 100%; /* Ne pas dépasser la largeur de l'écran */
-            overflow: hidden; /* Masque tout dépassement */
-            margin-top: 20px; /* Ajoute un peu d'espace au-dessus */
+            max-width: 100%;
+            overflow: hidden;
         }
         #adVideo {
-            width: 100%; /* La vidéo occupera 100% de la largeur de son conteneur */
-            max-width: 600px; /* Largeur maximale pour la vidéo */
-            height: auto; /* Hauteur automatique pour conserver les proportions */
-        }
-        #continueButton {
-            display: none;
-            margin-top: 20px;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
+            width: 100%;
+            max-width: 600px;
+            height: auto;
         }
     </style>
 </head>
@@ -41,25 +25,37 @@
     <div id="mainPage">
         <h1 id="welcomeMessage">Regardez cette publicité</h1>
         <div id="videoContainer">
-            <video id="adVideo" controls>
-                <source src="https://www.variable-love.pro/152327/199275/425827_e7cd7z.mp4" type="video/mp4">
-                Votre navigateur ne prend pas en charge la vidéo.
-            </video>
+            <video id="adVideo" controls></video>
         </div>
-        <button id="continueButton">Continuer vers la génération de code</button>
+        <button id="continueButton" style="display:none; margin-top: 20px; background-color: #ff9800; color: white;">
+            Continuer vers la génération de code
+        </button>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@dailymotion/vast-client@3.0.1/dist/vast-client.min.js"></script>
     <script>
+        const vastClient = new VASTClient();
         const adVideo = document.getElementById('adVideo');
         const continueButton = document.getElementById('continueButton');
 
-        adVideo.onended = function() {
-            continueButton.style.display = 'block'; // Afficher le bouton après la fin de la vidéo
-        };
+        // Charger et traiter le lien VAST
+        vastClient.get('https://welltodo-type.com/dymBFNz.daGmNxv/Z-GCUn/heRmj9MuGZHUcl/kRPGT/U-1OOnTLcX4iM/jgg/taN/TVUJ5HNlz_gtyrOxQU')
+            .then(response => {
+                const mediaFile = response.ads[0].creatives[0].mediaFiles[0];
+                adVideo.src = mediaFile.fileURL;
 
-        continueButton.onclick = function() {
-            localStorage.setItem('clickCount', 0); // Réinitialise le compteur
-            window.location.href = 'generate.html'; // Redirection vers generate.html
-        };
+                // Quand la vidéo est terminée, afficher le bouton "Continuer"
+                adVideo.onended = function() {
+                    continueButton.style.display = 'block';
+                };
+
+                continueButton.onclick = function() {
+                    localStorage.setItem('clickCount', 0); // Réinitialise le compteur
+                    window.location.href = 'generate.html'; // Redirection vers la génération de code
+                };
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement du VAST:', error);
+            });
     </script>
 </body>
 </html>
