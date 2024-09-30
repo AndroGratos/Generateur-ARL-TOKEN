@@ -3,7 +3,6 @@ import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gsta
 
 let codes = [];
 let clickCount = 0; // Compteur pour le nombre de codes générés
-let hasWatchedAd = false; // Indique si l'utilisateur a regardé la publicité
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
@@ -26,7 +25,7 @@ async function checkUserStatus() {
 
     if (!user) {
         alert("Vous devez être connecté pour générer un code.");
-        return false;
+        return;
     }
 
     const userDocRef = doc(getFirestore(), 'users', user.uid);
@@ -34,14 +33,19 @@ async function checkUserStatus() {
 
     if (!userSnap.exists()) {
         alert("Utilisateur non trouvé.");
-        return false;
+        return;
     }
 
     // Vérifie si l'utilisateur a atteint la limite de génération de codes
     if (clickCount >= 3) {
-        if (!hasWatchedAd) {
+        // Vérifie si l'utilisateur a regardé la publicité
+        if (localStorage.getItem('adWatched') !== 'true') {
             window.location.href = 'publicite.html'; // Redirection vers la page de publicité
             return false;
+        } else {
+            // Si la pub a été regardée, réinitialise le compteur
+            localStorage.removeItem('adWatched'); // Réinitialiser le statut
+            clickCount = 0; // Réinitialise le compteur
         }
     }
     return true;
@@ -96,8 +100,3 @@ function saveSettings() {
 document.querySelector('.close-button').addEventListener('click', () => {
     document.getElementById('settingsModal').style.display = 'none';
 });
-
-// Fonction pour mettre à jour l'état de l'utilisateur après avoir regardé la publicité
-export function updateWatchedAdStatus() {
-    hasWatchedAd = true;
-}
