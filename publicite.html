@@ -3,66 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Publicité</title>
+    <title>Validation du Captcha</title>
     <link href="styles.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-        #hcaptcha {
-            display: none; /* Masquer le hCaptcha initialement */
-        }
-        #loader {
-            display: none; /* Masquer le loader initialement */
-        }
-    </style>
 </head>
 <body>
     <div id="mainPage">
-        <h1 id="welcomeMessage">Regardez cette publicité</h1>
-        <div id="ad-container">
-            <script>
-                (function(cxim){
-                    var d = document,
-                        s = d.createElement('script'),
-                        l = d.scripts[d.scripts.length - 1];
-                    s.settings = cxim || {};
-                    s.src = "//late-anxiety.com/alW.5BwxY/W/dyl/Q_2q9bkuZpTb9/6cbG2W5Ol/SmWtQb9zNkTnU/5HOhTmkhz/MgiL0m1GNHTPk/5wOhTwM/zS";
-                    s.async = true;
-                    s.referrerPolicy = 'no-referrer-when-downgrade';
-                    l.parentNode.insertBefore(s, l);
-                })({});
-            </script>
-        </div>
-        
-        <div id="loader">Veuillez patienter...</div>
+        <h1 id="welcomeMessage">Veuillez valider le Captcha</h1>
         
         <div id="hcaptcha" class="h-captcha" data-sitekey="b260d19c-0022-489a-9644-7f0a95dc8f52"></div>
+        
+        <button id="validateButton">Valider le Captcha</button>
     </div>
 
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
     
     <script>
-        // Démarrer le compteur pour afficher le hCaptcha après 15 à 30 secondes
-        var displayTime = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000; // Entre 15 et 30 secondes
-        
-        setTimeout(function() {
-            document.getElementById('ad-container').style.display = 'none'; // Masquer la publicité
-            document.getElementById('loader').style.display = 'none'; // Masquer le loader
-            document.getElementById('hcaptcha').style.display = 'block'; // Afficher le hCaptcha
-            
-            // Ajouter un événement de soumission pour vérifier le hCaptcha
-            var hcaptchaResponse = document.createElement('button');
-            hcaptchaResponse.innerHTML = "Valider hCaptcha";
-            hcaptchaResponse.onclick = function() {
-                if (hcaptcha.getResponse()) {
-                    localStorage.setItem('adWatched', 'true'); // Marque que la pub a été regardée
-                    // Redirection vers generate.html après validation
-                    window.location.href = 'generate.html';
-                } else {
-                    alert("Veuillez valider le captcha.");
-                }
-            };
-            document.body.appendChild(hcaptchaResponse);
-        }, displayTime);
+        document.getElementById('validateButton').addEventListener('click', function() {
+            if (hcaptcha.getResponse()) {
+                localStorage.setItem('captchaValidated', 'true'); // Marque que le captcha a été validé
+                // Redirection vers generate.html après validation
+                window.location.href = 'generate.html';
+            } else {
+                alert("Veuillez valider le captcha.");
+            }
+        });
     </script>
 </body>
 </html>
