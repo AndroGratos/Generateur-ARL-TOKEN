@@ -3,7 +3,6 @@ import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gsta
 
 let codes = [];
 let clickCount = 0; // Compteur pour le nombre de codes générés
-const adWatchedKey = 'adWatched'; // Clé pour le stockage local
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
@@ -59,6 +58,12 @@ async function generateCode() {
     document.getElementById('errorButton').style.display = 'inline-block';
     
     clickCount++; // Incrémente le compteur de codes générés
+
+    if (clickCount >= 3) {
+        localStorage.removeItem('adWatched'); // Réinitialiser l'état de la publicité
+        alert("Vous devez regarder la publicité et valider le captcha.");
+        window.location.href = 'publicite.html'; // Redirection vers la page de publicité
+    }
 }
 
 function copyCode() {
@@ -94,11 +99,3 @@ function saveSettings() {
 document.querySelector('.close-button').addEventListener('click', () => {
     document.getElementById('settingsModal').style.display = 'none';
 });
-
-// Initialiser le compteur de clics
-if (!localStorage.getItem(adWatchedKey)) {
-    clickCount = 0; // Assurez-vous que le compteur est à zéro au début
-}
-
-// Chargement initial des codes
-loadCodes();
