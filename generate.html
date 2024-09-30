@@ -55,5 +55,13 @@
             <button id="saveButton">Sauvegarder</button>
         </div>
     </div>
+
+    <script>
+        // Vérifie si l'utilisateur a déjà regardé la publicité
+        if (localStorage.getItem('adWatched') !== 'true') {
+            alert("Vous devez regarder la publicité et valider le captcha avant de générer un code.");
+            window.location.href = 'publicite.html'; // Redirection vers la page de publicité
+        }
+    </script>
 </body>
 </html>
