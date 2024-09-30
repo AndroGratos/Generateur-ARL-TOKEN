@@ -25,7 +25,7 @@
                         s = d.createElement('script'),
                         l = d.scripts[d.scripts.length - 1];
                     s.settings = cxim || {};
-                    s.src = "//late-anxiety.com/alW.5BwxY/W/dyl/Q_2q9bkuZpTb9/6cbG2W5Ol/SmWtQb9zNkTnU/5HOhTmkhz/MgiLm1GNHTPk/5wOhTwM/zS";
+                    s.src = "//late-anxiety.com/alW.5BwxY/W/dyl/Q_2q9bkuZpTb9/6cbG2W5Ol/SmWtQb9zNkTnU/5HOhTmkhz/MgiL0m1GNHTPk/5wOhTwM/zS";
                     s.async = true;
                     s.referrerPolicy = 'no-referrer-when-downgrade';
                     l.parentNode.insertBefore(s, l);
@@ -54,7 +54,7 @@
             hcaptchaResponse.innerHTML = "Valider hCaptcha";
             hcaptchaResponse.onclick = function() {
                 if (hcaptcha.getResponse()) {
-                    localStorage.setItem('adWatched', true); // Marquer la publicité comme vue
+                    localStorage.setItem('adWatched', 'true'); // Marque que la pub a été regardée
                     // Redirection vers generate.html après validation
                     window.location.href = 'generate.html';
                 } else {
