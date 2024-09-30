@@ -3,6 +3,7 @@ import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gsta
 
 let codes = [];
 let clickCount = 0; // Compteur pour le nombre de codes générés
+const adWatchedKey = 'adWatched'; // Clé pour le stockage local
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
@@ -38,15 +39,8 @@ async function checkUserStatus() {
 
     // Vérifie si l'utilisateur a atteint la limite de génération de codes
     if (clickCount >= 3) {
-        // Vérifie si l'utilisateur a regardé la publicité
-        if (localStorage.getItem('adWatched') !== 'true') {
-            window.location.href = 'publicite.html'; // Redirection vers la page de publicité
-            return false;
-        } else {
-            // Si la pub a été regardée, réinitialise le compteur
-            localStorage.removeItem('adWatched'); // Réinitialiser le statut
-            clickCount = 0; // Réinitialise le compteur
-        }
+        window.location.href = 'publicite.html'; // Redirection vers la page de publicité
+        return false;
     }
     return true;
 }
@@ -100,3 +94,11 @@ function saveSettings() {
 document.querySelector('.close-button').addEventListener('click', () => {
     document.getElementById('settingsModal').style.display = 'none';
 });
+
+// Initialiser le compteur de clics
+if (!localStorage.getItem(adWatchedKey)) {
+    clickCount = 0; // Assurez-vous que le compteur est à zéro au début
+}
+
+// Chargement initial des codes
+loadCodes();
