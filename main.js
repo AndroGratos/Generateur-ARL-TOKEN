@@ -12,6 +12,12 @@ document.getElementById('settingsButton')?.addEventListener('click', openSetting
 document.getElementById('saveButton')?.addEventListener('click', saveSettings);
 document.getElementById('countdown').style.display = 'none';
 
+// Réinitialiser le compteur de génération de codes si le captcha a été validé
+if (localStorage.getItem('captchaValidated') === 'true') {
+    clickCount = 0; // Réinitialise le compteur
+    localStorage.removeItem('captchaValidated'); // Supprime l'indicateur du localStorage
+}
+
 async function loadCodes() {
     const firestore = getFirestore();
     const codesCollectionRef = collection(firestore, 'codes');
@@ -58,12 +64,6 @@ async function generateCode() {
     document.getElementById('errorButton').style.display = 'inline-block';
     
     clickCount++; // Incrémente le compteur de codes générés
-
-    if (clickCount >= 3) {
-        localStorage.removeItem('adWatched'); // Réinitialiser l'état de la publicité
-        alert("Vous devez regarder la publicité et valider le captcha.");
-        window.location.href = 'publicite.html'; // Redirection vers la page de publicité
-    }
 }
 
 function copyCode() {
