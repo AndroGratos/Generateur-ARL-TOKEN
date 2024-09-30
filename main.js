@@ -2,7 +2,13 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-aut
 import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 let codes = [];
-let clickCount = 0; // Compteur pour le nombre de codes générés
+let clickCount = 3; // Compteur initial pour le nombre de codes générés (initialisé à 3)
+
+// Vérification de l'état du captcha à chaque chargement de page
+if (localStorage.getItem('captchaValidated') === 'true') {
+    clickCount = 3; // Réinitialise le compteur à 3 si le captcha a été validé
+    localStorage.removeItem('captchaValidated'); // Supprime l'indicateur du localStorage
+}
 
 document.getElementById('generateButton')?.addEventListener('click', generateCode);
 document.getElementById('copyButton')?.addEventListener('click', copyCode);
@@ -11,12 +17,6 @@ document.getElementById('emailButton')?.addEventListener('click', sendEmail);
 document.getElementById('settingsButton')?.addEventListener('click', openSettings);
 document.getElementById('saveButton')?.addEventListener('click', saveSettings);
 document.getElementById('countdown').style.display = 'none';
-
-// Réinitialiser le compteur de génération de codes si le captcha a été validé
-if (localStorage.getItem('captchaValidated') === 'true') {
-    clickCount = 0; // Réinitialise le compteur
-    localStorage.removeItem('captchaValidated'); // Supprime l'indicateur du localStorage
-}
 
 async function loadCodes() {
     const firestore = getFirestore();
@@ -43,7 +43,7 @@ async function checkUserStatus() {
     }
 
     // Vérifie si l'utilisateur a atteint la limite de génération de codes
-    if (clickCount >= 3) {
+    if (clickCount <= 0) {
         window.location.href = 'publicite.html'; // Redirection vers la page de publicité
         return false;
     }
@@ -63,7 +63,7 @@ async function generateCode() {
     document.getElementById('copyButton').style.display = 'inline-block';
     document.getElementById('errorButton').style.display = 'inline-block';
     
-    clickCount++; // Incrémente le compteur de codes générés
+    clickCount--; // Décrémente le compteur de codes générés
 }
 
 function copyCode() {
