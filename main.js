@@ -2,7 +2,7 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-aut
 import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 let codes = [];
-let clickCount = 3; // Compteur initial pour le nombre de codes générés (initialisé à 3)
+let clickCount = 3; // Compteur initial pour le nombre de codes générés
 
 // Vérification de l'état du captcha à chaque chargement de page
 if (localStorage.getItem('captchaValidated') === 'true') {
@@ -44,7 +44,7 @@ async function checkUserStatus() {
 
     // Vérifie si l'utilisateur a atteint la limite de génération de codes
     if (clickCount <= 0) {
-        window.location.href = 'publicite.html'; // Redirection vers la page de publicité
+        window.location.href = 'publicite.html'; // Redirection vers la page de publicité uniquement si clickCount est à 0
         return false;
     }
     return true;
